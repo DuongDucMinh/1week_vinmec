@@ -1,19 +1,21 @@
-import type { Location, Actor, Command, CommandType, NextAction, Route, SimulationRun, Snapshot, Visit, ServiceId } from '../shared/contracts';
+import type { Actor, Command, CommandType, NextAction, Route, SimulationRun, Snapshot, Visit, ServiceId } from '../shared/contracts';
 import { createService, departmentCatalog, graph, resultContent, serviceCatalog } from '../shared/fixtures';
 import { procedureArrivalInstruction, procedureQueueMethods } from '../shared/procedure-arrival';
 import { activeEncounters, clinicAddress, clinicForVisit, departmentForVisit } from '../shared/journey';
 import { presentRun } from './presentation';
+import { deriveRoute } from '../shared/routing';
+import { planProcedures, recommendNextService } from './procedure-planning';
+export { deriveRoute } from '../shared/routing';
 export class DomainError extends Error { constructor(public code: string, message: string) { super(message); } }
 const requireGate = (yes: unknown, message: string) => { if (!yes) throw new DomainError('GATE_BLOCKED', message); };
 const permissions: Record<Actor, readonly CommandType[]> = {
- patient:['CONFIRM_LOCATION','START_RETURN','MARK_READY','WITHDRAW_READY','MARK_NOTIFICATION_READ','RESET_VISIT'],
+ patient:['SET_TRANSPORT_MODE','CONFIRM_LOCATION','START_RETURN','MARK_READY','WITHDRAW_READY','MARK_NOTIFICATION_READ','RESET_VISIT'],
  doctor:['CALL_INITIAL','BEGIN_ENCOUNTER','ASSIGN_SERVICES','ASSIGN_DEMO_SERVICES','CALL_REVIEW','COMPLETE_ENCOUNTER'],
- procedure:['START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER'],
- control:['REGISTER','START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER','STAFF_MARK_READY','SET_PROCEDURE_QUEUE_METHOD','RESET_VISIT']
+ procedure:['CHECK_IN_SERVICE','START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER'],
+ control:['REGISTER','CHECK_IN_SERVICE','START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER','STAFF_MARK_READY','SET_PROCEDURE_QUEUE_METHOD','RESET_VISIT']
 };
 export const allPerformed = (v: Visit) => v.services.length>0 && v.services.every(s=>s.executionStatus==='COMPLETED');
 export const canReturn = (_run: SimulationRun, v: Visit) => allPerformed(v);
-export const currentService = (v: Visit) => v.phase==='SERVICES' ? v.services.find(s=>s.executionStatus!=='COMPLETED') : undefined;
 // This is an order roster, never the physical paper/ticket calling order.
 export function deriveProcedureQueues(run: SimulationRun): Record<ServiceId,string[]> {
  return Object.fromEntries(serviceCatalog.map(service=>[service.id,run.visits
@@ -34,50 +36,10 @@ export function deriveNextAction(run: SimulationRun,v: Visit): NextAction {
   :make('RETURN',`Quay lại phòng ${department!.shortName} ${clinic!.roomNumber}`,`Bạn đã hoàn tất các thủ tục và được cập nhật vào danh sách sẵn sàng của bác sĩ. Mời quay lại ${address}.`,clinic!.id);
  const current=v.services.find(s=>s.executionStatus==='IN_PROGRESS');
  if(current)return make('IN_SERVICE',`Đang thực hiện ${current.name}`,'Theo hướng dẫn của bác sĩ tại phòng.',current.locationId,[],current.id);
- const next=v.services.find(s=>s.executionStatus==='NOT_STARTED');
+ const nextServiceId=planProcedures(run,v)[0]?.serviceId;
+ const next=v.services.find(s=>s.id===nextServiceId);
  if(next)return make('GO_SERVICE',`Đến ${next.name}`,procedureArrivalInstruction(run,next.id),next.locationId,[],next.id);
  return make('WAIT_RESULTS','Theo dõi lượt khám','Kiểm tra hướng dẫn trong lượt khám.');
-}
-const placeLabel = (location: Location) => location.kind==='room'?`phòng ${location.name}`:location.name;
-const lowerBuilding = (location: Location) => location.building.replace(/^Tòa/,'tòa');
-function turnAt(before: Location | undefined, at: Location, after: Location): string {
- if(!before||before.buildingId!==at.buildingId||at.buildingId!==after.buildingId||before.floor!==at.floor||at.floor!==after.floor)return '';
- const cross=(at.x-before.x)*(after.y-at.y)-(at.y-before.y)*(after.x-at.x);
- return cross===0?'':cross>0?'Rẽ phải, ':'Rẽ trái, ';
-}
-function routeInstructions(path: Location[]): string[] {
- const origin=path[0];
- if(path.length===1)return [`Bạn đang ở ${placeLabel(origin)}.`];
- const instructions=[`Từ ${placeLabel(origin)}, tầng ${origin.floor}, ${lowerBuilding(origin)}.`];
- for(let i=1;i<path.length;i++){
-  const previous=path[i-1],location=path[i],turn=turnAt(path[i-2],previous,location);
-  if(location.floor!==previous.floor){
-   let exit=location;
-   while(exit.kind==='lift'&&path[i+1]?.kind==='lift'&&path[i+1].buildingId===exit.buildingId){exit=path[++i];}
-   instructions.push(`Đi thang máy ${exit.floor>previous.floor?'lên':'xuống'} tầng ${exit.floor}.`);continue;
-  }
-  if(location.buildingId!==previous.buildingId){instructions.push(`Qua lối nối sang ${lowerBuilding(location)}.`);continue;}
-  if(i===path.length-1){instructions.push(`${turn}${turn?'tới':'Tới'} ${placeLabel(location)}.`);continue;}
-  if(location.kind==='lift'){instructions.push(`${turn}${turn?'ra':'Ra'} sảnh thang máy.`);continue;}
-  if(location.id.includes('HALL')){
-   if(previous.kind==='room')instructions.push('Ra hành lang.');
-   else if(previous.kind==='lift')instructions.push(`Theo hành lang tới lối rẽ phòng ${graph.locations.find(room=>room.kind==='room'&&graph.edges.some(e=>e.from===location.id&&e.to===room.id||e.to===location.id&&e.from===room.id))?.roomNumber||''}.`);
-   continue;
-  }
-  if(location.id==='DEMO-CONNECTOR-A'||location.id==='DEMO-CONNECTOR-B')instructions.push(previous.kind==='room'?'Ra lối nối tòa A.':'Theo hành lang tới lối nối.');
-  else if(location.kind==='reception')instructions.push('Đi qua quầy tiếp nhận.');
- }
- return instructions;
-}
-export function deriveRoute(v: Visit,destination:string|null):Route {
- const base={from:v.outsideHospital?null:v.locationId,to:destination,nodeIds:[] as string[],instructions:[] as string[],requiresStartConfirmation:v.outsideHospital||!v.locationId};
- if(!destination)return {...base,instructions:['Theo dõi thông báo để biết bước tiếp theo.']};
- if(base.requiresStartConfirmation)return {...base,instructions:['Chọn vị trí xuất phát khi bạn trở lại viện.']};
- const distances=new Map(graph.locations.map(l=>[l.id,Infinity])); const previous=new Map<string,string>(); const unvisited=new Set(distances.keys());distances.set(v.locationId!,0);
- while(unvisited.size){const cur=[...unvisited].sort((a,b)=>distances.get(a)!-distances.get(b)!)[0];unvisited.delete(cur);if(cur===destination)break;for(const edge of graph.edges){const next=edge.from===cur?edge.to:edge.to===cur?edge.from:null;if(next&&unvisited.has(next)&&distances.get(cur)!+edge.weight<distances.get(next)!){distances.set(next,distances.get(cur)!+edge.weight);previous.set(next,cur);}}}
- const path=[destination];while(path[0]!==v.locationId&&previous.has(path[0]))path.unshift(previous.get(path[0])!);
- if(path[0]!==v.locationId||!graph.locations.some(l=>l.id===destination))return {...base,instructions:['Chưa tìm thấy đường đi. Hãy hỏi quầy tiếp nhận.']};
- return {...base,nodeIds:path,instructions:routeInstructions(path.map(id=>graph.locations.find(l=>l.id===id)!))};
 }
 export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOString()): {changed:boolean;message:string} {
  requireGate(permissions[c.actor].includes(c.type),'Bạn không có quyền thực hiện thao tác này.');
@@ -93,7 +55,7 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
  case 'RESET_VISIT':
   if(encounter?.visitId===visit.visitId)setEncounter(null);
   run.encounterHistory=run.encounterHistory.filter(e=>e.visitId!==visit.visitId);
-  Object.assign(visit,{journeyVersion:(visit.journeyVersion??0)+1,departmentId:null,queueNumber:null,phase:'UNREGISTERED',services:[],locationId:'DEMO-RECEPTION',outsideHospital:false,returning:false,presenceConfirmed:false,readySource:null,inbox:[]});
+  Object.assign(visit,{journeyVersion:(visit.journeyVersion??0)+1,departmentId:null,queueNumber:null,transportMode:'lift',recommendedServiceId:null,phase:'UNREGISTERED',services:[],locationId:'DEMO-RECEPTION',outsideHospital:false,returning:false,presenceConfirmed:false,readySource:null,inbox:[]});
   return {changed:true,message:`Đã reset hành trình của ${visit.displayName}. Mời chọn khoa và tiếp nhận lại.`};
  case 'REGISTER': {
   if(visit.phase!=='UNREGISTERED'){changed=false;break;}
@@ -118,10 +80,14 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
   requireGate(ids?.length&&new Set(ids).size===ids.length&&ids.every(id=>serviceCatalog.some(s=>s.id===id)),'Chọn ít nhất một thủ tục hợp lệ, không trùng lặp.');
   if(visit.phase==='SERVICES'&&!encounter){requireGate(visit.services.map(s=>s.id).join()===ids!.join(),'Chỉ định đã chốt. Không thể thay đổi khi đang thực hiện.');changed=false;break;}
   active();requireGate(encounter!.kind==='initial'&&encounter!.status==='IN_PROGRESS','Cần bắt đầu khám ban đầu trước khi chỉ định.');
-  visit.services=ids!.map(id=>createService(id,run.mode));for(const service of visit.services){service.enqueuedAt=now;service.enqueuedRevision=run.revision+1;}visit.phase='SERVICES';visit.locationId=clinic.id;
+  visit.services=ids!.map(id=>createService(id,run.mode));for(const service of visit.services){service.enqueuedAt=now;service.enqueuedRevision=run.revision+1;}visit.phase='SERVICES';visit.locationId=clinic.id;recommendNextService(run,visit);
   run.encounterHistory.push({...encounter!,endedAt:now,outcome:'ASSIGNED'});setEncounter(null);
-  notify('services-assigned',`Bác sĩ đã chỉ định: ${visit.services.map(s=>s.name).join(', ')}. Mời đến ${visit.services[0].name} trước.`);break;
+  notify('services-assigned',`Bác sĩ đã chỉ định: ${visit.services.map(s=>s.name).join(', ')}. Mời đến ${visit.services.find(s=>s.id===visit.recommendedServiceId)!.name} trước theo số người tại phòng và khoảng cách.`);break;
  }
+ case 'CHECK_IN_SERVICE':
+  requireGate(s&&s.executionStatus==='NOT_STARTED'&&visit.phase==='SERVICES','Chỉ ghi nhận đến phòng cho thủ tục chưa bắt đầu.');
+  requireGate(!visit.services.some(x=>x.executionStatus==='IN_PROGRESS'),'Người bệnh đang thực hiện thủ tục ở phòng khác.');
+  changed=visit.locationId!==s!.locationId||visit.outsideHospital;visit.locationId=s!.locationId;visit.outsideHospital=false;break;
  case 'START_SERVICE':
  case 'COMPLETE_SERVICE': {
   requireGate(s,'Thủ tục chưa được chỉ định.');
@@ -133,7 +99,7 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
   s!.performanceOrder??=1+Math.max(0,...visit.services.map(x=>x.performanceOrder??0));
   visit.locationId=s!.locationId;visit.outsideHospital=false;
   if(c.type==='START_SERVICE'){s!.executionStatus='IN_PROGRESS';break;}
-  s!.executionStatus='COMPLETED';s!.resultStatus='WAITING';
+  s!.executionStatus='COMPLETED';s!.resultStatus='WAITING';recommendNextService(run,visit);
   if(allPerformed(visit)){
    visit.phase='READY';visit.readySource='system';visit.returning=true;
    notify('can-return',`Đã hoàn tất tất cả thủ tục. Mời quay lại ${clinicAddress(visit)}. Bác sĩ đã thấy bạn trong danh sách sẵn sàng.`);
@@ -147,6 +113,10 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
   if(c.payload.outsideHospital){requireGate(run.mode==='RETURN_TO_DOCTOR'&&allPerformed(visit)&&visit.phase==='READY','Chỉ có thể rời viện khi đã làm xong các thủ tục và dùng kết quả điện tử.');visit.locationId=null;visit.outsideHospital=true;visit.presenceConfirmed=false;}
   else{requireGate(graph.locations.some(l=>l.id===c.payload.locationId),'Hãy chọn vị trí trên sơ đồ.');visit.locationId=c.payload.locationId!;visit.outsideHospital=false;}break;
  }
+ case 'SET_TRANSPORT_MODE':
+  requireGate(['lift','stairs'].includes(c.payload.transportMode||''),'Chọn thang máy hoặc thang bộ.');
+  requireGate(visit.phase!=='COMPLETED','Lượt đã hoàn tất.');
+  changed=(visit.transportMode??'lift')!==c.payload.transportMode;visit.transportMode=c.payload.transportMode!;break;
  case 'START_RETURN':requireGate(visit.phase==='READY','Chưa hoàn tất các thủ tục.');changed=false;break;
  case 'MARK_READY':
  case 'STAFF_MARK_READY':
@@ -163,6 +133,6 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
 export function makeSnapshot(run:SimulationRun,events:Snapshot['events']=[],ai:Snapshot['ai']={configured:false,model:null}):Snapshot {
  run=presentRun(run);
  events=events.map(event=>event.message==='Đã tạo lượt mô phỏng mới.'?{...event,message:'Đã tạo lượt mới.'}:event);
- const views=Object.fromEntries(run.visits.map(v=>{const nextAction=deriveNextAction(run,v);const options=[{type:'REGISTER' as const},...v.services.flatMap(s=>(['START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER'] as const).map(type=>({type,serviceId:s.id})))];return [v.visitId,{visit:v,nextAction,route:deriveRoute(v,nextAction.destinationId),serviceRoutes:Object.fromEntries(v.services.map(s=>[s.id,deriveRoute(v,s.locationId)])) as Record<ServiceId,Route>,canReturn:canReturn(run,v),controlActions:options.map(o=>{try{const probe=applyCommand(structuredClone(run),{commandId:'probe',runId:run.runId,expectedRevision:run.revision,expectedJourneyVersion:v.journeyVersion??0,visitId:v.visitId,actor:'control',type:o.type,payload:{departmentId:'DEMO-INTERNAL',serviceId:'serviceId' in o?o.serviceId:undefined,presenceConfirmed:true,locationId:undefined}});return {...o,enabled:probe.changed,reason:probe.changed?undefined:'Thao tác đã được xác nhận.'};}catch(e){return {...o,enabled:false,reason:(e as Error).message};}})}];}));
+ const views=Object.fromEntries(run.visits.map(v=>{const nextAction=deriveNextAction(run,v);const options=[{type:'REGISTER' as const},...v.services.flatMap(s=>(['START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER'] as const).map(type=>({type,serviceId:s.id})))];return [v.visitId,{visit:v,nextAction,procedurePlan:planProcedures(run,v),route:deriveRoute(v,nextAction.destinationId),serviceRoutes:Object.fromEntries(v.services.map(s=>[s.id,deriveRoute(v,s.locationId)])) as Record<ServiceId,Route>,canReturn:canReturn(run,v),controlActions:options.map(o=>{try{const probe=applyCommand(structuredClone(run),{commandId:'probe',runId:run.runId,expectedRevision:run.revision,expectedJourneyVersion:v.journeyVersion??0,visitId:v.visitId,actor:'control',type:o.type,payload:{departmentId:'DEMO-INTERNAL',serviceId:'serviceId' in o?o.serviceId:undefined,presenceConfirmed:true,locationId:undefined}});return {...o,enabled:probe.changed,reason:probe.changed?undefined:'Thao tác đã được xác nhận.'};}catch(e){return {...o,enabled:false,reason:(e as Error).message};}})}];}));
  return {...run,generation:Number.isSafeInteger(run.generation)&&run.generation>=0?run.generation:0,updatedAt:events.at(-1)?.at??run.createdAt,facility:'Vinmec tại Vinhomes Ocean Park 2',synthetic:true,activeEncounters:activeEncounters(run),departmentCatalog,queues:deriveQueues(run),procedureQueues:deriveProcedureQueues(run),procedureQueueMethods:procedureQueueMethods(run),serviceCatalog,views,graph,events,ai};
 }

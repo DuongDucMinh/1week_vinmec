@@ -65,3 +65,14 @@
 .voice-guidance{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}.voice-guidance button{min-height:48px;font-size:15px}.voice-guidance p{font-size:14px;line-height:1.6}
 .walking-instruction{padding:20px 0;border-bottom:1px solid #d8dfdc}.walking-instruction small{font-size:14px;color:#526773}.walking-instruction h3{font-size:21px;line-height:1.5;margin:10px 0 16px}.walking-instruction p{font-size:15px;line-height:1.6}.walking-instruction .primary{width:100%;min-height:48px}
 .leg-instruction summary,.campus-demo summary,.location-update summary{cursor:pointer;padding:16px 0;min-height:48px;font-size:15px}.leg-instruction{font-size:15px;line-height:1.6}.lost-button{width:100%;min-height:48px;margin-top:20px}.lost-message{font-size:16px;line-height:1.65;padding:16px;background:#fff4df;color:#5e451e}.campus-demo{border-top:1px solid #d8dfdc;margin-top:16px;font-size:15px;line-height:1.6}.campus-demo a{display:block;text-align:center;text-decoration:none}.campus-demo button{min-height:48px}
+
+/* Route preference and provisional procedure order. */
+.transport-options { border: 0; padding: 0; margin: 20px 0 12px; min-width: 0; }
+.transport-options legend { font-weight: 600; margin-bottom: 10px; }
+.transport-options > div { display: flex; gap: 10px; }
+.transport-options button { flex: 1; }
+.transport-options button[aria-pressed="true"] { background: #e1eee9; border-color: #146b5a; color: #124f43; box-shadow: inset 0 0 0 1px #146b5a; }
+.transport-options p, .procedure-plan-note { color: #56685f; font-size: .86rem; line-height: 1.6; }
+.room-load { display: block; color: #146b5a; line-height: 1.5; margin: 3px 0; }
+
+.procedure-presence { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }

@@ -4,13 +4,14 @@ import type { Location } from '../shared/contracts';
 export function walkingInstruction(points: Location[], step: number) {
   const current = points[step], target = points[step + 1];
   if (!current || !target) return 'Bạn đã tới cuối chặng. Xác nhận mốc bên dưới để tiếp tục.';
+  const targetName=target.kind==='lift'?'sảnh thang máy':target.name;
   const dx = target.x - current.x, dy = target.y - current.y;
   const previous = points[step - 1];
-  if (!previous) return `Đứng tại ${current.name}, quay mặt về ${target.landmark || target.name}. Đi tới ${target.name}.`;
+  if (!previous) return `Đứng tại ${current.name}, quay mặt về ${target.landmark || target.name}. Đi tới ${targetName}.`;
   const ax = current.x - previous.x, ay = current.y - previous.y;
   const cross = ax * dy - ay * dx, dot = ax * dx + ay * dy;
   const turn = Math.abs(cross) < 1 ? dot < 0 ? 'Quay lại' : 'Đi thẳng' : cross > 0 ? 'Rẽ phải' : 'Rẽ trái';
-  return `${turn} đến ${target.name}. Nhận biết: ${target.landmark || target.name}.`;
+  return `${turn} đến ${targetName}. Nhận biết: ${target.landmark || target.name}.`;
 }
 
 export function NavigationGuide({ text, resetKey }: { text: string; resetKey: string }) {

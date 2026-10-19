@@ -128,13 +128,13 @@ describe('paper / app parity in procedure UI',()=>{
   await act(async()=>root.render(<Procedure snapshot={makeSnapshot(run)} api={a}/>));
   expect(host.querySelectorAll('.assigned-row')).toHaveLength(2);expect(host.querySelector('.queue-number')).toBeNull();
   const rows=host.querySelectorAll('.assigned-row');expect(rows[1].textContent).toContain('Trần Hoàng Nam');
-  await act(async()=>rows[1].querySelector('button')!.click());expect(a.command).toHaveBeenCalledWith('COMPLETE_SERVICE','DEMO-P02','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});
+  await act(async()=>rows[1].querySelector<HTMLButtonElement>('button.primary')!.click());expect(a.command).toHaveBeenCalledWith('COMPLETE_SERVICE','DEMO-P02','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});
   const search=host.querySelector<HTMLInputElement>('#patient-search')!;
   await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(search,'TRAN HOANG');search.dispatchEvent(new Event('input',{bubbles:true}));});
   expect(host.querySelectorAll('.assigned-row')).toHaveLength(1);expect(host.querySelector('.assigned-row')?.textContent).toContain('Trần Hoàng Nam');
  });
  it.each(['PAPER_TRAY','TAKE_NUMBER'] as const)('uses %s instructions on arrival and on printed guide',async method=>{
-  const {run,send}=prepared();send('SET_PROCEDURE_QUEUE_METHOD','control',{serviceId:'DEMO-US-ABD',queueMethod:method});send('CONFIRM_LOCATION','patient',{locationId:'DEMO-SIEUAM'});
+  const {run,send}=prepared();send('SET_PROCEDURE_QUEUE_METHOD','control',{serviceId:'DEMO-US-ABD',queueMethod:method});send('COMPLETE_SERVICE','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});send('CONFIRM_LOCATION','patient',{locationId:'DEMO-SIEUAM'});
   const s=makeSnapshot(run),view=s.views['DEMO-P01'];
   await act(async()=>root.render(<RouteMap snapshot={s} view={view} api={api()}/>));expect(host.querySelector('.arrival-note')?.textContent).toContain(method==='PAPER_TRAY'?'lên trên cùng':'lấy số tại máy');
   await act(async()=>root.render(<Patient snapshot={s} api={api()} offline={false} setOffline={vi.fn()}/>));expect(host.querySelector('.print-guide')?.textContent).toContain(method==='PAPER_TRAY'?'lên trên cùng':'lấy số tại máy');expect(host.textContent).not.toContain('Sẵn sàng gặp bác sĩ chẩn đoán');

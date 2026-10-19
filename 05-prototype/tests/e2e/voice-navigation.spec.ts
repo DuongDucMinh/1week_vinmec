@@ -6,6 +6,7 @@ test('voice follows steps, cancels on leaving and reroutes from a confirmed land
   await page.addInitScript(() => {
     (window as any).spoken = [];
     (window as any).cancelled = 0;
+    Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, value: class { text:string; lang=''; rate=1; voice:unknown=null; onerror:unknown=null; constructor(text:string){this.text=text;} } });
     Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
       cancel: () => { (window as any).cancelled++; },
       getVoices: () => [{ lang: 'vi-VN', name: 'Test Vietnamese' }],
@@ -32,8 +33,8 @@ test('voice follows steps, cancels on leaving and reroutes from a confirmed land
   await page.getByRole('button', { name: 'Xác nhận vị trí của tôi', exact: true }).click();
   await expect(page.locator('.route-endpoints')).toContainText('B105');
   await expect(page.locator('.guided-stage-title')).toContainText('Tòa B');
-  await mkdir('outputs/user-feedback', { recursive: true });
-  await page.screenshot({ path: 'outputs/user-feedback/navigation-phone.png', fullPage: true });
+  await mkdir('outputs/adaptive-routing/regression/user-feedback', { recursive: true });
+  await page.screenshot({ path: 'outputs/adaptive-routing/regression/user-feedback/navigation-phone.png', fullPage: true });
   await page.getByText('Google Maps và sơ đồ trong viện', { exact: true }).click();
   await expect(page.getByRole('link', { name: 'Mở Google Maps tìm cơ sở' })).toHaveAttribute('href', /google.com\/maps\/search/);
   const count = await page.evaluate(() => (window as any).cancelled);

@@ -40,7 +40,7 @@ describe('campus and floor route consistency',()=>{
   for(const edge of graph.edges){
    const from=location(edge.from),to=location(edge.to);
    if(from.buildingId!==to.buildingId){expect(from.floor).toBe(to.floor);continue;}
-   if(from.floor!==to.floor){expect(from.kind).toBe('lift');expect(to.kind).toBe('lift');expect([from.x,from.y]).toEqual([to.x,to.y]);}
+   if(from.floor!==to.floor){expect(['lift','stairs']).toContain(from.kind);expect(to.kind).toBe(from.kind);expect([from.x,from.y]).toEqual([to.x,to.y]);}
    else {
     expect(from.x===to.x||from.y===to.y).toBe(true);
     expect(Math.sign(to.campusX-from.campusX)).toBe(Math.sign(to.x-from.x));

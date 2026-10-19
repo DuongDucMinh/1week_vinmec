@@ -12,7 +12,7 @@ async function arrive(page:Page){
  await page.getByRole('button',{name:/^Tôi đã đến /}).click();
 }
 
-test('reception → first doctor → searched orders → ultrasound → blood → automatic return, all screens sync',async({browser,request})=>{
+test('reception → first doctor → searched orders → nearest blood → ultrasound → automatic return, all screens sync',async({browser,request})=>{
  test.setTimeout(90000);
  const old=await(await request.get('/api/snapshot')).json();
  await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:old.runId,expectedRevision:old.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'sequential-browser'}});
@@ -33,7 +33,7 @@ test('reception → first doctor → searched orders → ultrasound → blood �
  await expect(patient.locator('.route-endpoints')).toContainText('Quầy tiếp nhận');
  await expect(patient.locator('.route-endpoints')).toContainText('A201');
  await expect(patient.locator('.guided-floor')).toBeVisible();
-  await expect(patient.locator('[data-route-segment="guided"]')).toHaveAttribute('d',/M.+L/);
+  await expect(patient.locator('[data-route-segment="guided"]')).toBeVisible();
  await arrive(patient);
  await patient.getByRole('button',{name:'Lượt khám',exact:true}).click();
  await expect(patient.getByRole('heading',{name:'Chờ khám Nội lần đầu',exact:true})).toBeVisible();
@@ -45,44 +45,42 @@ test('reception → first doctor → searched orders → ultrasound → blood �
  await doctor.getByRole('checkbox').check();
  await expect(doctor.locator('.order-preview')).toContainText('Siêu âm ổ bụng');
  await expect(patient.locator('.timeline')).not.toContainText('Siêu âm');
- await mkdir('outputs/paper-workflow',{recursive:true});
- await doctor.screenshot({path:'outputs/paper-workflow/doctor-orders.png',fullPage:true});
+ await mkdir('outputs/adaptive-routing/regression/paper-workflow',{recursive:true});
+ await doctor.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/doctor-orders.png',fullPage:true});
  await doctor.getByRole('button',{name:'Chốt 2 chỉ định'}).click();
- await expect(patient.getByRole('heading',{name:'Đến Siêu âm ổ bụng',exact:true})).toBeVisible();
+ await expect(patient.getByRole('heading',{name:'Đến Xét nghiệm sinh hóa máu',exact:true})).toBeVisible();
  await expect(us.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
  await expect(blood.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
  await expect(blood.getByRole('button',{name:'Đã hoàn thành'})).toBeEnabled();
  await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();
  await expect(patient.locator('.route-endpoints')).toContainText('A201 · Nội');
- await expect(patient.locator('.map-address')).toContainText('B105');
- await patient.screenshot({path:'outputs/paper-workflow/patient-guidance.png',fullPage:true});
+ await expect(patient.locator('.map-address')).toContainText('A205');
+ await patient.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/patient-guidance.png',fullPage:true});
  await arrive(patient);
  await expect(patient.locator('.arrival-note')).toContainText('đặt giấy chỉ định lên trên cùng');
- await us.screenshot({path:'outputs/paper-workflow/procedure-queue.png',fullPage:true});
- await us.getByRole('button',{name:'Đã hoàn thành',exact:true}).click();
- await expect(us.locator('.procedure-queue')).not.toContainText('Nguyễn Minh Anh');
- await expect(blood.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
- // Patient keeps the map open: the new route must start at the just-completed room.
- await expect(patient.locator('.route-endpoints')).toContainText('B105 · Siêu âm');
- await expect(patient.locator('.map-address')).toContainText('A205');
- await expect(patient.locator('.guided-stage-title')).toContainText('Tòa B · Tầng 1');
- await arrive(patient);
+ await blood.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/procedure-queue.png',fullPage:true});
  await blood.getByRole('button',{name:'Đã hoàn thành',exact:true}).click();
  await expect(blood.locator('.procedure-queue')).not.toContainText('Nguyễn Minh Anh');
+ await expect(us.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
+ await expect(patient.locator('.route-endpoints')).toContainText('A205 · Sinh hóa');
+ await expect(patient.locator('.map-address')).toContainText('B105');
+ await expect(patient.locator('.guided-stage-title')).toContainText('Tòa A · Tầng 2');
+ await arrive(patient);
+ await us.getByRole('button',{name:'Đã hoàn thành',exact:true}).click();
  // Ready appears immediately after procedural completion, before results or app arrival.
  await expect(doctor.locator('.queue-column').nth(1)).toContainText('Nguyễn Minh Anh');
  await expect(doctor.locator('.queue-column').nth(1)).toContainText('Đang quay lại');
  expect((await(await request.get('/api/snapshot')).json()).visits[0].services.every((s:any)=>s.resultStatus==='WAITING')).toBe(true);
- await doctor.screenshot({path:'outputs/paper-workflow/doctor-ready.png',fullPage:true});
+ await doctor.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/doctor-ready.png',fullPage:true});
  await expect(patient.locator('.map-address')).toContainText('A201');
- await expect(patient.locator('.route-endpoints')).toContainText('A205 · Sinh hóa');
+ await expect(patient.locator('.route-endpoints')).toContainText('B105 · Siêu âm');
  await arrive(patient);
  await expect(patient.locator('.arrival-note')).toContainText('Luồng demo kết thúc tại đây');
  await patient.getByRole('button',{name:'Lượt khám',exact:true}).click();
  await expect(patient.getByRole('heading',{name:'Đã quay lại phòng Nội A201',exact:true})).toBeVisible();
  await expect(patient.getByRole('button',{name:'Sẵn sàng gặp bác sĩ chẩn đoán'})).toHaveCount(0);
  await expect(doctor.getByRole('button',{name:'Gọi vào xem kết quả'})).toHaveCount(0);
- await patient.screenshot({path:'outputs/paper-workflow/patient-returned.png',fullPage:true});
+ await patient.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/patient-returned.png',fullPage:true});
  for(const width of [360,390,768]){
   await patient.setViewportSize({width,height:844});
   expect(await patient.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

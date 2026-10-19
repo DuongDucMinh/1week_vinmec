@@ -1,84 +1,75 @@
 {
-  "schema_version": 2,
-  "updated_at": "2026-10-19",
+  "schema_version": 3,
+  "updated_at": "2026-10-20",
   "timezone": "Asia/Saigon",
-  "purpose": "User-defined simulation; not verified Vinmec workflow",
+  "purpose": "User-defined prototype; not verified Vinmec workflow",
+  "runtime_source": "src/shared/fixtures.ts and src/domain/engine.ts",
   "setting": {
     "facility_context": "Vinmec tại Vinhomes Ocean Park 2",
-    "specialty": "Nội",
-    "map_is_synthetic": true,
-    "real_room_locations_verified": false,
-    "initial_consultation_location_id": "DEMO-NOI",
-    "room_codes": {
-      "DEMO-NOI": "A201",
-      "DEMO-SINHHOA": "A205",
-      "DEMO-SIEUAM": "B105"
-    },
-    "map_views": ["campus_overview", "building_floor_detail"],
-    "product_ui": "concise_navigation_without_repeated_demo_disclaimers",
-    "synthetic_disclosure_location": "project_documentation"
+    "department_count": 5,
+    "service_count": 9,
+    "synthetic": true
   },
-  "required_services": [
-    {
-      "id": "DEMO-US-ABD",
-      "display_name": "Siêu âm ổ bụng",
-      "location_id": "DEMO-SIEUAM"
-    },
-    {
-      "id": "DEMO-BLOOD-BIOCHEM",
-      "display_name": "Xét nghiệm sinh hóa máu",
-      "location_id": "DEMO-SINHHOA"
-    }
-  ],
-  "default_mode": "RETURN_TO_DOCTOR",
-  "required_modes": {
-    "RETURN_TO_DOCTOR": {
-      "applies_to": "entire_visit",
-      "requires_all_paper_collected": false,
-      "allow_leaving_while_waiting_after_all_services_performed": true
-    },
-    "COLLECT_PAPER": {
-      "applies_to": "entire_visit",
-      "requires_all_paper_collected": true,
-      "collection_starts_after_all_services_performed": true,
-      "collection_priority": "earliest_result_confirmed_first"
-    }
+  "orders": {
+    "created_after_initial_consultation": true,
+    "selected_per_patient": true,
+    "doctor_list_preserved": true
   },
-  "result_publication": {
-    "trigger": "department_confirms_result",
-    "availability": "patient_and_doctor_same_event",
-    "patient_notification": true,
-    "doctor_background_update_only": true,
-    "ready_order": "service_performance_order",
-    "ready_order_is_mock_rule": true,
-    "eta_source": "explicit_scenario_values_only"
+  "procedure_planning": {
+    "priority": [
+      "physical_waiting_and_in_progress_count_excluding_self",
+      "shortest_graph_distance_for_selected_transport",
+      "doctor_list_order"
+    ],
+    "decision_points": [
+      "ASSIGN_SERVICES",
+      "COMPLETE_SERVICE"
+    ],
+    "retain_current_trip_destination": true,
+    "remaining_order": "provisional_preview",
+    "doctors_per_room": 1,
+    "parallel_service_capacity": 1,
+    "professional_dependencies_modeled": false
+  },
+  "navigation": {
+    "transport_modes": [
+      "lift",
+      "stairs"
+    ],
+    "default": "lift",
+    "stairs_on_every_floor": true,
+    "lift_skips_intermediate_landings": true,
+    "stairs_guides_each_floor": true,
+    "auto_overload_detection": false,
+    "position_source": "patient_or_staff_confirmation"
+  },
+  "arrival": {
+    "staff_command": "CHECK_IN_SERVICE",
+    "patient_command": "CONFIRM_LOCATION",
+    "physical_call_order": [
+      "PAPER_TRAY",
+      "TAKE_NUMBER"
+    ]
+  },
+  "results": {
+    "modes": [
+      "RETURN_TO_DOCTOR",
+      "COLLECT_PAPER"
+    ],
+    "published_separately_from_completion": true,
+    "publication_order": "independent",
+    "patient_and_doctor_same_event": true
   },
   "return_gate": {
     "requires_all_services_performed": true,
-    "requires_all_results_confirmed": true,
-    "paper_gate": "selected_mode.requires_all_paper_collected"
+    "requires_all_results_confirmed": false,
+    "requires_all_paper_collected": false,
+    "automatic_ready_queue": true,
+    "demo_ends": "returned_to_initial_clinic"
   },
-  "review_readiness": {
-    "button_label": "Sẵn sàng gặp bác sĩ chẩn đoán",
-    "presence_confirmation": "patient_self_report_outside_consultation_room",
-    "verified_location": false,
-    "queue_insert_requires_successful_confirmation": true,
-    "duplicate_clicks_create_duplicate_entries": false
-  },
-  "doctor_workspace": {
-    "left_column": "initial_consultation_queue",
-    "right_column": "ready_for_review_queue",
-    "auto_enqueue_when_all_results_ready": false,
-    "queue_selection": "doctor_manual_choice",
-    "result_bundle_auto_open_trigger": "doctor_calls_ready_patient",
-    "synthetic_visit_history_available": true
-  },
-  "fallback": {
-    "keep_paper_guidance_in_both_modes": true,
-    "human_assistance": "reception_or_coordinator_or_consultation_staff",
-    "manual_readiness_registration_by_staff": true
-  },
-  "mode_switch_requires_new_or_reset_visit": true,
-  "clinical_advice": false,
-  "contains_real_patient_data": false
+  "reset_visit": {
+    "clears_patient_progress": true,
+    "transport_default": "lift",
+    "preserves_other_visits_and_room_settings": true
+  }
 }

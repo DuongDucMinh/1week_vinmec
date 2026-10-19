@@ -56,6 +56,17 @@ graph.edges.push({from:'DEMO-CONNECTOR-B',to:'DEMO-B-LIFT-1',weight:.5},{from:'D
 addFloor('B',2,[{id:'DEMO-XQUANG',code:'B201',name:'Chụp X-quang',label:'X-quang'},{id:'DEMO-CT-ROOM',code:'B205',name:'Chụp CT',label:'Chụp CT'}]);
 addFloor('B',3,[{id:'DEMO-THUCQUAN',code:'B301',name:'Nội soi thực quản',label:'Nội soi|thực quản'},{id:'DEMO-DADAY',code:'B305',name:'Nội soi dạ dày',label:'Nội soi|dạ dày'}]);
 
+// Each lift landing has a separate staircase landing, connected on every floor.
+for(const building of graph.buildings){
+ const lifts=graph.locations.filter(l=>l.buildingId===building.id&&l.kind==='lift').sort((a,b)=>a.floor-b.floor);
+ for(const [index,lift] of lifts.entries()){
+  const id=`DEMO-${building.id}-STAIRS-${lift.floor}`;
+  graph.locations.push({...lift,id,name:`Thang bộ tầng ${lift.floor}`,kind:'stairs',x:410,campusX:lift.campusX+25,landmark:`Biển cầu thang bộ · Tòa ${building.id}, tầng ${lift.floor}`});
+  graph.edges.push({from:lift.id,to:id,weight:.5});
+  if(index)graph.edges.push({from:`DEMO-${building.id}-STAIRS-${lifts[index-1].floor}`,to:id,weight:3});
+ }
+}
+
 export const departmentCatalog: DepartmentDefinition[] = [
  {id:'DEMO-INTERNAL',name:'Khoa Nội',shortName:'Nội',locationId:'DEMO-NOI'},
  {id:'DEMO-CARDIOLOGY',name:'Khoa Tim mạch',shortName:'Tim mạch',locationId:'DEMO-TIMMACH'},

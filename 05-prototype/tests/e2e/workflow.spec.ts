@@ -52,7 +52,7 @@ test('paper-only workflow: physical calling order can differ from both roster an
   await expect(page.locator('.queue-number')).toHaveCount(0);
   const search=page.getByRole('searchbox',{name:'Tìm người bệnh trong phòng này'});
   for(const query of ['TRAN HOANG','Trần Hoàng','P02','DEMO-P02']){await search.fill(query);await expect(page.locator('.assigned-row')).toHaveCount(1);await expect(page.locator('.assigned-row')).toContainText('Trần Hoàng Nam');}
-  // P02 is called by physical ticket first, and blood is performed before the suggested ultrasound.
+  // P02 is called by physical ticket first, and the physical call selects P02 first.
   await page.getByRole('button',{name:'Đã hoàn thành',exact:true}).click();
   await expect(page.locator('.procedure-results')).toContainText('Trần Hoàng Nam');
   await expect(page.locator('.assigned-row')).toHaveCount(0);
@@ -64,14 +64,14 @@ test('paper-only workflow: physical calling order can differ from both roster an
 });
 
 test('room entrance settings update app, map, procedure page and printed guide',async({page,request,context})=>{
-  await assign(request);await page.goto('/control');await page.getByText('Cài đặt & kiểm tra',{exact:true}).click();
+  await assign(request,id,[ultrasound]);await page.goto('/control');await page.getByText('Cài đặt & kiểm tra',{exact:true}).click();
   await page.getByRole('combobox',{name:'Cách lấy lượt Siêu âm ổ bụng',exact:true}).selectOption('TAKE_NUMBER');
   const patient=await context.newPage();await patient.setViewportSize({width:390,height:844});await patient.goto('/patient');
   await expect(patient.locator('.next-card')).toContainText('lấy số tại máy');
   await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(patient.locator('.map-arrival-instruction')).toContainText('không dùng số khám chuyên khoa ban đầu');
   await finishDirections(patient);await expect(patient.locator('.arrival-note')).toContainText('lấy số tại máy');
   await patient.emulateMedia({media:'print'});await expect(patient.locator('.print-guide')).toContainText('lấy số tại máy');
-  await patient.pdf({path:'outputs/paper-workflow/printed-guide.pdf',format:'A4',printBackground:true});
+  await patient.pdf({path:'outputs/adaptive-routing/regression/paper-workflow/printed-guide.pdf',format:'A4',printBackground:true});
   await page.goto('/procedure?service=DEMO-US-ABD');await expect(page.locator('.procedure-arrival-note')).toContainText('Gọi theo số lấy tại cửa phòng');
 });
 
@@ -154,7 +154,8 @@ test('help dialog contains keyboard focus, closes with Escape and returns focus 
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Đóng hỗ trợ' })).toBeFocused();
   await page.keyboard.press('Shift+Tab');
-  await expect(dialog.getByRole('combobox', { name: 'Người đang khám' })).toBeFocused();
+  const lastControl=dialog.getByRole('button',{name:/^Reset hành trình của/});
+  await expect(lastControl).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(dialog.getByRole('button', { name: 'Đóng hỗ trợ' })).toBeFocused();
   for (let i = 0; i < 8; i++) {
@@ -174,17 +175,17 @@ test('mobile routes are per service, assistant fallback truthful, print and 360/
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/patient');
   await expect(page.getByRole('heading', { name: 'Đang thực hiện Xét nghiệm sinh hóa máu', exact: true })).toBeVisible();
-  await mkdir('outputs/paper-workflow', { recursive: true });
-  await page.screenshot({ path: 'outputs/paper-workflow/patient-390.png', fullPage: true });
-  await page.screenshot({ path: 'outputs/paper-workflow/patient-phone-390.png', fullPage: false });
+  await mkdir('outputs/adaptive-routing/regression/paper-workflow', { recursive: true });
+  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-390.png', fullPage: true });
+  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-phone-390.png', fullPage: false });
   await page.setViewportSize({ width: 360, height: 800 });
   await noOverflow(page);
-  await page.screenshot({ path: 'outputs/paper-workflow/patient-360.png', fullPage: true });
+  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-360.png', fullPage: true });
   await page.getByRole('button',{name:'Đường đi',exact:true}).click();
   await expect(page.locator('.map-card h2')).toHaveText('A205 · Sinh hóa');
   await expect(page.locator('.arrival-note')).toBeVisible();
   await expect(page.getByRole('button',{name:'Tổng quan',exact:true})).toHaveCount(0);
-  await page.screenshot({path:'outputs/paper-workflow/map-360.png',fullPage:true});
+  await page.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/map-360.png',fullPage:true});
   await noOverflow(page);
   await page.getByRole('button', { name: 'Trợ lý', exact: true }).click();
   await page.getByRole('button', { name: 'Giờ tôi làm gì?', exact: true }).click();
@@ -201,8 +202,8 @@ test('mobile routes are per service, assistant fallback truthful, print and 360/
   await doctor.setViewportSize({ width: 1440, height: 1000 });
   await doctor.goto('/doctor');
   await expect(doctor.locator('.queue-column').nth(1)).toContainText('Nguyễn Minh Anh');
-  await doctor.screenshot({ path: 'outputs/paper-workflow/doctor-desktop.png', fullPage: true });
+  await doctor.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/doctor-desktop.png', fullPage: true });
   await doctor.goto('/control');
   await expect(doctor.getByRole('heading', { name: 'Tiếp nhận & điều phối', exact: true })).toBeVisible();
-  await doctor.screenshot({ path: 'outputs/paper-workflow/control-desktop.png', fullPage: true });
+  await doctor.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/control-desktop.png', fullPage: true });
 });

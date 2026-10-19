@@ -34,3 +34,9 @@ test-results/
 /.taste-skill/
 # Local browser configuration used for a resource-constrained retry.
 /05-prototype/playwright.feedback.config.ts
+# Transient traces and retry logs from the adaptive-routing verification.
+05-prototype/outputs/adaptive-routing/browser-run-*/
+05-prototype/outputs/adaptive-routing/*.log
+
+# Keep only the current slide set.
+outputs/slides-v*/
