@@ -1,0 +1,156 @@
+{
+  "config": {
+    "argv": [
+      "E:\\Applications\\node.exe",
+      "D:\\Python\\lab_coach_vin\\1week_vinmec\\05-prototype\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "long specialty names",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Python\\lab_coach_vin\\1week_vinmec\\05-prototype\\playwright.config.ts",
+    "rootDir": "D:/Python/lab_coach_vin/1week_vinmec/05-prototype/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Python/lab_coach_vin/1week_vinmec/05-prototype/outputs/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/Python/lab_coach_vin/1week_vinmec/05-prototype/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Python\\lab_coach_vin\\1week_vinmec\\05-prototype\\outputs\\browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\Python\\lab_coach_vin\\1week_vinmec\\05-prototype\\tests\\e2e",
+        "snapshotDir": "D:\\Python\\lab_coach_vin\\1week_vinmec\\05-prototype\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3101",
+          "channel": "chrome",
+          "headless": true,
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx src/server/index.ts",
+      "url": "http://127.0.0.1:3101/api/health",
+      "reuseExistingServer": true,
+      "timeout": 90000,
+      "env": {
+        "PORT": "3101",
+        "HOST": "127.0.0.1",
+        "DATABASE_PATH": "data/e2e-demo.sqlite"
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "departments-reset.spec.ts",
+      "file": "departments-reset.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "long specialty names and new endoscopy map legs remain readable at phone and tablet widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3511,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:26:02.557Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0c83ea7bc812c53021d3-472f7451e3faadcc21d2",
+          "file": "departments-reset.spec.ts",
+          "line": 49,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T13:26:00.365Z",
+    "duration": 7506.568,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

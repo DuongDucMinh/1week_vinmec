@@ -1,0 +1,127 @@
+{
+  "locations": [
+    {
+      "id": "DEMO-ENTRANCE",
+      "name": "Cổng vào mô phỏng",
+      "building": "Tòa A mô phỏng",
+      "floor": 1,
+      "x": 50,
+      "y": 240,
+      "landmark": "Biển Cổng vào"
+    },
+    {
+      "id": "DEMO-RECEPTION",
+      "name": "Quầy tiếp nhận mô phỏng",
+      "building": "Tòa A mô phỏng",
+      "floor": 1,
+      "x": 180,
+      "y": 240,
+      "landmark": "Quầy có biển Tiếp nhận"
+    },
+    {
+      "id": "DEMO-LIFT-1",
+      "name": "Thang máy tầng 1",
+      "building": "Tòa A mô phỏng",
+      "floor": 1,
+      "x": 340,
+      "y": 240,
+      "landmark": "Cụm thang máy"
+    },
+    {
+      "id": "DEMO-LIFT-2",
+      "name": "Thang máy tầng 2",
+      "building": "Tòa A mô phỏng",
+      "floor": 2,
+      "x": 340,
+      "y": 100,
+      "landmark": "Sảnh tầng 2"
+    },
+    {
+      "id": "DEMO-NOI",
+      "name": "Phòng Nội mô phỏng",
+      "building": "Tòa A mô phỏng",
+      "floor": 2,
+      "x": 160,
+      "y": 100,
+      "landmark": "Biển Phòng Nội"
+    },
+    {
+      "id": "DEMO-CONNECTOR-A",
+      "name": "Lối nối phía tòa A",
+      "building": "Tòa A mô phỏng",
+      "floor": 1,
+      "x": 410,
+      "y": 240,
+      "landmark": "Biển Lối nối"
+    },
+    {
+      "id": "DEMO-CONNECTOR-B",
+      "name": "Lối nối phía tòa B",
+      "building": "Tòa B mô phỏng",
+      "floor": 1,
+      "x": 470,
+      "y": 240,
+      "landmark": "Cuối hành lang nối"
+    },
+    {
+      "id": "DEMO-SIEUAM",
+      "name": "Phòng Siêu âm mô phỏng",
+      "building": "Tòa B mô phỏng",
+      "floor": 1,
+      "x": 560,
+      "y": 240,
+      "landmark": "Biển Siêu âm"
+    },
+    {
+      "id": "DEMO-SINHHOA",
+      "name": "Phòng Sinh hóa máu mô phỏng",
+      "building": "Tòa A mô phỏng",
+      "floor": 2,
+      "x": 520,
+      "y": 100,
+      "landmark": "Biển Sinh hóa máu"
+    }
+  ],
+  "edges": [
+    {
+      "from": "DEMO-ENTRANCE",
+      "to": "DEMO-RECEPTION",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-RECEPTION",
+      "to": "DEMO-LIFT-1",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-LIFT-1",
+      "to": "DEMO-LIFT-2",
+      "weight": 2
+    },
+    {
+      "from": "DEMO-LIFT-2",
+      "to": "DEMO-NOI",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-LIFT-1",
+      "to": "DEMO-CONNECTOR-A",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-CONNECTOR-A",
+      "to": "DEMO-CONNECTOR-B",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-CONNECTOR-B",
+      "to": "DEMO-SIEUAM",
+      "weight": 1
+    },
+    {
+      "from": "DEMO-LIFT-2",
+      "to": "DEMO-SINHHOA",
+      "weight": 1
+    }
+  ]
+}

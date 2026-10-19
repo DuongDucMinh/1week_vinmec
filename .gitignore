@@ -1,0 +1,36 @@
+# Secrets and local environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+# Private scratch is never submission evidence
+private/
+work/
+*.log
+# Original interview notes can contain details outside the anonymized submission.
+/note_interview.pdf
+# Prototype runtime and generated test output
+.prototype-runtime/
+playwright-report/
+test-results/
+05-prototype/outputs/browser-artifacts/
+05-prototype/outputs/e2e-artifacts/
+
+# Downloaded Taste Skill runtime; project direction and QA reports remain available
+.taste-skill/vendor/
+
+# Local scratch and raw interview PDFs are not submission artifacts.
+/tmp/
+/Người pv và bộ câu hỏi_261016_174203.pdf
+/bo-cau-hoi-phong-van-MyVinmec.pdf
+# Keep only project direction from the downloaded UI tooling.
+/.taste-skill/
+# Local browser configuration used for a resource-constrained retry.
+/05-prototype/playwright.feedback.config.ts

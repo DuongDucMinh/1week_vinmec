@@ -1,0 +1,146 @@
+{
+  "capturedAt": "2026-10-18T19:03:09.7445653Z",
+  "state": "Executor A and B source frozen before independent code review",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "F2319E28D53B10BF07DC336B4514BF49D911A95121079A850A03227305EFFECB"
+    },
+    {
+      "path": "data\\ai-evaluation-cases.json",
+      "sha256": "F9992D900450C80EB3190893A695BBF9CA2632B92FE30B42B8FCB7F44993C342"
+    },
+    {
+      "path": "data\\mock-hospital.json",
+      "sha256": "4C6FB19AE703AC6C3D3701CD2CD77EFF4AB9AC9C509D87CCCC509F4427759948"
+    },
+    {
+      "path": "data\\mock-visits.json",
+      "sha256": "D1263F760868BAA7C6351E3A0D2CDFF00F1BFAE929D1086FF4071BEF2C0A7BF7"
+    },
+    {
+      "path": "data\\simulation-config.json",
+      "sha256": "9DB1AFE53528BF2CBDC61B98ADBECB485B644676DF7EF345E174E96723D620ED"
+    },
+    {
+      "path": "index.html",
+      "sha256": "E10B98C9DCF4331287AC8ECF67E48CD6418B612B6BA864FDD7F77E21905F2D0B"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "599F71116FFF0CD88B23376BF7C6FDDF12169D8786F4BAA5BCC0A71FA2353741"
+    },
+    {
+      "path": "package.json",
+      "sha256": "3568A88A76B4E5C2CBDCFDF1FBF122D7FB2E85CE40B9D0B855DC18EA691AEC33"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "5DE0C954080309F76D8EED0DDE7C8CD2B029159967F3B9C8AD68261E70F002A8"
+    },
+    {
+      "path": "src\\client\\api.ts",
+      "sha256": "4949CFBB236684FE5955656AE29523BBFDE5184DBCCB0AAE43F57F2A417B551F"
+    },
+    {
+      "path": "src\\client\\App.tsx",
+      "sha256": "C022033E21C69E581AD97D9B2C33269E6AFE6610862D7684355F755062967FBB"
+    },
+    {
+      "path": "src\\client\\Dashboards.tsx",
+      "sha256": "BD045E2B310817020BDA3D7A95907B5B67F30599737901A9AE7D24756E062D3D"
+    },
+    {
+      "path": "src\\client\\icons.tsx",
+      "sha256": "97CFE65D4A2E22E128D18FD07897EB1D2370C2DD3AE4470545FB1E5D4C11B131"
+    },
+    {
+      "path": "src\\client\\main.tsx",
+      "sha256": "D0A5075B794EACBB5EAFB39174D322F1A3C7E1BCF7B6CCE35E37C0D3EFEA5CC3"
+    },
+    {
+      "path": "src\\client\\Map.tsx",
+      "sha256": "896B32FE4DB0880EA029DB4B27892923D099FF11773CE649DA04EA1BC272EBE5"
+    },
+    {
+      "path": "src\\client\\Patient.tsx",
+      "sha256": "5C15612728967250120599CFB89B624571E0241A8EAE6FCAF761ECF5436BC116"
+    },
+    {
+      "path": "src\\client\\styles.css",
+      "sha256": "6276542C16F63CB4F8B590C6AB2C3660EFF751613C29FBC8556DC1BCB5E1A754"
+    },
+    {
+      "path": "src\\domain\\engine.ts",
+      "sha256": "8CC524A0051891310C7C208AB6B26EF9F64AE9D593D502A62B83AD9746296806"
+    },
+    {
+      "path": "src\\server\\ai\\assistant.ts",
+      "sha256": "0F069B83D1CFCEAE0FF91DD95621B5D6E1D270DFFCB5B6E035D530E20402BB34"
+    },
+    {
+      "path": "src\\server\\ai\\evaluate-cli.ts",
+      "sha256": "911CE6AE671E34934F624B3D6B4A1E485B331E15E51399BA998C044112A52946"
+    },
+    {
+      "path": "src\\server\\ai\\evaluation.ts",
+      "sha256": "86C57B8C0A5671933888885964726E6DA4547CE3D7BBCBC41A439BC2577DEAE8"
+    },
+    {
+      "path": "src\\server\\app.ts",
+      "sha256": "7483D1DC128710A3963F7EBDE03ED920380B6DF44A518C4A5431A0C6573CE541"
+    },
+    {
+      "path": "src\\server\\index.ts",
+      "sha256": "5E187E17358BDD6F4A1B3CB55F374829CEB9AA1A04547CF15285FA2A5E9680B1"
+    },
+    {
+      "path": "src\\server\\repository.ts",
+      "sha256": "8C027D0E04565EF2B5A82F0C34AB799437CAF2E728046993C3E662E222C79106"
+    },
+    {
+      "path": "src\\shared\\contracts.ts",
+      "sha256": "C18E1A30B4A3302B5870365B48FF7D604E07119CC641C43F6345A011AB090D04"
+    },
+    {
+      "path": "src\\shared\\fixtures.ts",
+      "sha256": "31E22129E228947C919A1636FF2BBD16D6C6EFAB0223DCDB5D6D345D4F8CDE12"
+    },
+    {
+      "path": "tests\\ai\\assistant.test.ts",
+      "sha256": "EF38D62D44A9A5D9FBEA661AC5BAF91766B028B3D39E72A35B9537F30AAFAFAA"
+    },
+    {
+      "path": "tests\\ai\\evaluation.test.ts",
+      "sha256": "CBBDB19E8FA7155D22081304AAA93B51EDAADB2C8440FD24E3CC8C14F2D35358"
+    },
+    {
+      "path": "tests\\client\\snapshot.test.ts",
+      "sha256": "4E0F46EF89DEF13351A2B6093A264DFE5D115133B457041FA9C5633E1814C33F"
+    },
+    {
+      "path": "tests\\domain\\engine.test.ts",
+      "sha256": "CEE2821633A209D93A0A3B7E875C46AAB496DEEE468C524C6A6D796790F57BAF"
+    },
+    {
+      "path": "tests\\e2e\\workflow.spec.ts",
+      "sha256": "B29D17B18F018CB79B4A0758DE96BFB91044372A5A28179C565AAB68AFD8B91B"
+    },
+    {
+      "path": "tests\\server\\http.test.ts",
+      "sha256": "BFC4D80299718476D894C20B1E58DF1B9AC9BBBB62BC7E69709F44BBCB74E471"
+    },
+    {
+      "path": "tests\\server\\repository.test.ts",
+      "sha256": "B88987B99A021644A7DA2277DE8BE64655C718D04DD87B67F0F3F4B1AC1AEBCC"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "3C6F20431556860AB71D3DBC4165CEB83F9AE25FB91BD11448E904689498EEBD"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "55EEDE601FAB308E2E4078C30C43AEF064D0AD6AB2A189E2F60747902004F54E"
+    }
+  ]
+}

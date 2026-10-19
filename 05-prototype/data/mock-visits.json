@@ -1,0 +1,140 @@
+[
+  {
+    "visitId": "DEMO-P01",
+    "displayName": "Người bệnh giả A",
+    "age": 35,
+    "phase": "UNREGISTERED",
+    "locationId": "DEMO-RECEPTION",
+    "outsideHospital": false,
+    "returning": false,
+    "presenceConfirmed": false,
+    "readySource": null,
+    "inbox": [],
+    "history": [
+      {
+        "date": "2026-09-01",
+        "content": "Lịch sử tự tạo cho demo: lần khám trước, không có dữ liệu lâm sàng thật."
+      }
+    ],
+    "services": [
+      {
+        "id": "DEMO-US-ABD",
+        "name": "Siêu âm ổ bụng",
+        "locationId": "DEMO-SIEUAM",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      },
+      {
+        "id": "DEMO-BLOOD-BIOCHEM",
+        "name": "Xét nghiệm sinh hóa máu",
+        "locationId": "DEMO-SINHHOA",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      }
+    ]
+  },
+  {
+    "visitId": "DEMO-P02",
+    "displayName": "Người bệnh giả B",
+    "age": 48,
+    "phase": "UNREGISTERED",
+    "locationId": "DEMO-RECEPTION",
+    "outsideHospital": false,
+    "returning": false,
+    "presenceConfirmed": false,
+    "readySource": null,
+    "inbox": [],
+    "history": [
+      {
+        "date": "2026-09-01",
+        "content": "Lịch sử tự tạo cho demo: lần khám trước, không có dữ liệu lâm sàng thật."
+      }
+    ],
+    "services": [
+      {
+        "id": "DEMO-US-ABD",
+        "name": "Siêu âm ổ bụng",
+        "locationId": "DEMO-SIEUAM",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      },
+      {
+        "id": "DEMO-BLOOD-BIOCHEM",
+        "name": "Xét nghiệm sinh hóa máu",
+        "locationId": "DEMO-SINHHOA",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      }
+    ]
+  },
+  {
+    "visitId": "DEMO-P03",
+    "displayName": "Người bệnh giả C",
+    "age": 29,
+    "phase": "UNREGISTERED",
+    "locationId": "DEMO-RECEPTION",
+    "outsideHospital": false,
+    "returning": false,
+    "presenceConfirmed": false,
+    "readySource": null,
+    "inbox": [],
+    "history": [
+      {
+        "date": "2026-09-01",
+        "content": "Lịch sử tự tạo cho demo: lần khám trước, không có dữ liệu lâm sàng thật."
+      }
+    ],
+    "services": [
+      {
+        "id": "DEMO-US-ABD",
+        "name": "Siêu âm ổ bụng",
+        "locationId": "DEMO-SIEUAM",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      },
+      {
+        "id": "DEMO-BLOOD-BIOCHEM",
+        "name": "Xét nghiệm sinh hóa máu",
+        "locationId": "DEMO-SINHHOA",
+        "estimatedWaitMinutes": 30,
+        "resultEtaLabel": "Dự kiến 30 phút sau thủ tục (giá trị kịch bản, không tự công bố kết quả)",
+        "executionStatus": "NOT_STARTED",
+        "performanceOrder": null,
+        "resultStatus": "NOT_AVAILABLE",
+        "resultConfirmedAt": null,
+        "paperStatus": "NOT_REQUIRED",
+        "result": null
+      }
+    ]
+  }
+]

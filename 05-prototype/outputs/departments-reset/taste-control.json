@@ -1,0 +1,1417 @@
+{
+ "url": "http://127.0.0.1:5175/control",
+ "at": "2026-10-19T13:28:14.039Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 2,
+   "filled": [
+    0.81,
+    0.84
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 1421,
+     "screens": 1.6,
+     "words": 443,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 6,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 93,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "lines": 1,
+     "size": 24,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 2.6,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.02,
+      "top": 28,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      24,
+      38
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 13,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.4
+     },
+     "measureChars": 121,
+     "max": {
+      "size": 38,
+      "vw": 2.6,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.05,
+     "smallText": 17
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 64,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.56
+      },
+      {
+       "color": "#25352e",
+       "share": 0.36
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.04
+      },
+      {
+       "color": "#526158",
+       "share": 0.02
+      },
+      {
+       "color": "#657069",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#e3eae6",
+      "hsl": {
+       "h": 146,
+       "s": 0.14,
+       "l": 0.9
+      },
+      "fg": "#25352e"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 2,
+     "radius": 6,
+     "height": 41,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Lễ tân & điều phối",
+      "Xác nhận tiếp nhận"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 17,
+     "hairlineSamples": [
+      "section.control-service 380px",
+      "section.control-service 380px",
+      "section.patient-reset-list 784px",
+      "div.patient-reset-row 784px",
+      "div.patient-reset-row 784px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 0,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 1421,
+    "margins": {
+     "left": 56,
+     "right": 57
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Tiếp nhận & điều phối",
+      "size": 24,
+      "top": 93,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 1126,
+      "n": 4
+     },
+     {
+      "x": 276,
+      "n": 3
+     },
+     {
+      "x": 253,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 8,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.11,
+    "voidBox": {
+     "x": 0,
+     "y": 300,
+     "w": 240,
+     "h": 600
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": {
+     "w": 228,
+     "tag": "aside",
+     "links": 9,
+     "share": 0.16
+    },
+    "topbar": {
+     "h": 64
+    },
+    "canvas": {
+     "left": 25,
+     "right": 52
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 93,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 8,
+     "radii": [
+      [
+       8,
+       3
+      ],
+      [
+       0,
+       3
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       6,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.15,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      24
+     ]
+    },
+    "title": {
+     "text": "Tiếp nhận & điều phối",
+     "size": 24,
+     "top": 93
+    },
+    "colourShare": 0
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 3,
+   "filled": [
+    0.91,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 2178,
+     "screens": 2.1,
+     "words": 406,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 6,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 146,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "lines": 1,
+     "size": 24,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.03,
+      "top": 19,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      24,
+      38
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 13,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.4
+     },
+     "measureChars": 101,
+     "max": {
+      "size": 38,
+      "vw": 4.9,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.05,
+     "smallText": 14
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 121,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.54
+      },
+      {
+       "color": "#25352e",
+       "share": 0.37
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.05
+      },
+      {
+       "color": "#526158",
+       "share": 0.03
+      },
+      {
+       "color": "#657069",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#edf0ee",
+      "hsl": {
+       "h": 140,
+       "s": 0.09,
+       "l": 0.94
+      },
+      "fg": "#657069"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 6,
+     "height": 41,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Xác nhận tiếp nhận",
+      "Công bố kết quả"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 17,
+     "hairlineSamples": [
+      "section.control-service 316px",
+      "section.control-service 316px",
+      "section.patient-reset-list 656px",
+      "div.patient-reset-row 656px",
+      "div.patient-reset-row 656px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 375,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 2178,
+    "margins": {
+     "left": 51,
+     "right": 31
+    },
+    "sections": [
+     {
+      "sel": "section.card.control-section",
+      "tag": "section",
+      "top": 234,
+      "height": 1219,
+      "words": 206,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Tiếp nhận",
+       "size": 15,
+       "tag": "h3"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 56,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "aside",
+      "tag": "aside",
+      "top": 1501,
+      "height": 644,
+      "words": 154,
+      "media": 0,
+      "middle": 158,
+      "heading": {
+       "text": "Hoạt động gần đây",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 58,
+      "textLeft": 56,
+      "textRight": 73,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Tiếp nhận & điều phối",
+      "size": 24,
+      "top": 146,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 56,
+      "n": 4
+     },
+     {
+      "x": 415,
+      "n": 3
+     },
+     {
+      "x": 33,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 8,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": null,
+    "topbar": {
+     "h": 77
+    },
+    "canvas": {
+     "left": 33,
+     "right": 28
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 146,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 0,
+     "firstScreen": 0,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 8,
+     "radii": [
+      [
+       8,
+       3
+      ],
+      [
+       0,
+       3
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       6,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.16,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      24
+     ]
+    },
+    "title": {
+     "text": "Tiếp nhận & điều phối",
+     "size": 24,
+     "top": 146
+    },
+    "colourShare": 0.001
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.91,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 2668,
+     "screens": 3.2,
+     "words": 406,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 6,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.03,
+     "leading": 1.35,
+     "top": 142,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "lines": 1,
+     "size": 22,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 9.7,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.06,
+      "top": 19,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Tiếp nhận & điều phối",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Be Vietnam Pro",
+      "weight": 600,
+      "tracking": -0.027,
+      "leading": 1.35,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.66,
+      "top": 142,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 2,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      19,
+      22,
+      38
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 13,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.4
+     },
+     "measureChars": 46,
+     "max": {
+      "size": 38,
+      "vw": 9.7,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.05,
+     "smallText": 15
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 121,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.54
+      },
+      {
+       "color": "#25352e",
+       "share": 0.37
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.05
+      },
+      {
+       "color": "#526158",
+       "share": 0.03
+      },
+      {
+       "color": "#657069",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#edf0ee",
+      "hsl": {
+       "h": 140,
+       "s": 0.09,
+       "l": 0.94
+      },
+      "fg": "#657069"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 1,
+     "radius": 6,
+     "height": 44,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Xác nhận tiếp nhận"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 17,
+     "hairlineSamples": [
+      "section.control-service 302px",
+      "section.control-service 302px",
+      "section.patient-reset-list 302px",
+      "div.patient-reset-row 302px",
+      "div.patient-reset-row 302px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 186,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 2668,
+    "margins": {
+     "left": 44,
+     "right": 29
+    },
+    "sections": [
+     {
+      "sel": "div.current-fact",
+      "tag": "div",
+      "top": 330,
+      "height": 162,
+      "words": 30,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 60,
+      "right": 71,
+      "textLeft": 60,
+      "textRight": 71,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.control-services",
+      "tag": "div",
+      "top": 910,
+      "height": 333,
+      "words": 35,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Xét nghiệm sinh hóa máu",
+       "size": 13,
+       "tag": "h3"
+      },
+      "left": 44,
+      "right": 44,
+      "textLeft": 44,
+      "textRight": 142,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.patient-reset-list",
+      "tag": "section",
+      "top": 1345,
+      "height": 481,
+      "words": 50,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Thử lại từng hành trình",
+       "size": 15,
+       "tag": "h3"
+      },
+      "left": 44,
+      "right": 64,
+      "textLeft": 44,
+      "textRight": 64,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "aside",
+      "tag": "aside",
+      "top": 1893,
+      "height": 746,
+      "words": 101,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Hoạt động gần đây",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 44,
+      "right": 145,
+      "textLeft": 44,
+      "textRight": 145,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Tiếp nhận & điều phối",
+      "size": 22,
+      "top": 142,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 44,
+      "n": 7
+     },
+     {
+      "x": 25,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 8,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": null,
+    "topbar": {
+     "h": 77
+    },
+    "canvas": {
+     "left": 25,
+     "right": 16
+    },
+    "hero": {
+     "text": "Tiếp nhận & điều phối",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.03,
+     "leading": 1.35,
+     "top": 142,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 8,
+     "radii": [
+      [
+       8,
+       3
+      ],
+      [
+       0,
+       3
+      ],
+      [
+       12,
+       1
+      ],
+      [
+       6,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.18,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      19,
+      22
+     ]
+    },
+    "title": {
+     "text": "Tiếp nhận & điều phối",
+     "size": 22,
+     "top": 142
+    },
+    "colourShare": 0.001
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\desktop-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\tablet-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\mobile-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\departments-reset-control\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

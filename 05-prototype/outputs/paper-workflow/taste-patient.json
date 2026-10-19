@@ -1,0 +1,1406 @@
+{
+ "url": "http://127.0.0.1:5175/patient",
+ "at": "2026-10-19T12:52:20.406Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 2,
+   "filled": [
+    0.31,
+    0.29
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 1453,
+     "screens": 1.6,
+     "words": 189,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 15,
+     "sections": 2,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 151,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "lines": 1,
+     "size": 24,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 2.6,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.02,
+      "top": 42,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      20,
+      21,
+      22,
+      24,
+      38
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 14,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.3
+     },
+     "measureChars": 50,
+     "max": {
+      "size": 38,
+      "vw": 2.6,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.08,
+     "smallText": 15
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 24,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.52
+      },
+      {
+       "color": "#25352e",
+       "share": 0.24
+      },
+      {
+       "color": "#4c6053",
+       "share": 0.14
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.05
+      },
+      {
+       "color": "#5d6c62",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#25352e",
+      "hsl": {
+       "h": 154,
+       "s": 0.18,
+       "l": 0.18
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 6,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Xem đường đi"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "header.patient-header 438px",
+      "div.destination 352px",
+      "div.mode-note 394px",
+      "div.patient-utilities 394px",
+      "nav.bottom-nav 440px"
+     ],
+     "outlinedBoxes": 2,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 2,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 72,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 1453,
+    "margins": {
+     "left": 523,
+     "right": 523
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Lượt khám hôm nay",
+      "size": 24,
+      "top": 151,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 523,
+      "n": 2
+     },
+     {
+      "x": 544,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 4,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.29,
+    "voidBox": {
+     "x": 0,
+     "y": 120,
+     "w": 480,
+     "h": 780
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 523,
+     "right": 523
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 151,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 3,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 4,
+     "radii": [
+      [
+       0,
+       2
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       8,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 3,
+     "hues": 1,
+     "samples": [
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.22,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      21,
+      22,
+      24
+     ]
+    },
+    "title": {
+     "text": "Lượt khám hôm nay",
+     "size": 24,
+     "top": 151
+    },
+    "colourShare": 0
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 2,
+   "filled": [
+    0.53,
+    0.51
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1453,
+     "screens": 1.4,
+     "words": 189,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 15,
+     "sections": 2,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 151,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "lines": 1,
+     "size": 24,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.03,
+      "top": 42,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      20,
+      21,
+      22,
+      24,
+      38
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 14,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.3
+     },
+     "measureChars": 50,
+     "max": {
+      "size": 38,
+      "vw": 4.9,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.08,
+     "smallText": 15
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 24,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.52
+      },
+      {
+       "color": "#25352e",
+       "share": 0.24
+      },
+      {
+       "color": "#4c6053",
+       "share": 0.14
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.05
+      },
+      {
+       "color": "#5d6c62",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#25352e",
+      "hsl": {
+       "h": 154,
+       "s": 0.18,
+       "l": 0.18
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 6,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Xem đường đi"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "header.patient-header 438px",
+      "div.destination 352px",
+      "div.mode-note 394px",
+      "div.patient-utilities 394px",
+      "nav.bottom-nav 440px"
+     ],
+     "outlinedBoxes": 2,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 2,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 72,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1453,
+    "margins": {
+     "left": 187,
+     "right": 187
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Lượt khám hôm nay",
+      "size": 24,
+      "top": 151,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 187,
+      "n": 2
+     },
+     {
+      "x": 208,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 4,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 187,
+     "right": 187
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 151,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 3,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 4,
+     "radii": [
+      [
+       0,
+       2
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       8,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 3,
+     "hues": 1,
+     "samples": [
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.22,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      21,
+      22,
+      24
+     ]
+    },
+    "title": {
+     "text": "Lượt khám hôm nay",
+     "size": 24,
+     "top": 151
+    },
+    "colourShare": 0.001
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 2,
+   "filled": [
+    0.95,
+    0.85
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 1419,
+     "screens": 1.7,
+     "words": 189,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 15,
+     "sections": 2,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 6.2,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 118,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "lines": 1,
+     "size": 24,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "+",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 38,
+      "vw": 9.7,
+      "font": "Be Vietnam Pro",
+      "weight": 400,
+      "tracking": -0.018,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.06,
+      "top": 13,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Lượt khám hôm nay",
+      "words": 4,
+      "chars": 17,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Be Vietnam Pro",
+      "weight": 600,
+      "tracking": -0.025,
+      "leading": 1.35,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 118,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "B105",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Be Vietnam Pro",
+      "weight": 500,
+      "tracking": -0.027,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.13,
+      "top": 409,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 3,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 4,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      20,
+      21,
+      22,
+      24,
+      38
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 14,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.3
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 38,
+      "vw": 9.7,
+      "font": "Be Vietnam Pro",
+      "text": "+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.08,
+     "smallText": 15
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f1f5f3",
+     "bodyBgHsl": {
+      "h": 150,
+      "s": 0.17,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#f3f7f4",
+       "top": 203,
+       "hsl": {
+        "h": 135,
+        "s": 0.2,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6962",
+       "share": 0.52
+      },
+      {
+       "color": "#25352e",
+       "share": 0.24
+      },
+      {
+       "color": "#4c6053",
+       "share": 0.14
+      },
+      {
+       "color": "#146b5a",
+       "share": 0.05
+      },
+      {
+       "color": "#5d6c62",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#25352e",
+      "hsl": {
+       "h": 154,
+       "s": 0.18,
+       "l": 0.18
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 6,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Xem đường đi"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "header.patient-header 390px",
+      "div.destination 308px",
+      "div.mode-note 350px",
+      "div.patient-utilities 350px",
+      "nav.bottom-nav 390px"
+     ],
+     "outlinedBoxes": 1,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 1,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 64,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 1419,
+    "margins": {
+     "left": 20,
+     "right": 20
+    },
+    "sections": [
+     {
+      "sel": "section.next-card",
+      "tag": "section",
+      "top": 203,
+      "height": 330,
+      "words": 39,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "B105",
+       "size": 22,
+       "tag": "span"
+      },
+      "left": 41,
+      "right": 41,
+      "textLeft": 41,
+      "textRight": 48,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.progress-section",
+      "tag": "section",
+      "top": 563,
+      "height": 475,
+      "words": 81,
+      "media": 0,
+      "middle": 73,
+      "heading": {
+       "text": "Hành trình khám",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Lượt khám hôm nay",
+      "size": 24,
+      "top": 118,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 20,
+      "n": 2
+     },
+     {
+      "x": 41,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 4,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f1f5f3",
+    "sidebar": null,
+    "topbar": {
+     "h": 64
+    },
+    "canvas": {
+     "left": 20,
+     "right": 20
+    },
+    "hero": {
+     "text": "Lượt khám hôm nay",
+     "words": 4,
+     "chars": 17,
+     "lines": 1,
+     "size": 24,
+     "vw": 6.2,
+     "font": "Be Vietnam Pro",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.35,
+     "top": 118,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 3,
+    "layout": {
+     "panels": 3,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 3,
+     "radii": [
+      [
+       0,
+       2
+      ],
+      [
+       8,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 3,
+     "hues": 1,
+     "samples": [
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      },
+      {
+       "hue": 138,
+       "size": 25,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.22,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      21,
+      22,
+      24
+     ]
+    },
+    "title": {
+     "text": "Lượt khám hôm nay",
+     "size": 24,
+     "top": 118
+    },
+    "colourShare": 0.001
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "hero-void",
+   "width": 1440,
+   "message": "29% of the first screen is one empty block (480×780px at 0,120).",
+   "fix": "Place the void on purpose or fill it: move the picture, the film or one fact into it, grow the headline to meet it, or shrink the screen to its content. A void reads as placed only when something closes it on the far side and it is the screen's one rest."
+  },
+  {
+   "level": "WARN",
+   "id": "icon-chips",
+   "width": 1440,
+   "message": "3 icons sit in tinted squares or circles.",
+   "fix": "This is the commonest tell of a generated dashboard. Drop the tinted square: a KPI is a label and a number; an icon, if it helps, is plain and in the text colour.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "no-data-hue",
+   "width": 1440,
+   "message": "The screen has 3 charts or timelines but no hue on any of its data (0.0% coloured pixels).",
+   "fix": "Put the style's one chart hue (or the brand's) on the screen's main data element: today's line, the booked bars, the current period, the cover margin. Keep the chrome neutral; the hue still stays under the style's colour budget.",
+   "alsoAt": [
+    768
+   ]
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\desktop-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\tablet-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\mobile-fold.jpg",
+   "pages": [
+    "D:\\Python\\lab_coach_vin\\1week_vinmec\\.taste-skill\\paper-workflow-patient\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

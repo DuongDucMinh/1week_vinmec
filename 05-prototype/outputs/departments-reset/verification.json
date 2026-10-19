@@ -1,0 +1,55 @@
+{
+  "recordedAt": "2026-10-19T13:31:48.090133+00:00",
+  "scope": {
+    "departments": 5,
+    "procedures": 9,
+    "patientReset": true
+  },
+  "unit": {
+    "passed": 131,
+    "failed": 0
+  },
+  "browserFull": {
+    "startTime": "2026-10-19T13:22:51.855Z",
+    "duration": 78895.33499999999,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserAdditionalMap": {
+    "startTime": "2026-10-19T13:26:00.365Z",
+    "duration": 7506.568,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tasteControl": {
+    "viewports": [
+      1440,
+      768,
+      390
+    ],
+    "findings": []
+  },
+  "screenshotsViewed": [
+    "cardiology-orders.png",
+    "dentistry-patient-390.png",
+    "endoscopy-map-390.png",
+    "control-final-desktop.jpg",
+    "control-final-mobile.jpg"
+  ],
+  "limitations": "Synthetic prototype rooms and floor plans; no physical ticket-machine integration or new real-user testing.",
+  "sourceSha256": {
+    "src\\domain\\engine.ts": "cc637b882399aa95fb2d685786d7cb41ef2c3a75111a92cdedda65cc4d33afbc",
+    "src\\shared\\contracts.ts": "6ccd3b50430f33f54e45214d0d5c562f37f519982b37521aac5a217b837b6e84",
+    "src\\shared\\fixtures.ts": "5f6fd1fd5998d6ab53a1e35a5c9249d8a317609c041c9e7b3157213d7bb72255",
+    "src\\shared\\journey.ts": "92e7cf648fc81d6245b95922727d1903ff684af6ef0050980499fc25f0e8a3f3",
+    "src\\client\\api.ts": "8c68d33718decdd44ff61451c3134e84a547ec075e2e5ebf6bf0261c448eb612",
+    "src\\client\\Patient.tsx": "cdce6f6999c814156a0f3eda6d71af38fd186b118756f00db8bf635c55e6bb37",
+    "src\\client\\Dashboards.tsx": "ead041630503d55e0d5aa17f258d7d892572d0115647d6e82928beaffd547455",
+    "src\\client\\Clinicians.tsx": "9cb2cdac2587a7b82dc6aa36fd813beacd8a403fe1407feaa5cae94e001acb98",
+    "src\\client\\ResetJourney.tsx": "8f303737bbab434f94f30151856f52348ce17f261318ebc320358eaf3a806ee6"
+  }
+}

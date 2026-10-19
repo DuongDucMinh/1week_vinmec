@@ -1,0 +1,162 @@
+{
+  "files": [
+    {
+      "path": "data/simulation-config.json",
+      "sha256": "513504D44EB7E1E37586B0033603E1783527520EE5EE7FE97561941892F7D89B"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "B777ABCA05C74F6D57B0BDCE57EBAE73D7F15A6C1006A6AA81097393A9EFCB80"
+    },
+    {
+      "path": "package.json",
+      "sha256": "961674705404F9D7E82544A35B912378EBF0A79F781F8022F4189119925034D6"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "5DE0C954080309F76D8EED0DDE7C8CD2B029159967F3B9C8AD68261E70F002A8"
+    },
+    {
+      "path": "src\\.gitkeep",
+      "sha256": "01BA4719C80B6FE911B091A7C05124B64EEECE964E09C058EF8F9805DACA546B"
+    },
+    {
+      "path": "src\\client\\api.ts",
+      "sha256": "A41A18F885042410CD1A7F4AE8F578F97B07967BDD226E86035884483A96D513"
+    },
+    {
+      "path": "src\\client\\App.tsx",
+      "sha256": "E4A4B8DCD8BF660AA14362B5F08E7042891E16D0E48BADA313C1570F598860F4"
+    },
+    {
+      "path": "src\\client\\CommandFeedback.tsx",
+      "sha256": "00BB3B5A226B4F1736EB99FC6254C31AC0EBC71C815E8EDF76F73BD10C0D1E1C"
+    },
+    {
+      "path": "src\\client\\Dashboards.tsx",
+      "sha256": "C389AE15C5ADF7AA4B88A9A50E59661096635CEC719114F816CB487B8E94CDFF"
+    },
+    {
+      "path": "src\\client\\Dialog.tsx",
+      "sha256": "4E9069326837D1EFFEB1EA6CF233F21EC862BC02FF4FEE5D595B30429905B757"
+    },
+    {
+      "path": "src\\client\\icons.tsx",
+      "sha256": "97CFE65D4A2E22E128D18FD07897EB1D2370C2DD3AE4470545FB1E5D4C11B131"
+    },
+    {
+      "path": "src\\client\\main.tsx",
+      "sha256": "D0A5075B794EACBB5EAFB39174D322F1A3C7E1BCF7B6CCE35E37C0D3EFEA5CC3"
+    },
+    {
+      "path": "src\\client\\Map.tsx",
+      "sha256": "664EE488F99BE009BEAC63F3631CB869F95113928710CDE71713AA0D572118E1"
+    },
+    {
+      "path": "src\\client\\Patient.tsx",
+      "sha256": "0A6993B4DC9804F6C8C32A836CEA4943AE8D44712F52953E6253B0FE2A1B7C75"
+    },
+    {
+      "path": "src\\client\\styles.css",
+      "sha256": "736E4D52FA77ECAF54682D312A690CAA4A1300FFB5742A417EBE0C681327236D"
+    },
+    {
+      "path": "src\\domain\\engine.ts",
+      "sha256": "F6004BABADF47978BABC5CE68F8B5863122F7E568C6B73132F73FB5DC055903E"
+    },
+    {
+      "path": "src\\domain\\presentation.ts",
+      "sha256": "ABECB3FDE812277D209918DA0B1AFB8E4AB82E49C5BDFC8DE3434ED8522AEB1B"
+    },
+    {
+      "path": "src\\server\\ai\\assistant.ts",
+      "sha256": "DD80F0391EEE46ED1C21132243B73E8DC3E01387C6C900516680E61B975FCC5C"
+    },
+    {
+      "path": "src\\server\\ai\\evaluate-cli.ts",
+      "sha256": "911CE6AE671E34934F624B3D6B4A1E485B331E15E51399BA998C044112A52946"
+    },
+    {
+      "path": "src\\server\\ai\\evaluation.ts",
+      "sha256": "86C57B8C0A5671933888885964726E6DA4547CE3D7BBCBC41A439BC2577DEAE8"
+    },
+    {
+      "path": "src\\server\\app.ts",
+      "sha256": "7483D1DC128710A3963F7EBDE03ED920380B6DF44A518C4A5431A0C6573CE541"
+    },
+    {
+      "path": "src\\server\\index.ts",
+      "sha256": "5E187E17358BDD6F4A1B3CB55F374829CEB9AA1A04547CF15285FA2A5E9680B1"
+    },
+    {
+      "path": "src\\server\\repository.ts",
+      "sha256": "075B0A5568AFA0D251D69E446F1796D26ABB1A590B367E060C608A33B333E129"
+    },
+    {
+      "path": "src\\shared\\contracts.ts",
+      "sha256": "9DF9C1CAAF198F83435E697FBB2233061EAEF1FB1DA8F08CA321E1AA91C35225"
+    },
+    {
+      "path": "src\\shared\\fixtures.ts",
+      "sha256": "5249EFDBBCCE939D6A2DED158DDC54AD2D7026CDABA8EC8C270893E1873194C4"
+    },
+    {
+      "path": "src\\shared\\timeouts.ts",
+      "sha256": "05F13453B1773BBAB8189E6E202C3449B081A707C5FF19DE566D40086A3C1D69"
+    },
+    {
+      "path": "tests\\ai\\assistant.test.ts",
+      "sha256": "32D2CCA99156E8C182F9559734C9C5FFE6299ACD1902D088589EFAB2D096A5E6"
+    },
+    {
+      "path": "tests\\ai\\evaluation.test.ts",
+      "sha256": "CBBDB19E8FA7155D22081304AAA93B51EDAADB2C8440FD24E3CC8C14F2D35358"
+    },
+    {
+      "path": "tests\\client\\dialog-feedback.test.tsx",
+      "sha256": "9C45C213882869181BD06AB881248C8AF6456468C3B9792EE473BD039A175204"
+    },
+    {
+      "path": "tests\\client\\map-ui.test.tsx",
+      "sha256": "4B6C855318CDEB9DDB94FB60378714167EB75C8BF374C5436B6A61A587CEAF99"
+    },
+    {
+      "path": "tests\\client\\snapshot.test.ts",
+      "sha256": "0A98FB2A2623F563BE938BA109F8B1804DE6C691A170A7B44AC1127BFD4CA1FB"
+    },
+    {
+      "path": "tests\\domain\\engine.test.ts",
+      "sha256": "7194740669787642DC03DF195BA6B6A3441836A139A85B0CADA5F1E0877F1FFE"
+    },
+    {
+      "path": "tests\\domain\\presentation.test.ts",
+      "sha256": "5A0A095656C20C5F817FEA9CADABFD5FBEB0C42D0B70DF3B35A2686DAC394056"
+    },
+    {
+      "path": "tests\\domain\\routes.test.ts",
+      "sha256": "B70415BB986CEE5698E70709FA1B6798E107B7E9E8D4B6C56FC4F453E849529F"
+    },
+    {
+      "path": "tests\\e2e\\workflow.spec.ts",
+      "sha256": "62498D71726016A826A7A35D5AE8852166616B0F82A2C8636338D786F4FF7719"
+    },
+    {
+      "path": "tests\\server\\http.test.ts",
+      "sha256": "1AEF23524512ACE16C43838A66CD3C3341100931E5610154F08B6FEBAA1ECD0C"
+    },
+    {
+      "path": "tests\\server\\repository.test.ts",
+      "sha256": "CDE56961B6890CB098E937DE1803B05B3DCE1E370AA1707FC184B467E47AA8F3"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "3C6F20431556860AB71D3DBC4165CEB83F9AE25FB91BD11448E904689498EEBD"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "55EEDE601FAB308E2E4078C30C43AEF064D0AD6AB2A189E2F60747902004F54E"
+    }
+  ],
+  "capturedAt": "2026-10-19T06:41:05.0750594Z",
+  "state": "Map UI revision final client cleanup frozen"
+}

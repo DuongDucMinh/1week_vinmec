@@ -1,0 +1,58 @@
+{
+  "staticMaps": {
+    "inspectedBy": [
+      "root",
+      "GPT-6 Astra"
+    ],
+    "count": 4,
+    "directory": "map-revision",
+    "method": "React server render of app SVG components then Sharp PNG export; not app screenshots"
+  },
+  "browser": {
+    "currentUi": "NOT_RUN",
+    "scope": "Previous UI before map/copy revision and final modal feedback; not evidence for current browser layout",
+    "historicalPassed": 8
+  },
+  "userStudy": "NOT_RUN",
+  "tests": {
+    "files": 10,
+    "passed": 110,
+    "failed": 0,
+    "report": "map-revision/test-results.json",
+    "verifiedBy": "root direct full run after final source freeze"
+  },
+  "typecheck": "PASS",
+  "vitest": "5.0.5",
+  "checkedAt": "2026-10-19T06:48:49.4797462Z",
+  "node": "24.11.1",
+  "modalFeedbackDom": {
+    "passed": 4,
+    "nativeDialogStubbed": true
+  },
+  "version": "v0.3-map-ui",
+  "ai": {
+    "live": false,
+    "historicalNotLiveCases": 24
+  },
+  "review": {
+    "R2": "CLOSED",
+    "R1": "CLOSED",
+    "R3": "CLOSED",
+    "manifest": "review-manifest-map-ui.json",
+    "R4": "CLOSED",
+    "actionableP1P2": 0,
+    "filesVerified": 39,
+    "model": "GPT-6 Astra",
+    "hashMismatches": 0
+  },
+  "audit": {
+    "method": "Official registry npm ci after restoring partial dependency tree; package and lock unchanged",
+    "historicalDetailedReport": "dependency-audit.json",
+    "total": 0
+  },
+  "build": {
+    "modules": 37,
+    "verifiedBy": "root direct final build",
+    "status": "PASS"
+  }
+}

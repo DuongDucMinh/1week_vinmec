@@ -1,0 +1,43 @@
+{
+  "design_id": "DAHYdak6l0o",
+  "title": "Một lần đi khám — v5 rủi ro và minh họa",
+  "view_url": "https://www.canva.com/d/ykUwVSmNR0jB6XK",
+  "edit_url": "https://www.canva.com/d/4aF4Wm_GJFV3Suq",
+  "page_count": 10,
+  "transaction_status": "feedback_edits_committed",
+  "auth_status": "connected",
+  "completed_content_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "waiting_for_evidence_pages": [],
+  "local_pptx": "outputs/slides-v6/mot-lan-di-kham-v6.pptx",
+  "preview": "outputs/slides-v5/preview.png",
+  "pdf_exported": true,
+  "notes": "Hai trang Thử với người dùng và Sửa đổi sau thử đã cập nhật và lưu sau khi người dùng xem trước, duyệt. Trong Canva hai trang hiện ở vị trí 6 và 7, mang số trang hiển thị 07 và 08. Định vị là mô phỏng, TTS trình duyệt. Bản cục bộ v6 có thứ tự trang chuẩn 1-10.",
+  "research_method": "2 phỏng vấn + 1 tự thuật; không bổ sung cuộc thứ ba theo lựa chọn người làm bài. Khác biệt với yêu cầu gốc ghi riêng trong REQUIREMENTS-STATUS.md.",
+  "canva_transition": {
+    "type": "Dissolve",
+    "duration_seconds": 0.4,
+    "scope": "between_all_pages",
+    "verified": "Canva UI: Transition applied to all pages; Dissolve selected; duration 0.4",
+    "proof": "outputs/slides-v5/canva-transition-proof.png"
+  },
+  "diagram_pages": [
+    3,
+    6,
+    10
+  ],
+  "local_pptx_has_canva_transition": false,
+  "visual_provenance": "outputs/slides-v5/assets/provenance-v5.md",
+  "local_pdf": "outputs/slides.pdf",
+  "feedback_status": "2 người, phản hồi định tính do người làm bài thuật lại 19/10/2026; chưa thử lại sau sửa"
+}

@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-19T03:51:16.1995132Z",
+  "kind": "backend process restart and SQLite persistence only; no browser reconnect assertion",
+  "checks": [
+    {
+      "attempt": 1,
+      "runId": "347ab292-3120-428f-beb5-cbdb521e92e9",
+      "generation": 0,
+      "revision": 1,
+      "phase": "WAITING_INITIAL",
+      "inbox": 1,
+      "preserved": true
+    },
+    {
+      "attempt": 2,
+      "runId": "347ab292-3120-428f-beb5-cbdb521e92e9",
+      "generation": 0,
+      "revision": 1,
+      "phase": "WAITING_INITIAL",
+      "inbox": 1,
+      "preserved": true
+    }
+  ]
+}

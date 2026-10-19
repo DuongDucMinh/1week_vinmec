@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-10-19T06:48:49.5563573Z",
+  "routeFrom": "DEMO-SINHHOA",
+  "method": "React renderToStaticMarkup + Sharp using exported CampusMapSvg/FloorMapSvg; no browser",
+  "sourceFiles": [
+    "src/client/Map.tsx",
+    "src/shared/fixtures.ts",
+    "src/domain/engine.ts"
+  ],
+  "routeTo": "DEMO-SIEUAM",
+  "sourceManifest": "../review-manifest-map-ui.json",
+  "files": [
+    {
+      "file": "floor-a1.png",
+      "sha256": "D9523BD80050DCFC169A260E66B76A788AD9C81F48D0B6C3FC0C07E768B81DA5"
+    },
+    {
+      "file": "floor-a1.svg",
+      "sha256": "96642E7D1724CF8725C9D8880C03E2BDCA5E9AB72F025170676B0124D22B5384"
+    },
+    {
+      "file": "floor-a2.png",
+      "sha256": "9234068A9AF2E02E1E10B1EFB570075F05E77483647098130F96178C68A077E9"
+    },
+    {
+      "file": "floor-a2.svg",
+      "sha256": "64CDB46BB1826F8F1B87A3BD3443321A9D139A3747BF9D0259FB7F52C1E7C3D6"
+    },
+    {
+      "file": "floor-b1.png",
+      "sha256": "B5A185F751209990A12BA97E60A74DDFE5CF630203DBCCAE2D6FE4926109600F"
+    },
+    {
+      "file": "floor-b1.svg",
+      "sha256": "A180B6A0D85B199256CCB0F8832F9A6E11925BD97CA50EE164EFC6C1672F483C"
+    },
+    {
+      "file": "overview.png",
+      "sha256": "90D4F42AD962E2D155CBE51726DE5CE16B0AE9DD2297419AB1F43416B1220D15"
+    },
+    {
+      "file": "overview.svg",
+      "sha256": "C571E75EFE34D887303A79BC3AC6F9A440610B9D6858CFAC345A10D4C2484E40"
+    }
+  ]
+}

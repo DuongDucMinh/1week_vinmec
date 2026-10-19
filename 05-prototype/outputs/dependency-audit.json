@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-19T04:03:19.1221248Z",
+  "exitCode": 0,
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 69,
+      "dev": 207,
+      "optional": 53,
+      "peer": 9,
+      "peerOptional": 0,
+      "total": 276
+    }
+  },
+  "vulnerabilities": {}
+}

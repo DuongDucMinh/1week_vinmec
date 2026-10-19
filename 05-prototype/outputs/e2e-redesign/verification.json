@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-19",
+  "build": "PASS",
+  "typecheck": "PASS",
+  "vitest": {
+    "passed": 118,
+    "total": 118
+  },
+  "playwright": {
+    "fullSuitePassed": 10,
+    "fullSuiteTotal": 10,
+    "finalUiJourneyRerunPassed": 1
+  },
+  "tasteSkill": {
+    "style": "framed-sheet",
+    "seed": 1152854118,
+    "viewports": [
+      1440,
+      768,
+      390
+    ],
+    "failures": 0,
+    "warnings": {
+      "patient": 3,
+      "doctor": 1,
+      "control": 0,
+      "procedure": 2
+    },
+    "rationale": "See end-to-end-revision.md"
+  },
+  "readyState": {
+    "visitId": "DEMO-P01",
+    "phase": "WAITING_INITIAL",
+    "services": [],
+    "route": {
+      "from": "DEMO-RECEPTION",
+      "to": "DEMO-NOI",
+      "nodeIds": [
+        "DEMO-RECEPTION",
+        "DEMO-LIFT-1",
+        "DEMO-LIFT-2",
+        "DEMO-HALL-NOI",
+        "DEMO-NOI"
+      ],
+      "instructions": [
+        "Từ Quầy tiếp nhận, tầng 1, tòa A.",
+        "Ra sảnh thang máy.",
+        "Đi thang máy lên tầng 2.",
+        "Theo hành lang tới lối rẽ phòng A201.",
+        "Rẽ phải, tới phòng A201 · Nội."
+      ],
+      "requiresStartConfirmation": false
+    },
+    "procedureQueues": {
+      "DEMO-US-ABD": [],
+      "DEMO-BLOOD-BIOCHEM": []
+    }
+  },
+  "url": "http://127.0.0.1:5175/patient"
+}

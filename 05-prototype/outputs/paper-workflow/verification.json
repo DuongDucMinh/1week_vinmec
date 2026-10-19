@@ -1,0 +1,122 @@
+{
+  "recordedAt": "2026-10-19T13:01:15.021617+00:00",
+  "scope": "Paper / ticket procedure workflow; demo ends at return to Internal Medicine",
+  "unit": {
+    "passed": 120,
+    "failed": 0,
+    "files": 11,
+    "evidence": "vitest-results.json",
+    "focusedAfterFinalPresentationEdits": {
+      "passed": 16,
+      "failed": 0,
+      "files": [
+        "tests/client/map-ui.test.tsx",
+        "tests/domain/presentation.test.ts"
+      ]
+    }
+  },
+  "browser": {
+    "fullRun": {
+      "passed": 10,
+      "failed": 0,
+      "durationSeconds": 59.0
+    },
+    "focusedAfterFinalPresentationEdits": {
+      "passed": 2,
+      "failed": 0,
+      "cases": [
+        "paper-only workflow",
+        "room entrance settings"
+      ],
+      "durationSeconds": 10.8
+    },
+    "note": "Summarizes observed Playwright terminal results. The latest HTML report contains the focused 2-case run."
+  },
+  "build": {
+    "typecheck": "PASS",
+    "viteBuild": "PASS",
+    "modules": 39
+  },
+  "taste": {
+    "patient": {
+      "failures": [],
+      "warnings": [
+        {
+          "id": "hero-void",
+          "width": 1440,
+          "message": "29% of the first screen is one empty block (480×780px at 0,120)."
+        },
+        {
+          "id": "icon-chips",
+          "width": 1440,
+          "message": "3 icons sit in tinted squares or circles."
+        },
+        {
+          "id": "no-data-hue",
+          "width": 1440,
+          "message": "The screen has 3 charts or timelines but no hue on any of its data (0.0% coloured pixels)."
+        }
+      ],
+      "viewports": [
+        1440,
+        768,
+        390
+      ]
+    },
+    "doctor": {
+      "failures": [],
+      "warnings": [
+        {
+          "id": "tiny-text",
+          "width": 1440,
+          "message": "51% of the text is under 13px."
+        }
+      ],
+      "viewports": [
+        1440,
+        768,
+        390
+      ]
+    },
+    "procedure": {
+      "failures": [],
+      "warnings": [
+        {
+          "id": "panel-void",
+          "width": 1440,
+          "message": "1 card(s) hold a blank band inside: 117px in \"Phòng thủ tục\"."
+        }
+      ],
+      "viewports": [
+        1440,
+        768,
+        390
+      ]
+    },
+    "control": {
+      "failures": [],
+      "warnings": [],
+      "viewports": [
+        1440,
+        768,
+        390
+      ]
+    }
+  },
+  "roomSettingsOverflow": {
+    "1440": false,
+    "768": false,
+    "390": false
+  },
+  "sourceSha256": {
+    "src\\domain\\engine.ts": "a3e52794e4422d0c9b899558809f76a884616511959607ed383ca95c986d442a",
+    "src\\domain\\presentation.ts": "e1c9ed4d08082a6bca212fa4c7e050f22d4514a09f136b3cabfb6253b5f35afc",
+    "src\\server\\repository.ts": "db1040e574b69a48f5bfc4e9835f2ea26fd499c98e44c7341db905ffcbcc9db4",
+    "src\\client\\Clinicians.tsx": "536b73776edddfc77aba86f173f59b669b1ab23ee6289cd9f36b747c70307aa7",
+    "src\\client\\Patient.tsx": "a156fb56362f5ddc95867952b17060b16695fcf4ebad8ad98c389ae31fd8bda3",
+    "src\\client\\Map.tsx": "c6c40dce4f3e8b7e4a95000d55e10ceda635509f7d019e1e800ed60a09313acd",
+    "src\\client\\Dashboards.tsx": "c07c7fd658b7da1b22194bf8da8cdf56e63120f8aa14554d957bec6f1e778fde",
+    "src\\client\\styles.css": "1c92098d5852da73d50b2888c7bbc5afff2d9526809b9b83df4c1e3d8ea6990e",
+    "src\\shared\\procedure-arrival.ts": "da2479804293006cee3cd59c8221f727ed96fb8b66d5f17fb1aa8132dbe974a5"
+  }
+}
