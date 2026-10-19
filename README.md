@@ -1,30 +1,38 @@
 # Trợ lý điều phối và dẫn đường khám ngoại trú
 
-**Hướng dẫn người bệnh tới đúng phòng, gợi ý thứ tự thủ tục theo lượng người chờ và theo dõi xuyên suốt một lượt khám.**
+**Giúp người bệnh biết việc cần làm tiếp theo, phòng cần đến và cách di chuyển trong một lượt khám.**
 
 Dương Đức Minh · K3 · Exploration Sprint Vinmec
 
-Khi một lượt khám có nhiều xét nghiệm và phòng thủ thuật, người bệnh phải tự ghép thông tin từ phiếu chỉ định, biển phòng và lời hướng dẫn. Dự án đưa các thông tin đó vào một hành trình: **làm gì tiếp theo, đi tới đâu và đi bằng đường nào**. Bối cảnh prototype là Vinmec Ocean Park 2, với 5 khoa khám và 9 thủ tục.
+Dự án tập trung vào **khoảnh khắc chuyển bước sau khi rời một phòng khám hoặc phòng thủ tục**. Người bệnh thường phải tự ghép thông tin từ phiếu chỉ định, biển phòng và lời hướng dẫn để tiếp tục hành trình. Prototype nối tiến độ với hành động và đường đi, hướng tới giảm hỏi lại, chờ và di chuyển không cần thiết.
 
-## Dự án giúp ích gì?
+Repo là hồ sơ bài làm theo [mục 6 của đề Exploration Sprint](https://docs.google.com/document/d/1f2XCxK1NnLgVlRF2VGL0dtoxBSOKcls6/view). Các phần nghiên cứu, thiết kế, dùng thử và trình bày được sắp theo flow dưới đây.
 
-- **Chủ động chọn điểm đến phù hợp:** sau khi bác sĩ chốt chỉ định, app ưu tiên phòng có ít người đang chờ hoặc đang thực hiện nhất. Nếu bằng nhau, app chọn phòng gần nhất theo đường đi trên sơ đồ. Hoàn tất mỗi thủ tục là một lần tính lại cho những việc còn lại.
-- **Linh hoạt khi di chuyển:** sơ đồ có cả thang máy và thang bộ. Thang máy được chọn mặc định; người bệnh có thể chuyển sang thang bộ khi thang máy đông. Tuyến đường, chỉ dẫn từng chặng và giọng đọc cập nhật theo lựa chọn.
-- **Dễ theo dõi bước tiếp theo:** màn bệnh nhân làm nổi bật việc cần làm, địa chỉ phòng, tiến độ và thứ tự dự kiến; có hướng rẽ, nghe lại chỉ dẫn và chọn lại mốc khi đi nhầm.
-- **Thông tin liền mạch giữa các vai trò:** lễ tân tiếp nhận, bác sĩ chỉ định, phòng thủ tục cập nhật tiến độ; các màn hình đồng bộ ngay. Kết quả mới có thông báo và được chuyển tới người bệnh, bác sĩ.
-- **Hỗ trợ cả người dùng giấy:** nhân viên ghi nhận người đã đến phòng và xác nhận hoàn tất; bệnh nhân vẫn có thể in hoặc lưu giấy hướng dẫn dự phòng.
+## Quy trình thực hiện và hồ sơ bài làm
 
-Mục tiêu là giúp người bệnh bớt phải hỏi lại, hạn chế di chuyển không cần thiết và tránh tập trung vào phòng đang đông. Hiệu quả giảm thời gian chờ sẽ được đo khi thử nghiệm thực tế.
+| Bước theo đề bài | Nội dung trong dự án | Tài liệu |
+| --- | --- | --- |
+| **1. Chọn khoảnh khắc và chuẩn bị nghiên cứu** | Chuẩn bị bộ câu hỏi về hành vi, cách tìm thông tin và xử lý vướng mắc; rà nguồn công khai về MyVinmec. | [Bộ câu hỏi phỏng vấn](01-phong-van/interview-guide.md), [nguồn về MyVinmec và trả kết quả](01-phong-van/vinmec-result-workflow-notes.md) |
+| **2. Phỏng vấn, vẽ journey và tìm điểm đau** | Tổng hợp hai cuộc phỏng vấn ẩn danh và một trải nghiệm tự thuật; nối từng tình huống với hành động, cảm nhận, điểm đau và insight. | [P1](01-phong-van/P1.md), [P2](01-phong-van/P2.md), [P3 tự thuật](01-phong-van/P3.md), [điểm đau](01-phong-van/pain-points.md), [insight](01-phong-van/insights.md), [journey map / workflow](02-journey-map/journey-map.md) |
+| **3. Viết need statement và tìm thực hành tham khảo** | Xác định vấn đề – nhóm người dùng – kết quả mong muốn; đối chiếu ba thực hành quốc tế và rút ra bài học cho bối cảnh Vinmec. | [Need statement theo Biodesign](03-need-statement/need-statement.md), [3 best practice và nguồn](04-best-practice/best-practices.md) |
+| **4. Làm prototype có AI, thử và cải tiến** | Xây dựng ứng dụng web, lưu prompt, ghi nhận phản hồi từ hai người dùng thử và theo dõi các thay đổi sau thử. | [Mã nguồn và hướng dẫn](05-prototype/README.md), [prompt AI](05-prototype/prompts.md), [log dùng thử và phản hồi](05-prototype/user-test-log.md), [bản sửa sau thử](05-prototype/user-feedback-revision.md), [kiểm thử phần mềm](05-prototype/test-report.md) |
+| **5. Tổng hợp rủi ro, kế hoạch coach và trình bày** | Phân tích an toàn, đạo đức và cách giảm thiểu; lập kế hoạch dẫn dắt nhóm K4; tổng hợp bài làm thành bộ slide 10 trang. | [Rủi ro và hỗ trợ khẩn cấp](06-rui-ro-dao-duc/risk-register.md), [kế hoạch coach một trang](07-coach-plan/coach-plan.pdf), [slides.pdf](slides.pdf) |
 
-## Thứ tự thủ tục thay đổi như thế nào?
+Bản trình bày có [PowerPoint chỉnh sửa được](outputs/slides/tro-ly-kham-ngoai-tru.pptx) và [dàn ý slide](slides-outline.md). [Nguồn kế hoạch coach](07-coach-plan/coach-plan.md) được lưu cùng bản PDF để thuận tiện chỉnh sửa.
 
-Ví dụ người bệnh được chỉ định A, B, C. Lúc xuất phát, A ít người nhất nên app hướng tới A; B và C được hiển thị theo thứ tự dự kiến. Khi làm xong A, hệ thống kiểm tra lại: nếu C đang ít người hơn B, bước tiếp theo đổi thành C, rồi B.
+## Prototype và giá trị sử dụng
 
-Điểm đến đang đi được giữ ổn định. Danh sách bác sĩ chỉ định vẫn được lưu nguyên vẹn; app tính thứ tự di chuyển riêng cho người bệnh. Số người so sánh là người thực sự đang chờ hoặc đang làm tại phòng, không phải toàn bộ chỉ định sẽ đến phòng trong tương lai. Mỗi phòng hiện được mô phỏng có một bác sĩ phục vụ một người tại một thời điểm.
+Bối cảnh mô phỏng là Vinmec Ocean Park 2, gồm **5 khoa khám và 9 thủ tục**. Các năng lực chính:
 
-## Trải nghiệm prototype
+- **Hướng dẫn theo tiến độ:** màn bệnh nhân làm nổi bật việc cần làm, địa chỉ phòng, các bước đã xong và những việc còn lại.
+- **Gợi ý thứ tự để tránh phòng đông:** ưu tiên phòng ít người đang chờ hoặc đang thực hiện; cùng số người thì chọn phòng gần nhất. App tính lại sau mỗi thủ tục và giữ điểm đến ổn định khi đang di chuyển. [Quy tắc và ví dụ chi tiết](05-prototype/adaptive-routing.md).
+- **Chỉ đường linh hoạt:** mặc định đi thang máy, có thể chọn thang bộ; sơ đồ và chỉ dẫn từng chặng đổi theo lựa chọn. Có giọng đọc, nghe lại và chọn lại mốc khi đi nhầm.
+- **Phối hợp giữa các vai trò:** lễ tân tiếp nhận, bác sĩ chỉ định, phòng thủ tục xác nhận tiến độ và công bố kết quả; người bệnh và bác sĩ nhận thông tin đồng bộ.
+- **Hỗ trợ cả người dùng giấy:** nhân viên có thể ghi nhận đến phòng mà không cần bệnh nhân mở app; có giấy hướng dẫn in hoặc lưu để dự phòng.
 
-Cần Node.js 24.x từ 24.11.1 và npm. SQLite tích hợp lưu tiến độ, không cần cài cơ sở dữ liệu riêng.
+## Chạy và trải nghiệm
+
+Cần Node.js 24.x từ 24.11.1 và npm. SQLite tích hợp lưu tiến độ trên máy, không cần cài cơ sở dữ liệu riêng.
 
 ```powershell
 cd 05-prototype
@@ -33,53 +41,28 @@ npm.cmd run build
 npm.cmd start
 ```
 
-Mở các màn hình trong cùng trình duyệt:
+Mở bốn tab trên cùng máy: [tiếp nhận và điều phối](http://127.0.0.1:3001/control), [bác sĩ](http://127.0.0.1:3001/doctor), [phòng thủ tục](http://127.0.0.1:3001/procedure) và [người bệnh](http://127.0.0.1:3001/patient).
 
-| Màn hình | Vai trò |
-| --- | --- |
-| [Người bệnh](http://127.0.0.1:3001/patient) | Xem việc tiếp theo, thứ tự dự kiến, đường đi và kết quả |
-| [Tiếp nhận và điều phối](http://127.0.0.1:3001/control) | Chọn khoa, tiếp nhận và thử lại từng hành trình |
-| [Bác sĩ](http://127.0.0.1:3001/doctor) | Khám ban đầu, tìm và chốt chỉ định, theo dõi tiến độ |
-| [Phòng thủ tục](http://127.0.0.1:3001/procedure) | Ghi nhận đến phòng, bắt đầu, hoàn tất và công bố kết quả |
+### Một lượt demo
 
-### Đi hết một lượt demo
+1. Lễ tân chọn khoa và xác nhận tiếp nhận.
+2. Bác sĩ tại khoa đó gọi vào khám, bắt đầu trao đổi và chốt các thủ tục cần làm.
+3. Người bệnh mở **Đường đi**; thử lựa chọn loại thang, giọng đọc và xác nhận mốc.
+4. Tại phòng thủ tục, nhân viên bấm **Đã đến phòng**, **Bắt đầu thực hiện**, rồi **Đã hoàn thành** để xem hướng dẫn bệnh nhân cập nhật.
+5. Khi hoàn tất toàn bộ thủ tục, người bệnh được hướng về khoa ban đầu và xuất hiện trong danh sách sẵn sàng của bác sĩ. Luồng demo kết thúc khi quay lại phòng.
 
-1. Lễ tân chọn khoa và xác nhận tiếp nhận. Người bệnh được hướng tới phòng khám ban đầu.
-2. Bác sĩ chọn đúng khoa, gọi vào khám, bắt đầu trao đổi rồi chốt các thủ tục cần làm.
-3. App tính thứ tự gợi ý và chỉ đường tới phòng đầu tiên. Trong tab **Đường đi**, thử đổi **Thang máy / Thang bộ** hoặc bật giọng chỉ đường.
-4. Phòng thủ tục ghi nhận **Đã đến phòng**, **Bắt đầu thực hiện** và **Đã hoàn thành**. Sau mỗi lần hoàn tất, app tính lại điểm đến trong các thủ tục còn lại.
-5. Khi xong toàn bộ thủ tục, app hướng về khoa khám ban đầu; bác sĩ thấy người bệnh trong danh sách sẵn sàng. Luồng demo kết thúc khi quay lại phòng.
+Cấu hình phát triển, kết quả điện tử / bản giấy, thông báo và cách chạy kiểm thử được mô tả trong README của prototype ở bước 4.
 
-[Hướng dẫn kỹ thuật và cấu hình](05-prototype/README.md) · [Kịch bản kiểm tra tính năng mới](05-prototype/adaptive-routing.md)
+## Điểm còn hạn chế và hướng hoàn thiện
 
-## Nghiên cứu và cải tiến
+- **Bằng chứng nghiên cứu:** cần bổ sung phỏng vấn để đáp ứng mức tối thiểu ba cuộc theo đề. Repo chưa có nhật ký tự dùng MyVinmec; tài liệu tham khảo công khai ở bước 1 cung cấp bối cảnh ứng dụng.
+- **Đánh giá hiệu quả:** phản hồi dùng thử hiện ở mức định tính; chưa đo giảm chờ, giảm hỏi đường hoặc thử lại với người dùng sau các cải tiến mới.
+- **Giả định điều phối:** mỗi phòng được mô phỏng có một bác sĩ phục vụ một người tại một thời điểm. Chưa tính thời lượng, phục vụ song song, lịch hẹn hoặc ràng buộc chuyên môn giữa thủ tục; hiệu quả tối ưu tổng thời gian chờ cần được đánh giá thêm.
+- **Mức độ tích hợp:** sơ đồ, phòng, tầng và hồ sơ là dữ liệu mô phỏng, chưa nối hệ thống bệnh viện. Vị trí dựa trên xác nhận; xác thực tài khoản, định vị trong nhà và thông báo khi đóng toàn bộ trang cần được phát triển tiếp.
+- **Trợ lý AI:** có adapter và hướng dẫn dự phòng, chưa có bằng chứng kết nối mô hình thật thành công. Điều phối và bản đồ hoạt động độc lập với AI; giọng đọc phụ thuộc hỗ trợ của trình duyệt.
 
-Hai cuộc phỏng vấn ẩn danh và một trải nghiệm tự thuật giúp xác định những điểm vướng khi chuyển bước trong lượt khám. Hai người đã dùng thử và phản hồi về khả năng đọc, hướng rẽ và nhu cầu nghe chỉ đường. Từ đó, giao diện được thu gọn và bổ sung hướng dẫn từng mốc, giọng đọc, chọn lại vị trí. Tính năng chọn phòng theo lượng người chờ và lựa chọn thang được phát triển tiếp từ yêu cầu sản phẩm.
+## Dữ liệu và phần việc có AI hỗ trợ
 
-| Nội dung | Tài liệu |
-| --- | --- |
-| Phỏng vấn và phân tích | [Guide](01-phong-van/interview-guide.md), [P1](01-phong-van/P1.md), [P2](01-phong-van/P2.md), [P3 tự thuật](01-phong-van/P3.md), [insights](01-phong-van/insights.md) |
-| Hành trình và nhu cầu | [Journey map](02-journey-map/journey-map.md), [need statement](03-need-statement/need-statement.md) |
-| Thực hành tham khảo | [Ba best practice và nguồn](04-best-practice/best-practices.md) |
-| Thiết kế và triển khai | [Đặc tả hiện tại](05-prototype/simulation-spec.md), [báo cáo triển khai](05-prototype/implementation-report.md), [changelog](05-prototype/CHANGELOG.md) |
-| Dùng thử và chất lượng | [Phản hồi người dùng](05-prototype/user-test-log.md), [báo cáo kiểm thử](05-prototype/test-report.md) |
-| Rủi ro và cách giảm thiểu | [Risk register](06-rui-ro-dao-duc/risk-register.md) |
-| Kế hoạch coach | [Markdown](07-coach-plan/coach-plan.md), [PDF một trang](07-coach-plan/coach-plan.pdf) |
+Phỏng vấn, trải nghiệm tự thuật, dùng thử và quyết định phạm vi do người thực hiện dự án cung cấp. Codex hỗ trợ tổng hợp ghi chép, lập trình, kiểm thử và biên soạn tài liệu / slide; các hình minh họa slide được tạo bằng ImageGen. Phạm vi hỗ trợ và nguồn được ghi tại [AI-USAGE.md](AI-USAGE.md).
 
-## Tài liệu trình bày
-
-- [Slide PDF, 10 trang](slides.pdf)
-- [PowerPoint có thể chỉnh sửa](outputs/slides/tro-ly-kham-ngoai-tru.pptx)
-- [Dàn ý và nội dung slide](slides-outline.md)
-
-## Điểm còn hạn chế của dự án
-
-- Sơ đồ, phòng, tầng, hồ sơ và tiến độ là dữ liệu mô phỏng; chưa tích hợp hệ thống hoặc bản đồ chính thức của bệnh viện. Vị trí dựa trên xác nhận của người bệnh hoặc nhân viên.
-- Gợi ý ưu tiên theo số người và khoảng cách; chưa tính thời lượng từng thủ tục, nhiều bác sĩ phục vụ song song, lịch hẹn hay các ràng buộc chuyên môn giữa thủ tục. Vì vậy chưa khẳng định đây là thứ tự có tổng thời gian chờ ngắn nhất.
-- Mẫu nghiên cứu và dùng thử còn nhỏ. Chưa có số đo giảm chờ, giảm hỏi đường hoặc kết quả thử lại với người dùng sau các cải tiến mới.
-- Trợ lý AI có adapter và hướng dẫn dự phòng; chưa có bằng chứng kết nối mô hình thật thành công. Chức năng điều phối và bản đồ chạy độc lập với AI. Giọng đọc phụ thuộc hỗ trợ của trình duyệt.
-- Đây là web prototype với các vai trò mô phỏng; xác thực bệnh viện, định vị trong nhà và thông báo khi đóng toàn bộ trang cần được phát triển thêm.
-
-## Dữ liệu và công khai AI
-
-Nghiên cứu dùng mã ẩn danh; demo dùng hồ sơ tự tạo. Codex hỗ trợ tổng hợp, lập trình, kiểm thử và biên soạn tài liệu/slide. Nguồn và phạm vi hỗ trợ được ghi tại [AI-USAGE.md](AI-USAGE.md). Khóa API, file môi trường, SQLite và bản ghi phỏng vấn thô được loại khỏi Git.
+Nghiên cứu dùng mã ẩn danh; demo dùng hồ sơ tự tạo. Bản ghi phỏng vấn thô, khóa API, file môi trường và cơ sở dữ liệu chạy trên máy được giữ ngoài Git.
