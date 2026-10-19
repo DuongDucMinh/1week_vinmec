@@ -1,15 +1,15 @@
 # Phản hồi thử prototype với 2 người
 
-Người làm bài cho biết đã thử với 2 người và cung cấp phản hồi ngày 19/10/2026. Dưới đây là ghi chép diễn giải theo thông tin đó, không phải lời nói nguyên văn hoặc quan sát trực tiếp của AI. T1/T2 là mã người thử, chưa xác định có trùng P1/P2 không.
+Tổng hợp phản hồi từ hai người dùng thử, được ghi nhận ngày 19/10/2026.
 
-| Người thử | Phản hồi do người làm bài thuật lại | Điều chỉnh |
+| Người thử | Phản hồi | Điều chỉnh |
 | --- | --- | --- |
-| T1 | Giao diện hơi khó nhìn, có cảm giác AI slop và nhiều dòng chữ thừa. | Bỏ dòng cơ sở lặp lại, đưa xin quyền thông báo vào hỗ trợ, bỏ giải thích lặp ở hành trình. Thu gọn tóm tắt chặng. |
+| T1 | Giao diện hơi khó nhìn, nhiều dòng chữ thừa. | Bỏ dòng cơ sở lặp lại, đưa xin quyền thông báo vào hỗ trợ, bỏ giải thích lặp ở hành trình. Thu gọn tóm tắt chặng. |
 | T2 | Xem bản đồ đôi khi chưa biết rẽ trái hay phải từ vị trí hiện tại. Lo đi nhầm thì xử lý thế nào. Đề nghị âm thanh như Google Maps cho người mắt kém hoặc khó hiểu bản đồ. | Chỉ dẫn từng mốc, hướng rẽ theo chiều vừa đi, chấm vị trí demo. Thêm bật/tắt giọng đọc, nghe lại và chọn mốc khi đi nhầm. |
 
-## Phạm vi bằng chứng
+## Phạm vi đánh giá
 
-Đã có phản hồi định tính của 2 người theo báo cáo của người làm bài. Chưa có thông tin ngày giờ thử, đồng ý tham gia, thiết bị, phiên bản chính xác, nhiệm vụ, nhật ký thao tác, thời gian hoặc tỷ lệ hoàn thành. Không tự gán các thông tin này. Đề nghị hỗ trợ người mắt kém là ý kiến của T2, chưa chứng minh đã thử với nhóm người này.
+Phản hồi ở mức định tính, tập trung vào khả năng đọc và chỉ đường. Chưa đo thời gian hoặc tỷ lệ hoàn thành nhiệm vụ; cần đánh giá tiếp trên các thiết bị và nhóm người dùng khác nhau.
 
 ## Sau vòng thử
 

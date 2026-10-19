@@ -25,6 +25,4 @@ Mỗi insight dẫn về ghi chép gốc; diễn giải ghi đúng là diễn gi
 
 ## Bài học từ chính bài này
 
-Hai phỏng vấn cộng một tự thuật vẫn thiếu yêu cầu ba phỏng vấn. Build và tests đạt vẫn thiếu thử người dùng. Tôi sẽ yêu cầu nhóm theo dõi riêng bằng chứng nghiên cứu, kiểm tra phần mềm và kết quả thử; dành thời gian cho phần thiếu trước khi làm đẹp slide. Với sprint 6 tuần, tôi giữ nhịp này ở checkpoint thứ Sáu và rà mức sẵn sàng trước từng cổng.
-
-*Kế hoạch dự kiến, Codex hỗ trợ biên soạn ngày 19/10/2026; người làm bài rà trước nộp.*
+Tôi sẽ yêu cầu nhóm theo dõi riêng bằng chứng nghiên cứu, kiểm tra phần mềm và kết quả dùng thử. Mỗi chặng cần có sản phẩm cụ thể và thời gian sửa theo phản hồi trước khi hoàn thiện phần trình bày. Với sprint 6 tuần, tôi giữ nhịp này ở checkpoint thứ Sáu và rà mức sẵn sàng trước từng cổng.

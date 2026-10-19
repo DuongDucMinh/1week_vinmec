@@ -1,6 +1,6 @@
 # Rủi ro an toàn, đạo đức và cách giảm thiểu
 
-Cập nhật 19/10/2026. Phạm vi: prototype hướng dẫn chuyển bước ngoại trú, hai chế độ nhận kết quả và ba vai trò bệnh nhân, bác sĩ, điều khiển. Lượt khám, kết quả, phòng và sơ đồ đều mô phỏng. Đây là đánh giá thiết kế cho bài tập, chưa phải quy trình được Vinmec phê duyệt.
+Cập nhật 20/10/2026. Phạm vi: prototype hướng dẫn chuyển bước ngoại trú, điều phối theo lượng người, lựa chọn thang, hai chế độ nhận kết quả và các vai trò bệnh nhân, bác sĩ, phòng thủ tục, điều phối. Lượt khám, kết quả, phòng và sơ đồ đều mô phỏng. Đây là đánh giá thiết kế cho bài tập, chưa phải quy trình được Vinmec phê duyệt.
 
 ## Nguyên tắc và trách nhiệm
 
@@ -63,3 +63,15 @@ Kế hoạch lưu giữ đề xuất: xóa bản thô và bảng nối mã trong
 Các kiểm tra kỹ thuật làm giảm một số lỗi mô phỏng; chưa đủ để kết luận an toàn triển khai tại bệnh viện.
 
 Nguồn nội bộ: [P1](../01-phong-van/P1.md), [P2](../01-phong-van/P2.md), [P3 tự thuật](../01-phong-van/P3.md), [đặc tả](../05-prototype/simulation-spec.md), [prompt](../05-prototype/prompts.md), [báo cáo kiểm tra](../05-prototype/test-report.md). Codex hỗ trợ biên soạn; người làm bài rà và chịu trách nhiệm bản cuối.
+
+## Bổ sung cho điều phối và lựa chọn thang
+
+| Rủi ro thiết kế | Cách xử lý trong prototype và bước cần xác minh |
+| --- | --- |
+| Số người ít chưa đồng nghĩa thời gian chờ ngắn | Nêu rõ mỗi phòng một bác sĩ, chưa tính thời lượng / phục vụ song song; đo khi có dữ liệu thực tế |
+| Dữ liệu đến / rời phòng thiếu hoặc chậm | Nhân viên có ghi nhận đến phòng cho người dùng giấy; loại người hoàn tất khỏi phép đếm; cần nguồn dữ liệu đáng tin khi triển khai |
+| Hướng dẫn đổi liên tục khi phòng khác bớt người | Giữ đích khi đang đi, chỉ tính lại điểm đến sau chỉ định hoặc hoàn tất thủ tục |
+| Thủ tục thực tế có điều kiện chuyên môn | Prototype giả lập thủ tục độc lập; cần cơ sở xác nhận ràng buộc và thứ tự bắt buộc trước khi dùng với bệnh nhân thật |
+| Lựa chọn thang chưa phù hợp khả năng di chuyển | Thang máy mặc định; người bệnh chủ động đổi và có thể đổi lại. Cần đánh giá khả năng tiếp cận và quy tắc tại cơ sở |
+
+[Hành vi hiện tại](../05-prototype/simulation-spec.md) · [Chi tiết thuật toán](../05-prototype/adaptive-routing.md).

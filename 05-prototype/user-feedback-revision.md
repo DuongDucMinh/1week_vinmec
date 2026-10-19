@@ -1,5 +1,7 @@
 # Sửa theo phản hồi T1/T2 ngày 19/10/2026
 
+Cải tiến tiếp theo: [điều phối theo lượng người và lựa chọn thang](adaptive-routing.md).
+
 ## Thay đổi trong prototype
 
 - Màn lượt khám: bỏ dòng cơ sở lặp, chuyển xin quyền thông báo vào hộp hỗ trợ, bỏ đoạn giải thích lặp ở bước khám đầu.
