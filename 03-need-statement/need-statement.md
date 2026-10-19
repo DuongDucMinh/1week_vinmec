@@ -1,6 +1,6 @@
 # Need statement - biết làm gì tiếp và tới đâu trong lượt khám
 
-**Cập nhật 19/10/2026 theo phạm vi và quy tắc mô phỏng người làm bài làm rõ:** hướng dẫn người bệnh qua các điểm bàn giao trong phần khám tại viện, kết hợp trạng thái từng việc và từng kết quả. Không giới hạn vào một lần chờ kết quả hoặc thời điểm thao tác A vừa xong. Chưa có prototype/test; chưa xác thực hiệu quả.
+Cập nhật 20/10/2026. Nhu cầu nghiên cứu tập trung vào việc chuyển bước trong khám ngoại trú. Prototype đã có và đã nhận phản hồi định tính từ 2 người; hiệu quả giảm chờ / di chuyển chưa được đo.
 
 **Need statement chính**
 
@@ -13,13 +13,13 @@
 | Outcome chính | Xác định đúng hành động tiếp theo, điểm đến và điều kiện để tiếp tục |
 | Outcome phụ | Giảm hỏi lại; hạn chế chờ hoặc di chuyển có thể tránh khi có đủ dữ liệu để đo |
 
-Map, tuyến đường, nhãn màu, notification và AI là những cách giải quyết sẽ thử trong [experiment brief](../05-prototype/experiment-brief.md), không đưa vào câu need như giải pháp bắt buộc.
+Các phương án thiết kế và cách đánh giá được mô tả trong [kế hoạch thử](../05-prototype/experiment-brief.md).
 
 **Khoảnh khắc đào sâu và phạm vi trình diễn**
 
-Khoảnh khắc nghiên cứu là **điểm bàn giao/chuyển bước trong lượt khám**: người bệnh cần quyết định làm gì tiếp, ở đâu và khi nào. Khoảnh khắc này lặp lại ở nhiều điểm; prototype thể hiện nhiều lần chuyển bước liên tiếp để kiểm tra tính liên tục của hướng dẫn. Đây là quyết định phạm vi của người làm bài, không phải xác nhận của ban tổ chức rằng cách diễn giải này chắc chắn đạt tiêu chí một khoảnh khắc.
+Khoảnh khắc nghiên cứu là **điểm bàn giao/chuyển bước trong lượt khám**: người bệnh cần quyết định làm gì tiếp, ở đâu và khi nào. Khoảnh khắc này lặp lại ở nhiều điểm; prototype thể hiện nhiều lần chuyển bước liên tiếp để kiểm tra tính liên tục của hướng dẫn.
 
-Luồng demo: tiếp nhận đã xác nhận -> phòng Nội ban đầu -> Siêu âm ổ bụng và Xét nghiệm sinh hóa máu -> kết quả song song/nhận giấy tùy chế độ -> đủ kết quả và đủ giấy nếu cần -> quay phòng đầu -> người bệnh tự xác nhận có mặt, sẵn sàng -> bác sĩ gọi vào. Bối cảnh Vinmec tại Vinhomes Ocean Park 2; vị trí phòng/tầng và sơ đồ vẫn là dữ liệu dựng. Chọn một loại tình huống lặp lại để đào sâu, không mở thêm đặt/hủy lịch, thanh toán, đơn thuốc hoặc tái khám. Xem [đặc tả ngày 19/10](../05-prototype/simulation-spec.md).
+Luồng demo: tiếp nhận chọn khoa → khám đầu → bác sĩ chốt các thủ tục → app chọn phòng ít người / gần nhất → thực hiện và tính lại sau mỗi lần hoàn tất → quay lại đúng khoa ban đầu. Có lựa chọn thang máy / thang bộ, kết quả cập nhật riêng và hỗ trợ giấy. [Đặc tả hiện tại](../05-prototype/simulation-spec.md) mô tả các giả định thiết kế.
 
 **Bằng chứng dẫn tới need**
 
@@ -29,18 +29,13 @@ Luồng demo: tiếp nhận đã xác nhận -> phòng Nội ban đầu -> Siêu
 | P2-04–18, 24–27 | Tìm phòng, giữ ngữ cảnh quay lại, chờ nhiều kết quả, mô tả khả năng làm việc khác và mong muốn kết quả về phòng đầu | Một số đoạn là nhánh có điều kiện; chưa có phép đo đường đi, thời gian hoặc tích hợp |
 | P3-05–13 | Đã biết phòng quay lại nhưng cần tín hiệu khi trạng thái đổi | Không biết timestamp kết quả; không kết luận chờ thừa một giờ; không dùng P3 để loại nhu cầu vị trí của P1/P2 |
 
-Nguồn hiện có hai phỏng vấn và một tự thuật. Các tình huống bổ sung cho nhau: hành động, địa điểm và thời điểm. Không biến yêu cầu sản phẩm mới của người làm bài thành lời người tham gia hoặc bằng chứng đã kiểm chứng.
+Nguồn hiện có hai phỏng vấn và một tự thuật. Các tình huống bổ sung cho nhau: hành động, địa điểm và thời điểm.
 
-**Quy tắc đã chốt cho demo, chưa phải xác minh hiện trạng Vinmec**
+**Cụ thể hóa thành thiết kế hiện tại**
 
-- Thử bắt buộc hai chế độ cho cả lượt: cả hai dịch vụ chuyển kết quả về bác sĩ, hoặc cả hai yêu cầu lấy bản cứng; không trộn từng dịch vụ trong phiên bản này.
-- Bộ phận thực hiện xác nhận có kết quả thì bệnh nhân và bác sĩ cùng được xem/nhận. Bệnh nhân được thông báo, bác sĩ cập nhật nền. Việc làm trước có kết quả trước theo kịch bản, không phải dự báo thực tế.
-- Phải thực hiện xong hai dịch vụ và có đủ hai kết quả mới hướng quay phòng đầu. Nhánh bản cứng cần nhận đủ hai bản; sau khi xong các thủ tục, hướng tới nơi có kết quả trước để nhận trước.
-- Nhánh điện tử cho phép làm việc khác/rời viện khi đã thực hiện xong cả hai nhưng còn chờ. Đủ kết quả thì thông báo quay lại sớm; chỉ tới ngoài phòng mới tự xác nhận sẵn sàng.
-- Người bệnh bấm nút sẵn sàng mới vào cột phải của bác sĩ; bác sĩ chủ động gọi vào rồi mở bộ kết quả/lịch sử giả. Có đủ kết quả không tự đưa người bệnh vào hàng chờ này.
-- Giấy hướng dẫn vẫn giữ ở cả hai chế độ; app lỗi thì dùng giấy và nhờ nhân viên. Xem [đặc tả mô phỏng](../05-prototype/simulation-spec.md) và [nguồn chính thức/giả định](../01-phong-van/vinmec-result-workflow-notes.md).
+Lễ tân chọn khoa; bác sĩ chốt chỉ định; app gợi ý phòng ít người đang chờ / thực hiện, cùng số người thì chọn gần nhất. Hoàn tất mỗi thủ tục là một lần tính lại những việc còn lại. Người bệnh chọn thang máy mặc định hoặc thang bộ, nhận chỉ dẫn từng mốc / giọng đọc và quay về đúng khoa khi xong thủ tục.
 
-Nút sẵn sàng là tự khai báo đang ngoài phòng, chưa xác thực vị trí. Các điều kiện đủ kết quả/rời viện ở trên do người làm bài chọn cho demo, không phải quy tắc y khoa áp dụng chung. Câu need chính giữ nguyên vì các quyết định này cụ thể hóa giải pháp và phép thử.
+Kết quả công bố riêng, cùng xem được ở app và màn bác sĩ. Hai chế độ điện tử / giấy dùng để thử cách theo dõi kết quả; hoàn tất đủ thủ tục tự cập nhật danh sách sẵn sàng trong demo. [Đặc tả hiện hành](../05-prototype/simulation-spec.md) và [quy tắc điều phối](../05-prototype/adaptive-routing.md) mô tả chi tiết; không đại diện quy trình chuyên môn đã được cơ sở xác nhận.
 
 **Chỉ số dự kiến, chưa đo**
 
@@ -54,4 +49,4 @@ Nút sẵn sàng là tự khai báo đang ngoài phòng, chưa xác thực vị 
 | Sai chuyển bước | Đi trước điều kiện, nhận giấy không cần thiết, bỏ việc đang làm hoặc tự vào phòng |
 | Chờ/di chuyển có thể tránh | Chỉ đo ngoài đời khi có timestamp, tuyến và điều kiện tiếp nhận đáng tin; trong demo chỉ báo kết quả mô phỏng |
 
-Không tuyên bố giảm 50%, tiết kiệm một giờ, đường ngắn nhất thực tế hoặc AI rút ngắn xử lý xét nghiệm khi chưa có bằng chứng.
+Hiệu quả giảm chờ và di chuyển sẽ được đánh giá bằng dữ liệu thực tế ở vòng thử tiếp theo.

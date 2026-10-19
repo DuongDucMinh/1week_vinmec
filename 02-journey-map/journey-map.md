@@ -2,7 +2,7 @@
 
 Bản phân tích 18/10/2026, từ [P1](../01-phong-van/P1.md), [P2](../01-phong-van/P2.md). P1/P2 giữ hai hành trình riêng; P3 tự thuật bổ sung ở cuối; không ghép thành một “người dùng điển hình”. Chỉ gán cảm xúc khi nguồn có diễn giải tương ứng; chỗ chưa ghi là **chưa ghi**, không tự chấm điểm. Mọi dòng là dữ liệu thuật lại, chưa quan sát tại viện.
 
-**Cách đọc điểm đau, cập nhật 19/10:** mỗi journey đã có cột Pain gắn mã PAIN và nguồn theo từng bước. Workflow hiện trạng bên dưới bổ sung nhãn mô tả và màu để nhìn thấy ngay điểm đau. Nhãn hồng là vướng mắc được thuật lại; nhãn cam nét đứt là nhánh có điều kiện/chưa xác định xảy ra trong lượt cụ thể. Màu không phải điểm severity hoặc tần suất. Workflow prototype ở cuối là giải pháp đề xuất, tách khỏi bằng chứng hiện trạng.
+Các journey liên kết từng bước với mã điểm đau và nguồn. Sơ đồ phân biệt vướng mắc được thuật lại với tình huống có điều kiện. Workflow giải pháp ở cuối thể hiện thiết kế prototype.
 
 ## P1 - Vinmec, web → app → cơ sở gần hơn
 
@@ -14,8 +14,8 @@ Bản phân tích 18/10/2026, từ [P1](../01-phong-van/P1.md), [P2](../01-phong
 | 4. Đặt gần hơn | Đặt qua app ở cơ sở khác, điền form | Có mục lịch và nhắc trong app; không SMS/email theo ghi chú | Chưa ghi | Không coi đây tự thân là thất bại | P1-14-16 |
 | 5. Hủy lịch cũ | Google số, chưa gọi tối vì nghĩ muộn | Nhiều hotline; cần kênh con người | Lo không biết hủy ở đâu | PAIN-04 | P1-17-18 |
 | 6. Tới nơi | 7h40 cho lịch 8h; hỏi tầng 1 hai việc | Đưa lịch app; được hướng tầng 2 và hotline | Chưa ghi | PAIN-05 | P1-19-21 |
-| 7. Gọi hủy | Trước 8h bận; khoảng 8h10 gọi lại | Người nhận gọi xác nhận hủy bằng lời | Không tự suy nhẹ nhõm | PAIN-04; có kết quả khôi phục | P1-22-24, CONF-07 |
-| 8. Chờ tiếp nhận | Đợi người khác hỗ trợ, khoảng 10 phút ước lượng; kể lại | Bàn giao NV1 → người hỗ trợ, không rõ khi nào | “Vô vọng” trong ghi chú | PAIN-06 | P1-25-27, CONF-06 |
+| 7. Gọi hủy | Trước 8h bận; khoảng 8h10 gọi lại | Người nhận gọi xác nhận hủy bằng lời | Không tự suy nhẹ nhõm | PAIN-04; có kết quả khôi phục | P1-22-24, |
+| 8. Chờ tiếp nhận | Đợi người khác hỗ trợ, khoảng 10 phút ước lượng; kể lại | Bàn giao NV1 → người hỗ trợ, không rõ khi nào | “Vô vọng” trong ghi chú | PAIN-06 | P1-25-27, |
 | 9. Làm hồ sơ | Hỏi lại, nhân viên nhập máy; nhận bao giấy/hai phiếu nhỏ | Giải thích chưa có hồ sơ lần đầu, giấy có phòng | Đặt app có ích gì; vô nghĩa | PAIN-07 | P1-28-31 |
 | 10. Tới phòng đầu | Người điều phối chủ động dẫn | Con người + hồ sơ | Chưa ghi; đây là điểm hỗ trợ tốt | PAIN-05 là nhu cầu được hỗ trợ | P1-32/34 |
 | 11. Sau phòng đầu | Nhận giấy, chưa biết bước tiếp; chờ/tìm người | Điều phối xem giấy rồi chỉ/dẫn | Mơ hồ theo nội dung ghi chú | **PAIN-08** | P1-35-36 |
@@ -23,7 +23,7 @@ Bản phân tích 18/10/2026, từ [P1](../01-phong-van/P1.md), [P2](../01-phong
 | 13. Thanh toán | Mới biết điều kiện ưu đãi/app khác; trả giá thường; tổng cao hơn dự tính | Quầy thanh toán; chưa có phân rã phí | Băn khoăn về ước tính/chi phí | PAIN-11/12 | P1-40-43 |
 | 14. Nhận thuốc/kết thúc | Hỏi điểm nhận, xuống tầng 1; đưa giấy, không xếp hàng; trả khoản này rồi về | Nhân viên quầy trả lời, quầy thuốc báo tiền/hóa đơn | Biết đã xong; không gán cảm xúc thêm | PAIN-13 có hỗ trợ, không có chờ kéo dài | P1-44-48 |
 
-Hủy lịch và làm thủ tục có thể xen nhau; nguồn không cho phép xác định chính xác toàn bộ thứ tự theo phút. Không cộng 7h40, 8h10 và khoảng 10 phút thành tổng chờ. Thử đặt lịch mới 1-2 ngày sau là quan sát ở thời điểm khác, không chèn như bước trong lượt khám (P1-20/CONF-08).
+Hủy lịch và làm thủ tục có thể xen nhau; nguồn không cho phép xác định chính xác toàn bộ thứ tự theo phút. Các mốc trong lời kể chưa đủ để tính tổng thời gian chờ. Thử đặt lịch mới 1-2 ngày sau là quan sát ở thời điểm khác, không chèn như bước trong lượt khám (P1-20).
 
 ## P2 - cơ sở khác, tới trực tiếp; có nhánh hồi tưởng/giả định
 
@@ -95,28 +95,21 @@ Không có mã pain nghiên cứu riêng đã xác thực cho giao diện bác s
 
 Hướng hiện hành theo người làm bài làm rõ ngày 18/10 là **hướng dẫn chuyển bước trong phần khám tại viện**, gồm việc tiếp theo, vị trí, cách đi và cập nhật kết quả song song. P3 làm rõ tín hiệu thời điểm, không thay thế nhu cầu vị trí của P1/P2. Journey nguồn ở trên được giữ đúng lời kể; workflow dưới đây là thiết kế đề xuất, chưa thử và không phải quy trình Vinmec đã xác minh.
 
-**Workflow prototype cập nhật 19/10: hai chế độ cho cả lượt**
+## Workflow giải pháp hiện hành
+
+Đây là phần thiết kế từ nhu cầu nghiên cứu, tách khỏi các journey hiện trạng bên trên.
 
 ```mermaid
 flowchart TD
-    R[Tiếp nhận và khám Nội ban đầu] --> O[Hai dịch vụ được chỉ định trong demo]
-    O --> P[Hướng lần lượt tới dịch vụ và đường đi]
-    P -. Kết quả cập nhật song song .-> K[Bệnh nhân được báo - bác sĩ cập nhật nền]
-    P --> X[Hoàn tất cả hai thủ tục]
-    X --> M{Chế độ của cả lượt?}
-    M -->|Điện tử| W[Chờ kết quả - có thể làm việc khác hoặc rời viện trong demo]
-    W --> G{Đủ hai kết quả?}
-    G -->|Chưa| W
-    G -->|Đủ| H[Hướng quay phòng Nội ban đầu]
-    M -->|Nhận giấy| C[Nhận ở nơi có kết quả trước - tiếp tục nơi còn lại]
-    C --> F{Đủ hai kết quả và hai bản giấy?}
-    F -->|Chưa| C
-    F -->|Đủ| H
-    H --> A[Đến ngoài phòng - tự xác nhận sẵn sàng]
-    A --> Q[Cột phải của bác sĩ]
-    Q --> D[Bác sĩ chọn gọi vào - mở bộ kết quả và lịch sử giả]
+    R[Tiếp nhận, chọn khoa] --> D[Khám đầu, bác sĩ chốt chỉ định]
+    D --> P[Chọn phòng ít người nhất]
+    P --> E[Nếu bằng nhau, chọn đường gần nhất]
+    E --> N[Chỉ đường theo thang máy hoặc thang bộ]
+    N --> S[Thực hiện thủ tục]
+    S --> C{Còn thủ tục chưa làm?}
+    C -->|Có, tính lại từ vị trí vừa xong| P
+    C -->|Không| B[Tự vào danh sách sẵn sàng, quay lại khoa ban đầu]
+    S -. Công bố kết quả riêng .-> K[Người bệnh nhận thông báo, bác sĩ cập nhật nền]
 ```
 
-Bối cảnh do người làm bài chọn: Vinmec ở Vinhomes Ocean Park 2, Nội; Siêu âm ổ bụng và Xét nghiệm sinh hóa máu. Thử cả hai chế độ, không trộn theo từng dịch vụ trong bản này. Nơi làm trước có kết quả trước theo kịch bản. Cột trái bác sĩ dành cho khám lần đầu, cột phải chỉ nhận người đã tự xác nhận sẵn sàng ngoài phòng; đủ kết quả chưa tự vào cột phải.
-
-Giấy hướng dẫn giữ ở cả hai chế độ; app lỗi thì tiếp tục bằng giấy và nhân viên hỗ trợ. Sơ đồ/phòng/tầng là giả, nút sẵn sàng chưa xác thực vị trí. Đây là workflow thiết kế từ yêu cầu ngày 19/10, không thay journey nguồn hoặc xác minh quy trình thật; xem [đặc tả](../05-prototype/simulation-spec.md).
+Giữ điểm đến trong lúc di chuyển, tính lại khi chốt chỉ định và sau mỗi thủ tục hoàn tất. Mỗi phòng một bác sĩ trong mô phỏng; chưa tính phụ thuộc chuyên môn hoặc thời gian phục vụ khác nhau. [Đặc tả](../05-prototype/simulation-spec.md) · [Quy tắc điều phối](../05-prototype/adaptive-routing.md).

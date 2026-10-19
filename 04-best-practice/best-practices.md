@@ -1,6 +1,6 @@
 # Ba thực hành quốc tế để đối chiếu với kết quả phỏng vấn
 
-Đọc nguồn gốc chính thức ngày **18/10/2026**. Đây là ba thực hành tại hai tổ chức ở Mỹ/Anh; đề không yêu cầu ba nước hoặc ba bệnh viện khác nhau. Chọn để bổ sung góc nhìn cho PAIN-01/05/07/08, không khẳng định những cách này đã giải quyết pain ở Vinmec hoặc đều cần AI. Ngày xuất bản không hiển thị rõ trên các trang đã đọc; không suy từ ngày máy tìm kiếm crawl.
+Tham khảo các nguồn chính thức của Cambridge University Hospitals và Mayo Clinic, đọc ngày 18/10/2026. Các thực hành được chọn để gợi ý cách xác nhận thông tin và hướng dẫn chuyển bước trong prototype.
 
 ## BP1 - Chỉ đường theo chặng dễ nhận ra, CUH, Anh
 
