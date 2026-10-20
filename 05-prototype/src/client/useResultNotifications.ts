@@ -1,70 +1,51 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Service, Visit } from '../shared/contracts';
 
-type Permission = NotificationPermission | 'unsupported';
-const permission = (): Permission => typeof Notification !== 'undefined' && window.isSecureContext ? Notification.permission : 'unsupported';
-let registration: Promise<ServiceWorkerRegistration> | undefined;
-function worker() {
-  registration ??= navigator.serviceWorker.register('/notifications-sw.js').then(async () => navigator.serviceWorker.ready).catch(error => { registration=undefined; throw error; });
-  return registration;
-}
+const preferenceKey = 'myvinmec:simulated-result-notifications';
+const initialPreference = () => { try { const value=localStorage.getItem(preferenceKey);return value==='on'||value==='off'?value:null; } catch { return null; } };
 
+/** Result alerts belong to the simulated phone, without browser notification permissions. */
 export function useResultNotifications(runId: string, visit: Visit, connected: boolean, open: (service: Service) => void) {
-  const [status,setStatus]=useState<Permission>(permission);
-  const [error,setError]=useState(false);
-  const current=useRef({runId,visit,open});
-  current.current={runId,visit,open};
-  const baseline=useRef<{key:string;seen:Set<string>}>({key:'',seen:new Set()});
-  const key=JSON.stringify([runId,visit.visitId,visit.journeyVersion??0]);
+  const [preference, setStoredPreference] = useState(initialPreference);
+  const enabled=preference==='on';
+  const [queue, setQueue] = useState<{ key: string; service: Service }[]>([]);
+  const current = useRef({ runId, visit, open });
+  current.current = { runId, visit, open };
+  const baseline = useRef<{ key: string; seen: Set<string> }>({ key: '', seen: new Set() });
+  const key = JSON.stringify([runId, visit.visitId, visit.journeyVersion ?? 0]);
+  const notification = enabled && queue[0]?.key === key ? queue[0].service : null;
 
-  useEffect(()=>{
-    const refresh=()=>setStatus(permission());
-    window.addEventListener('focus',refresh);
-    return ()=>window.removeEventListener('focus',refresh);
-  },[]);
-  useEffect(()=>{
-    if(!('serviceWorker' in navigator))return;
-    const handle=(event:MessageEvent)=>{
-      const data=event.data, latest=current.current;
-      if(data?.type!=='OPEN_RESULT'||data.runId!==latest.runId||data.visitId!==latest.visit.visitId||data.journeyVersion!==(latest.visit.journeyVersion??0))return;
-      const service=latest.visit.services.find(s=>s.id===data.serviceId&&s.resultStatus==='AVAILABLE');
-      if(service)latest.open(service);
-    };
-    navigator.serviceWorker.addEventListener('message',handle);
-    return ()=>navigator.serviceWorker.removeEventListener('message',handle);
-  },[]);
-
-  useEffect(()=>{
-    const available=visit.services.filter(s=>s.resultStatus==='AVAILABLE');
-    if(baseline.current.key!==key){baseline.current={key,seen:new Set(available.map(s=>s.id))};return;}
-    if(!connected)return;
-    for(const service of available){
-      if(baseline.current.seen.has(service.id))continue;
-      baseline.current.seen.add(service.id);
-      if(permission()!=='granted')continue;
-      const data={type:'OPEN_RESULT',runId,visitId:visit.visitId,journeyVersion:visit.journeyVersion??0,serviceId:service.id};
-      const options={body:`Đã có kết quả ${service.name}. Nhấn để xem.`,tag:`result:${key}:${service.id}`,data};
-      if('serviceWorker' in navigator){
-        void worker().then(reg=>{
-          if(JSON.stringify([current.current.runId,current.current.visit.visitId,current.current.visit.journeyVersion??0])!==key)return;
-          return reg.showNotification('MyVinmec · Có kết quả mới',options);
-        }).catch(()=>setError(true));
-      }else{
-        try{
-          const notification=new Notification('MyVinmec · Có kết quả mới',options);
-          notification.onclick=()=>{notification.close();window.focus();const latest=current.current;if(latest.runId===runId&&latest.visit.visitId===visit.visitId&&(latest.visit.journeyVersion??0)===(visit.journeyVersion??0))latest.open(service);};
-        }catch{setError(true);}
-      }
+  useEffect(() => {
+    const available = visit.services.filter(service => service.resultStatus === 'AVAILABLE');
+    if (baseline.current.key !== key) {
+      baseline.current = { key, seen: new Set(available.map(service => service.id)) };
+      setQueue([]);
+      return;
     }
-  },[key,runId,visit,connected]);
+    if (!connected) return;
+    const fresh = available.filter(service => !baseline.current.seen.has(service.id));
+    fresh.forEach(service => baseline.current.seen.add(service.id));
+    if (enabled && fresh.length) setQueue(previous => [...previous.filter(item => item.key === key), ...fresh.map(service => ({ key, service }))]);
+  }, [key, visit, connected, enabled]);
 
-  const enable=async()=>{
-    try{
-      setError(false);
-      const next=await Notification.requestPermission();
-      setStatus(next);
-      if(next==='granted'&&'serviceWorker' in navigator)await worker();
-    }catch{setError(true);}
+  useEffect(() => {
+    if (!notification) return;
+    const timer = window.setTimeout(() => setQueue(previous => previous.slice(1)), 8000);
+    return () => window.clearTimeout(timer);
+  }, [key, notification?.id]);
+
+  const dismiss = () => setQueue(previous => previous.slice(1));
+  const setPreference = (value: boolean) => {
+    setStoredPreference(value?'on':'off');
+    if (!value) setQueue([]);
+    try { localStorage.setItem(preferenceKey, value ? 'on' : 'off'); } catch { /* The current session still works without storage. */ }
   };
-  return {status,error,enable};
+  const openNotification = () => {
+    const latest = current.current;
+    if (JSON.stringify([latest.runId, latest.visit.visitId, latest.visit.journeyVersion ?? 0]) !== key) return;
+    const service = latest.visit.services.find(item => item.id === notification?.id && item.resultStatus === 'AVAILABLE');
+    dismiss();
+    if (service) latest.open(service);
+  };
+  return { status: enabled ? 'enabled' as const : 'disabled' as const, configured:preference!==null, enable: () => setPreference(true), disable: () => setPreference(false), notification, dismiss, openNotification };
 }

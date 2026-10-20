@@ -50,6 +50,16 @@
 .map-legend i::before{content:'›››'}
 .notification-settings{padding:16px;border:1px solid var(--border);border-radius:8px;margin:16px 0;font-size:13px}
 .notification-settings strong{font-weight:500}.notification-settings p{margin:8px 0;color:var(--muted);font-size:13px}.notification-settings button{min-height:44px;width:100%;margin-top:8px}
+.inbox>.notification-settings{margin:0 0 16px;background:#f3f8f5;border-color:#dce8e0;border-radius:12px}
+.notification-settings-title{display:flex;align-items:center;gap:8px;color:var(--accent)}
+.notification-settings-title h2{font-size:15px;font-weight:600}
+.patient-profile .profile-identity{display:flex;align-items:center;gap:14px;margin:24px 0 18px}
+.profile-avatar{display:flex;align-items:center;justify-content:center;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#e4f0e9;color:var(--accent)}
+.profile-identity h3{font-size:18px;line-height:1.4;overflow-wrap:anywhere}
+.patient-profile .profile-identity p{margin:4px 0 0;font-size:13px}
+.profile-details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.profile-details dt{font-size:12px;color:var(--muted)}
+.profile-details dd{margin:4px 0 0;font-size:15px;font-weight:500}
 .room-arrival-details{margin-top:8px}.room-arrival-details summary{font-size:13px;color:var(--muted);cursor:pointer;min-height:32px;display:list-item;list-style-position:inside;padding:5px 0}.room-arrival-details p{max-width:75ch}
 
 .doctor-department-toolbar{margin-bottom:24px}
@@ -61,10 +71,6 @@
 @media(max-width:640px){.patient-reset-row{align-items:flex-start;flex-direction:column;gap:4px}.room-settings-list{max-height:330px}.doctor-department-toolbar{margin-bottom:20px}}
 
 /* User feedback: one instruction at a time, readable text and large controls. */
-.navigation-demo-label{font-size:12px;color:#526773;margin:10px 0}
-.voice-guidance{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}.voice-guidance button{min-height:48px;font-size:15px}.voice-guidance p{font-size:14px;line-height:1.6}
-.walking-instruction{padding:20px 0;border-bottom:1px solid #d8dfdc}.walking-instruction small{font-size:14px;color:#526773}.walking-instruction h3{font-size:21px;line-height:1.5;margin:10px 0 16px}.walking-instruction p{font-size:15px;line-height:1.6}.walking-instruction .primary{width:100%;min-height:48px}
-.leg-instruction summary,.campus-demo summary,.location-update summary{cursor:pointer;padding:16px 0;min-height:48px;font-size:15px}.leg-instruction{font-size:15px;line-height:1.6}.lost-button{width:100%;min-height:48px;margin-top:20px}.lost-message{font-size:16px;line-height:1.65;padding:16px;background:#fff4df;color:#5e451e}.campus-demo{border-top:1px solid #d8dfdc;margin-top:16px;font-size:15px;line-height:1.6}.campus-demo a{display:block;text-align:center;text-decoration:none}.campus-demo button{min-height:48px}
 
 /* Route preference and provisional procedure order. */
 .transport-options { border: 0; padding: 0; margin: 20px 0 12px; min-width: 0; }
@@ -73,6 +79,153 @@
 .transport-options button { flex: 1; }
 .transport-options button[aria-pressed="true"] { background: #e1eee9; border-color: #146b5a; color: #124f43; box-shadow: inset 0 0 0 1px #146b5a; }
 .transport-options p, .procedure-plan-note { color: #56685f; font-size: .86rem; line-height: 1.6; }
-.room-load { display: block; color: #146b5a; line-height: 1.5; margin: 3px 0; }
+
+/* The walking view keeps the destination, next instruction, map and one action
+   in the available viewport. Other patient tabs keep their normal document flow. */
+.navigation-active .patient-main{display:flex;flex-direction:column;gap:10px}
+.navigation-active .visit-heading{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);margin:0}
+.navigation-map{display:flex;flex-direction:column;gap:12px;flex:1;min-height:0}
+.navigation-topline{display:grid;grid-template-columns:minmax(0,1fr) 44px;align-items:start;gap:8px 12px}
+.navigation-map .route-endpoints{margin:0;display:block;min-width:0}
+.navigation-map .route-endpoints>small{font-size:14px;margin-bottom:3px}
+.navigation-map .destination-heading{display:flex;gap:12px;align-items:center}
+.navigation-map .destination-marker{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;color:var(--accent)}
+.navigation-map .destination-heading>div{min-width:0}
+.navigation-map .destination-room{font:inherit;color:inherit;letter-spacing:inherit}
+.navigation-map .route-endpoints h2{font-size:18px;line-height:1.35}
+.navigation-map .map-address{font-size:14px;margin-top:3px}
+.voice-guidance{display:contents}
+.voice-guidance .icon-button{width:44px;height:44px;border:1px solid var(--border);border-radius:50%;color:var(--muted)}
+.voice-guidance .icon-button[aria-pressed="true"]{color:var(--accent);background:#e1eee9;border-color:#b5d1c4}
+.voice-guidance p{grid-column:1/-1;display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f7f9f8;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.4}
+.voice-guidance p .secondary{flex-shrink:0;min-height:40px;padding:6px 10px;font-size:13px}
+.navigation-map .transport-options{margin:0}
+.navigation-map .transport-options>div{gap:8px}
+.navigation-map .transport-options button{min-height:44px;font-size:14px;padding:8px 12px}
+.walking-instruction{padding:12px 14px;background:#edf5f0;border-radius:10px;border-left:4px solid var(--accent)}
+.walking-instruction small{font-size:14px;color:#446154;display:block;line-height:1.4}
+.walking-instruction h3{font-size:23px;line-height:1.35;margin:4px 0 0;letter-spacing:-.4px}
+.walking-instruction p{font-size:14px;line-height:1.5;color:#446154;margin-top:5px}
+.navigation-map .guided-stage{flex:1;min-height:170px;display:flex;flex-direction:column;background:#f7f9f8;border-radius:10px}
+.navigation-map .guided-stage-title{font-size:14px;padding:10px 12px 0;gap:8px;flex-shrink:0}
+.navigation-map .guided-stage-title strong{font-weight:600}
+.navigation-map .guided-floor{flex:1;min-height:0;width:100%;height:100%}
+.navigation-map .map-legend{font-size:13px;padding:0 12px 10px;gap:12px;flex-shrink:0}
+.current-location{text-align:right;line-height:1.35}
+.navigation-advance{width:100%;min-height:54px;font-size:16px;font-weight:600;justify-content:space-between;padding:12px 16px}
+.navigation-actions{display:flex;gap:8px;align-items:stretch}
+.navigation-actions .navigation-advance{width:auto;flex:1;min-width:0;font-size:15px;padding:10px 12px}
+.navigation-back{min-height:50px;gap:5px;font-size:13px;padding:10px;flex-shrink:0}
+.navigation-back svg{transform:rotate(180deg)}
+.patient-inbox>.visit-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.notification-toggle{width:44px;height:44px;border:1px solid var(--border);border-radius:50%;color:var(--muted)}
+.notification-toggle[aria-pressed="true"]{color:var(--accent);background:#e4f0e9;border-color:#bad6c6}
+.navigation-map .arrival-note,.navigation-map .start-confirm{margin:12px 0 0}
 
 .procedure-presence { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+
+/* Keep the logical screen at 393 × 852; scale the entire desktop preview uniformly. */
+.patient-preview{position:relative;width:calc(393px * var(--phone-scale));height:calc(852px * var(--phone-scale));margin:max(24px,calc((100dvh - 852px * var(--phone-scale))/2)) auto;overflow:hidden;border-radius:calc(32px * var(--phone-scale));box-shadow:0 0 0 calc(5px * var(--phone-scale)) #25352e,0 18px 48px #223b2c26}
+.phone-shell{position:absolute;top:0;left:0;width:393px;max-width:none;height:852px;margin:0;min-height:0;display:flex;flex-direction:column;padding-bottom:0;overflow:hidden;border:1px solid var(--border);border-radius:32px;transform:scale(var(--phone-scale));transform-origin:top left}
+.phone-shell>.patient-header{height:54px;flex-shrink:0;position:sticky;top:0;z-index:12;background:white;padding:0 18px;gap:12px}
+.patient-header .brand{flex-shrink:0}
+.patient-profile-button{min-width:0;min-height:40px;max-width:60%;padding:4px 9px 4px 4px;gap:7px;border:1px solid #dce8e0;border-radius:24px;background:#f4f8f5;color:var(--accent)}
+.patient-profile-avatar{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#e0eee6}
+.patient-profile-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:500}
+.phone-shell>.patient-main{flex:1;min-height:0;padding:14px 18px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.phone-shell>.bottom-nav{position:static;transform:none;width:100%;max-width:none;flex-shrink:0;border-left:0;border-right:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:white}
+.phone-shell .bottom-nav button{font-size:12px;min-height:48px}
+.phone-shell .bottom-nav button.active:after{bottom:-6px}
+.phone-shell>.patient-update-toast{position:absolute;top:64px;left:12px;right:12px;z-index:30;padding:10px 12px;border:1px solid #dce8e0;border-radius:16px;background:#fff;box-shadow:0 8px 24px #203a2926}
+.patient-result-banner{position:absolute;top:64px;left:12px;right:12px;z-index:35;display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #dce8e0;border-radius:18px;background:#fafffc;box-shadow:0 8px 28px #203a2933}
+.result-banner-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:12px;background:#e0eee6;color:var(--accent);flex-shrink:0}
+.result-banner-content{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;flex:1;padding:0;text-align:left}
+.result-banner-content small{font-size:11px;color:var(--muted)}
+.result-banner-content strong{font-size:15px;color:var(--accent)}
+.result-banner-content>span{font-size:13px;line-height:1.5}
+.patient-dialog-layer{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;background:#1a292766}
+.patient-dialog-layer>.native-dialog{position:relative;inset:auto;margin:0;width:100%;max-width:100%;max-height:100%;border-radius:20px;box-shadow:0 12px 32px #1d35232b}
+.patient-dialog-layer .modal{padding:24px 22px}
+.patient-dialog-layer .modal-close{min-width:44px;min-height:44px;right:10px;top:10px}
+.patient-profile>.reset-journey{width:100%;justify-content:center;margin-top:20px;padding:10px 14px;min-height:44px;border:1px solid #d7e3da;border-radius:10px;background:#f3f8f5}
+.phone-shell .visit-heading{margin-bottom:16px}
+.phone-shell .visit-heading h1{font-size:22px}
+.phone-shell .next-card{padding:16px 18px;background:#f1f7f4;border:1px solid #dce8e0;border-left:3px solid var(--accent);border-radius:12px}
+.phone-shell .next-topline{font-size:12px;margin-bottom:8px;gap:12px;min-height:24px}
+.next-queue{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid #d3e3da;border-radius:20px;color:var(--accent);background:white;white-space:nowrap}
+.next-queue strong{font-size:14px;font-variant-numeric:tabular-nums}
+.next-status{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-size:12px;white-space:nowrap}
+.phone-shell .next-card h2{font-size:22px;line-height:1.35;color:var(--accent);font-weight:600;text-wrap:balance}
+.phone-shell .next-card>p{margin-top:8px;font-size:14px;line-height:1.6}
+.phone-shell .destination{margin-top:12px;padding-top:0;border:0;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.phone-shell .destination-code{font-size:13px;font-weight:600;letter-spacing:0}
+.phone-shell .destination-address{font-size:13px;color:var(--muted)}
+.phone-shell .next-actions{margin-top:12px}
+.phone-shell .progress-section{margin-top:20px}
+.phone-shell .timeline{margin-top:16px}
+.phone-shell .timeline-step{padding-bottom:18px}
+.phone-shell .timeline-step:last-child{padding-bottom:0}
+.phone-shell .timeline-step>div>span,.phone-shell .service-room{font-size:13px}
+.phone-shell .result-row{position:relative;margin-top:2px;align-items:flex-start;padding-right:110px;min-height:22px}
+.phone-shell .result-status{padding-top:2px;line-height:20px}
+/* Keep the 44px touch target without adding empty space below the result text. */
+.phone-shell .result-row button{position:absolute;right:0;top:-10px;align-items:flex-start;padding:12px 0;line-height:20px}
+.phone-shell .mode-note{padding:14px 0;margin-top:18px}
+.phone-shell .mode-note p,.phone-shell .mode-note strong{font-size:13px}
+.phone-shell .notification{padding:14px 0;gap:12px}
+.phone-shell .notification>svg{color:var(--accent);margin-top:4px}
+.phone-shell .notification small{font-size:13px;margin:6px 0}
+.phone-shell .notification>div{flex:1;min-width:0}
+.phone-shell .notification.unread{background:#f5f9f6;border:1px solid #e0e8e2;border-radius:10px;padding:12px;margin-bottom:10px}
+.notification-meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.notification-meta .text-button{font-size:13px;min-height:44px}
+.phone-shell .empty-state{text-align:center;padding:32px 12px}
+.empty-icon{width:60px;height:60px;background:#edf5f0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:16px}
+
+/* The conversation scrolls independently of its heading and composer. */
+.phone-shell>.patient-assistant{display:flex;flex-direction:column;overflow:hidden;padding:0}
+.patient-assistant>.visit-heading{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);margin:0}
+.patient-assistant>.connection-banner{margin:8px 14px;flex-shrink:0;padding:10px}
+.assistant-slot:not([hidden]){display:flex;flex:1;min-height:0}
+.assistant-panel{display:flex;flex-direction:column;min-height:0;min-width:0;flex:1;background:#f7f9f8}
+.chat-heading{display:flex;align-items:center;gap:10px;padding:14px 18px;background:white;flex-shrink:0}
+.chat-heading h2{font-size:18px;line-height:1.35}
+.chat-heading .assistant-availability{font-size:13px;color:var(--muted);margin-top:2px}
+.chat-avatar{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#e4f0e9;color:var(--accent);border-radius:13px}
+.assistant-avatar-art{width:100%;height:100%;padding:3px}
+.small-avatar{width:28px;height:28px;border-radius:10px}
+.chat-status{width:8px;height:8px;border-radius:50%;background:#b2beb6;margin-left:auto}
+.chat-status[aria-label="Đã kết nối ứng dụng"]{background:var(--accent)}
+.chat-context{display:flex;align-items:center;gap:8px;margin:0 18px 10px;padding:9px 12px;border:1px solid #dce8e0;background:#eef5f0;border-radius:9px;flex-shrink:0;color:var(--accent)}
+.chat-context span{display:block;font-size:12px;color:#5c7064}
+.chat-context strong{display:block;font-size:14px;font-weight:500;line-height:1.4}
+.chat-scroll{position:relative;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 16px 16px;scrollbar-width:thin}
+.chat-date{font-size:12px;color:#6a7b70;text-align:center;margin:8px 0 16px}
+.chat-welcome,.assistant-message{display:flex;gap:8px;align-items:flex-start}
+.chat-greeting,.assistant-message .answer-bubble{padding:12px 14px;border:1px solid #e4eae6;background:white;border-radius:4px 16px 16px 16px;min-width:0;max-width:calc(100% - 36px);font-size:14px}
+.chat-greeting strong{font-size:15px;font-weight:600;display:block;margin-bottom:5px}
+.chat-greeting p{font-size:14px;line-height:1.6}
+.chat-suggestions{margin:0 0 12px}
+.chat-suggestions>p{font-size:12px;color:var(--muted);margin-bottom:8px}
+.chat-suggestions .faq-chips{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.chat-suggestions button{font-size:13px;min-height:52px;padding:10px 14px;line-height:1.45;background:#eef5f1;border-color:#d8e6dd;color:var(--accent);border-radius:18px 18px 5px 18px;justify-content:flex-start;align-items:center;transition:background .15s,border-color .15s}
+.chat-suggestions button:enabled:hover{background:#e2eee7;border-color:#a4c6b5}
+.chat-messages .chat-turn{border:0;margin-top:18px}
+.chat-messages .question-bubble{display:table;max-width:85%;margin:0 0 12px auto;border-radius:16px 4px 16px 16px;padding:11px 14px;background:#146b5a;color:white;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.assistant-message .answer-bubble{max-width:calc(100% - 36px);padding:11px 14px}
+.answer-bubble .answer-source{font-size:12px;color:#5a7062;display:block}
+.assistant-message .answer-bubble p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:6px 0 0}
+.answer-bubble .chat-stale{display:block;margin-top:8px;font-size:12px;color:#7b653d}
+.answer-bubble .text-button{min-height:44px;margin-top:4px}
+.chat-composer{padding:10px 16px 8px;background:white;border-top:1px solid var(--border);flex-shrink:0}
+.chat-composer .assistant-form{display:flex;align-items:flex-end;gap:8px;margin:0;padding:5px;border:1px solid #cedbd2;border-radius:14px;background:#f8faf9}
+.chat-composer textarea{border:0;background:transparent;margin:0;padding:8px 7px;min-height:44px;max-height:96px;resize:none;font-size:15px;line-height:1.6;flex:1;min-width:0;border-radius:8px}
+.chat-composer .assistant-form>button{width:42px;min-height:42px;background:var(--accent);border-radius:11px;flex-shrink:0}
+.chat-composer .assistant-form>button:disabled{background:#e2e9e4;color:#8a9c90}
+.chat-composer .assistant-form>button svg{transform:rotate(-90deg)}
+.chat-composer>p{font-size:11px;line-height:1.5;text-align:center;color:var(--muted);margin-top:7px}
+.typing-indicator{display:flex;gap:4px;align-items:center;min-height:26px}
+.typing-indicator i{width:6px;height:6px;border-radius:50%;background:#719582;animation:chat-typing 1.2s infinite}
+.typing-indicator i:nth-child(2){animation-delay:.15s}.typing-indicator i:nth-child(3){animation-delay:.3s}
+@keyframes chat-typing{0%,70%,100%{opacity:.35;transform:translateY(0)}35%{opacity:1;transform:translateY(-3px)}}
+@media print{.patient-preview{position:static;width:100%;height:auto;margin:0;overflow:visible;border-radius:0;box-shadow:none}.phone-shell{position:static;width:100%;max-width:none;height:auto!important;display:block;overflow:visible;border-radius:0;transform:none}}

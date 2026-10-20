@@ -121,5 +121,5 @@ export function createService(id: ServiceId, mode: Mode): Service {
 }
 
 export function createRun(mode: Mode = 'RETURN_TO_DOCTOR', seed = 'demo', runId = crypto.randomUUID(), now = new Date().toISOString()): SimulationRun {
- return {runId,generation:0,revision:0,mode,seed,createdAt:now,activeEncounter:null,activeEncounters:{},departmentTicketCounters:{},encounterHistory:[],visits:[['DEMO-P01',35],['DEMO-P02',48],['DEMO-P03',29]].map(([id,age])=>({visitId:String(id),displayName:fixtureNames[String(id)],age:Number(age),journeyVersion:0,departmentId:null,queueNumber:null,phase:'UNREGISTERED',locationId:'DEMO-RECEPTION',outsideHospital:false,returning:false,presenceConfirmed:false,readySource:null,inbox:[],history:[],services:[]}))};
+ return {runId,generation:0,revision:0,mode,seed,createdAt:now,activeEncounter:null,activeEncounters:{},departmentTicketCounters:{},encounterHistory:[],visits:[['DEMO-P01',35],['DEMO-P02',48],['DEMO-P03',29]].map(([id,age])=>({visitId:String(id),patientId:`PID-${String(id).replace('DEMO-P','').padStart(3,'0')}`,displayName:fixtureNames[String(id)],age:Number(age),journeyVersion:0,departmentId:null,queueNumber:null,phase:'UNREGISTERED',locationId:'DEMO-RECEPTION',outsideHospital:false,returning:false,presenceConfirmed:false,readySource:null,inbox:[],history:[],services:[]}))};
 }
