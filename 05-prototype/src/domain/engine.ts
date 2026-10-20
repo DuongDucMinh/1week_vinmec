@@ -15,6 +15,7 @@ const permissions: Record<Actor, readonly CommandType[]> = {
  control:['REGISTER','CHECK_IN_SERVICE','START_SERVICE','COMPLETE_SERVICE','CONFIRM_RESULT','COLLECT_PAPER','STAFF_MARK_READY','SET_PROCEDURE_QUEUE_METHOD','RESET_VISIT']
 };
 export const allPerformed = (v: Visit) => v.services.length>0 && v.services.every(s=>s.executionStatus==='COMPLETED');
+export const allResultsAvailable = (v: Visit) => allPerformed(v) && v.services.every(s=>s.resultStatus==='AVAILABLE');
 export const canReturn = (_run: SimulationRun, v: Visit) => allPerformed(v);
 // This is an order roster, never the physical paper/ticket calling order.
 export function deriveProcedureQueues(run: SimulationRun): Record<ServiceId,string[]> {
@@ -31,9 +32,12 @@ export function deriveNextAction(run: SimulationRun,v: Visit): NextAction {
  if(v.phase==='WAITING_INITIAL')return make('WAIT_INITIAL',v.locationId===clinic!.id?`Chờ khám ${department!.shortName} lần đầu`:`Đến phòng khám ${department!.shortName}`,`Số khám ${v.queueNumber??''} được xếp từ quầy tiếp nhận. Đến ${address} và chờ bác sĩ gọi.`,clinic!.id);
  if(v.phase==='INITIAL_ENCOUNTER'||v.phase==='REVIEW_ENCOUNTER')return make('ENCOUNTER','Bác sĩ đã gọi vào',`Mời vào ${address}.`,clinic!.id);
  if(v.phase==='COMPLETED')return make('COMPLETE','Đã hoàn tất lượt khám','Lượt khám của bạn đã kết thúc.');
- if(v.phase==='READY'||allPerformed(v))return v.locationId===clinic!.id&&!v.outsideHospital
-  ?make('READY',`Đã quay lại phòng ${department!.shortName} ${clinic!.roomNumber}`,'Bạn đã hoàn tất các thủ tục. Mời ngồi chờ ngoài phòng. Luồng demo kết thúc tại đây.',clinic!.id)
-  :make('RETURN',`Quay lại phòng ${department!.shortName} ${clinic!.roomNumber}`,`Bạn đã hoàn tất các thủ tục và được cập nhật vào danh sách sẵn sàng của bác sĩ. Mời quay lại ${address}.`,clinic!.id);
+ if(v.phase==='READY'||allPerformed(v)){
+  const resultsReady=allResultsAvailable(v);
+  return v.locationId===clinic!.id&&!v.outsideHospital
+   ?make('READY',resultsReady?'Sẵn sàng nghe chẩn đoán':`Đã quay lại phòng ${department!.shortName} ${clinic!.roomNumber}`,resultsReady?'Tất cả thủ tục đã có kết quả. Mời ngồi chờ ngoài phòng, sẵn sàng vào nghe chẩn đoán khi bác sĩ gọi.':'Bạn đã hoàn tất các thủ tục. Mời ngồi chờ ngoài phòng; kết quả sẽ được cập nhật khi có. Chỉ vào phòng khi bác sĩ gọi.',clinic!.id)
+   :make('RETURN',`Quay lại phòng ${department!.shortName} ${clinic!.roomNumber}`,resultsReady?`Tất cả thủ tục đã có kết quả. Mời quay lại ${address}, ngồi chờ và sẵn sàng vào nghe chẩn đoán khi bác sĩ gọi.`:`Bạn đã hoàn tất các thủ tục và được cập nhật vào danh sách sẵn sàng của bác sĩ. Mời quay lại ${address} và chờ ngoài phòng.`,clinic!.id);
+ }
  const current=v.services.find(s=>s.executionStatus==='IN_PROGRESS');
  if(current)return make('IN_SERVICE',`Đang thực hiện ${current.name}`,'Theo hướng dẫn của bác sĩ tại phòng.',current.locationId,[],current.id);
  const nextServiceId=planProcedures(run,v)[0]?.serviceId;
@@ -106,7 +110,13 @@ export function applyCommand(run: SimulationRun,c: Command,now=new Date().toISOS
   }
   notify('completed-'+s!.id,'Đã thực hiện '+s!.name+'. '+deriveNextAction(run,visit).title+'.');break;
  }
- case 'CONFIRM_RESULT':requireGate(s,'Không có thủ tục phù hợp.');if(s!.resultStatus==='AVAILABLE'){changed=false;break;}requireGate(s!.executionStatus==='COMPLETED','Chưa hoàn tất thao tác thủ tục.');s!.resultStatus='AVAILABLE';s!.resultConfirmedAt=now;s!.result={title:`Kết quả ${s!.name}`,content:resultContent};notify(`result-${s!.id}`,`Đã có kết quả ${s!.name}. Bạn có thể xem trong ứng dụng.`);break;
+ case 'CONFIRM_RESULT':{
+  requireGate(s,'Không có thủ tục phù hợp.');if(s!.resultStatus==='AVAILABLE'){changed=false;break;}
+  requireGate(s!.executionStatus==='COMPLETED','Chưa hoàn tất thao tác thủ tục.');s!.resultStatus='AVAILABLE';s!.resultConfirmedAt=now;s!.result={title:`Kết quả ${s!.name}`,content:resultContent};
+  notify(`result-${s!.id}`,`Đã có kết quả ${s!.name}. Bạn có thể xem trong ứng dụng.`);
+  if(allResultsAvailable(visit))notify('all-results-ready',`Tất cả thủ tục đã có kết quả. ${visit.locationId===clinic.id&&!visit.outsideHospital?`Mời ngồi chờ ngoài ${clinicAddress(visit)}`:`Mời quay lại ${clinicAddress(visit)} và chờ ngoài phòng`}, sẵn sàng vào nghe chẩn đoán khi bác sĩ gọi.`);
+  break;
+ }
  case 'COLLECT_PAPER':requireGate(run.mode==='COLLECT_PAPER'&&s,'Chế độ này không nhận bản giấy kết quả.');if(s!.paperStatus==='COLLECTED'){changed=false;break;}requireGate(s!.resultStatus==='AVAILABLE','Chưa có kết quả tương ứng.');s!.paperStatus='COLLECTED';notify('paper-'+s!.id,'Đã nhận bản giấy '+s!.name+'.');break;
  case 'CONFIRM_LOCATION':{
   requireGate(visit.phase!=='COMPLETED','Lượt đã hoàn tất.');

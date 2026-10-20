@@ -10,7 +10,7 @@ describe('AI administrative facts (mock provider transport, not live model)',()=
   const run=evaluationRun(stage);
   const factId=intent==='RETURN'?'return':intent==='READINESS'?'readiness':'results';
   const answer=await answerAssistant({runId:run.runId,expectedRevision:run.revision,visitId:'DEMO-P01',question:'Trạng thái hiện tại?'},()=>run,{configured:true,model:'mock-phase-facts',select:async()=>({intent,factIds:[factId]})});
-  expect(answer.source).toBe('LIVE');expect(answer.answer).toContain(stage==='READY'?'demo':'Quay lại');
+  expect(answer.source).toBe('LIVE');expect(answer.answer).toContain(stage==='READY'?'khi bác sĩ gọi':'Quay lại');
   expect(answer.answer).not.toContain('tự xác nhận có mặt');expect(answer.answer).not.toContain('Chỉ xác nhận sẵn sàng');
  });
  it('paper facts explain physical queue independently of app or result mode',()=>{const run=evaluationRun('ASSIGNED');const paper=buildFacts(run,'DEMO-P01').find(f=>f.id==='paper')!.text;expect(paper).toContain('lên trên cùng');expect(paper).toContain('kể cả khi dùng app');});

@@ -31,6 +31,32 @@ describe('doctor orders and physical paper/ticket workflow',()=>{
   act(run,'COMPLETE_SERVICE','procedure',{serviceId:blood});s=makeSnapshot(run);
   expect(s.procedureQueues[blood]).toEqual([]);expect(s.views['DEMO-P01'].nextAction.kind).toBe('RETURN');
  });
+ for(const mode of ['RETURN_TO_DOCTOR','COLLECT_PAPER'] as const)for(const atClinic of [false,true])it(`${mode} notifies once when all results are ready, at clinic: ${atClinic}`,()=>{
+  const run=createRun(mode);assign(run,[us,blood]);const visit=run.visits[0];
+  act(run,'COMPLETE_SERVICE','procedure',{serviceId:us});
+  act(run,'CONFIRM_RESULT','procedure',{serviceId:us});
+  expect(visit.inbox.some(n=>n.id==='all-results-ready')).toBe(false);
+  act(run,'COMPLETE_SERVICE','procedure',{serviceId:blood});
+  if(atClinic)act(run,'CONFIRM_LOCATION','patient',{locationId:'DEMO-NOI'});
+  expect(makeSnapshot(run).views[visit.visitId].nextAction.title).not.toContain('Sẵn sàng nghe chẩn đoán');
+  act(run,'CONFIRM_RESULT','procedure',{serviceId:blood});
+  const ready=makeSnapshot(run).views[visit.visitId].nextAction;
+  expect(ready.kind).toBe(atClinic?'READY':'RETURN');
+  expect(ready.description).toContain('Tất cả thủ tục đã có kết quả');
+  expect(ready.description).toContain('khi bác sĩ gọi');
+  expect(ready.description).toContain(atClinic?'ngồi chờ ngoài phòng':'quay lại phòng A201');
+  expect(visit.inbox.filter(n=>n.id==='all-results-ready')).toEqual([expect.objectContaining({read:false,message:expect.stringContaining('khi bác sĩ gọi')})]);
+  const before=structuredClone(visit.inbox);
+  act(run,'CONFIRM_RESULT','procedure',{serviceId:blood});
+  expect(visit.inbox).toEqual(before);
+  if(!atClinic){act(run,'CONFIRM_LOCATION','patient',{locationId:'DEMO-NOI'});expect(makeSnapshot(run).views[visit.visitId].nextAction.title).toBe('Sẵn sàng nghe chẩn đoán');}
+ });
+ it('notifies for a single ordered procedure without treating completion as result publication',()=>{
+  const run=createRun();assign(run,[blood]);act(run,'COMPLETE_SERVICE','procedure',{serviceId:blood});
+  expect(run.visits[0].inbox.some(n=>n.id==='all-results-ready')).toBe(false);
+  act(run,'CONFIRM_RESULT','procedure',{serviceId:blood});
+  expect(run.visits[0].inbox.filter(n=>n.id==='all-results-ready')).toHaveLength(1);
+ });
  it.each([{serviceIds:[blood] as ServiceId[]},{serviceIds:[blood,us] as ServiceId[]}])('respects a different selection and doctor order: $serviceIds',({serviceIds})=>{
   const run=createRun();assign(run,serviceIds);expect(run.visits[0].services.map(s=>s.id)).toEqual(serviceIds);
   expect(makeSnapshot(run).procedureQueues[blood]).toEqual(['DEMO-P01']);
