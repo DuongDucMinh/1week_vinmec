@@ -11,6 +11,8 @@ import { procedureArrivalInstruction } from '../shared/procedure-arrival';
 import { PatientAssistant } from './PatientAssistant';
 import { PatientFrame } from './PatientFrame';
 import { patientPid } from '../shared/patient';
+import { LocationUpdate } from './LocationUpdate';
+import { ConnectionIndicator, ConnectionStatus } from './ConnectionStatus';
 
 function orderedServices(view: VisitView): Service[] {
  const done=view.visit.services.filter(s=>s.executionStatus==='COMPLETED').sort((a,b)=>(a.performanceOrder??0)-(b.performanceOrder??0));
@@ -29,13 +31,16 @@ export function Patient({ snapshot, api, offline, setOffline }: { snapshot: Snap
   const [tab,setTab]=useState<PatientTab>('journey');
   const [result,setResult]=useState<Service|null>(null);
   const [profileOpen,setProfileOpen]=useState(false);
+  const [locationOpen,setLocationOpen]=useState(false);
+  const [connectionOpen,setConnectionOpen]=useState(false);
   const [toast,setToast]=useState<string|null>(null);
   const content=useRef<HTMLElement>(null);
   const baseline=useRef<{key:string;ids:Set<string>;connected:boolean}>({key:'',ids:new Set(),connected:false});
   const showTools=new URLSearchParams(location.search).get('tools')==='1';
   const view=snapshot.views[visitId]||Object.values(snapshot.views)[0];
   const {visit,nextAction}=view;const department=departmentForVisit(visit), clinic=clinicForVisit(visit);
-  useEffect(()=>{setTab('journey');setResult(null);setProfileOpen(false);},[snapshot.runId,visitId,visit.journeyVersion]);
+  useEffect(()=>{setTab('journey');setResult(null);setProfileOpen(false);setLocationOpen(false);setConnectionOpen(false);},[snapshot.runId,visitId,visit.journeyVersion]);
+  useEffect(()=>setLocationOpen(false),[nextAction.destinationId]);
   useEffect(()=>{if(content.current)content.current.scrollTop=0;},[tab,visitId,snapshot.runId,visit.journeyVersion]);
   useEffect(()=>{
     const key=snapshot.runId+visitId+visit.journeyVersion, previous=baseline.current;
@@ -62,7 +67,8 @@ export function Patient({ snapshot, api, offline, setOffline }: { snapshot: Snap
   const showQueueNumber=visit.queueNumber!=null&&(nextAction.kind==='WAIT_INITIAL'||nextAction.kind==='ENCOUNTER');
   const openMap=()=>setTab('map');
   return <PatientFrame><div className={`phone-shell${tab==='map'?' navigation-active':''}`}>
-    <header className="patient-header"><a className="brand" href="/patient"><span className="brand-mark" aria-hidden="true">+</span><span>My<span>Vinmec</span></span></a><button className="patient-profile-button" aria-label="Thông tin người bệnh" aria-description={`Thông tin cá nhân của ${visit.displayName}`} aria-haspopup="dialog" onClick={()=>setProfileOpen(true)}><span className="patient-profile-avatar"><Icon name="user" size={18}/></span><span className="patient-profile-name">{visit.displayName}</span></button></header>
+    <header className="patient-header"><a className="brand" href="/patient"><span className="brand-mark" aria-hidden="true">+</span><span>My<span>Vinmec</span></span></a><div className="patient-header-actions"><button className="patient-profile-button" aria-label="Thông tin người bệnh" aria-description={`Thông tin cá nhân của ${visit.displayName}`} aria-haspopup="dialog" onClick={()=>setProfileOpen(true)}><span className="patient-profile-avatar"><Icon name="user" size={18}/></span><span className="patient-profile-name">{visit.displayName}</span></button><ConnectionIndicator api={api} onClick={()=>setConnectionOpen(true)}/></div></header>
+    <ConnectionStatus snapshot={snapshot} api={api} reconnect={()=>{setOffline(false);api.reconnect();}} open={connectionOpen} close={()=>setConnectionOpen(false)}/>
     {notifications.notification&&<aside className="patient-result-banner" role="status"><span className="result-banner-icon"><Icon name="bell" size={22}/></span><button className="result-banner-content" onClick={notifications.openNotification}><small>MyVinmec · Vừa xong</small><strong>Có kết quả mới</strong><span>{notifications.notification.name}</span><small>Chạm để xem kết quả</small></button><button className="icon-button" aria-label="Đóng thông báo kết quả" onClick={notifications.dismiss}><Icon name="close" size={17}/></button></aside>}
     {toast&&<aside className="patient-update-toast" aria-live="polite"><span>{toast}</span><button className="text-button" onClick={()=>{setTab('inbox');setToast(null);}}>Xem</button><button className="icon-button" aria-label="Đóng cập nhật" onClick={()=>setToast(null)}><Icon name="close" size={16}/></button></aside>}
     <main ref={content} className={`patient-main patient-${tab}`}><div className="visit-heading"><h1>{tab==='journey'?'Lượt khám hôm nay':tab==='map'?'Đường đi của bạn':tab==='inbox'?'Thông báo':'Trợ lý hướng dẫn'}</h1>{tab==='inbox'&&notifications.configured&&<button className="icon-button notification-toggle" aria-label={notifications.status==='enabled'?'Tắt thông báo kết quả':'Bật thông báo kết quả'} title={notifications.status==='enabled'?'Tắt thông báo kết quả':'Bật thông báo kết quả'} aria-pressed={notifications.status==='enabled'} onClick={notifications.status==='enabled'?notifications.disable:notifications.enable}><Icon name={notifications.status==='enabled'?'bell':'bell-off'} size={22}/></button>}</div>
@@ -83,7 +89,7 @@ export function Patient({ snapshot, api, offline, setOffline }: { snapshot: Snap
         {assigned&&<div className="mode-note"><Icon name={snapshot.mode==='RETURN_TO_DOCTOR'?'file':'print'} size={18}/><p><strong>{snapshot.mode==='RETURN_TO_DOCTOR'?'Kết quả chuyển điện tử':'Nhận kết quả bản giấy'}</strong><span>{snapshot.mode==='RETURN_TO_DOCTOR'?'Kết quả được chuyển tới bạn và bác sĩ khi sẵn sàng.':'Phòng thủ tục trả bản giấy kết quả theo hướng dẫn tại phòng.'}</span></p></div>}
 
       </>}
-      {tab==='map'&&<RouteMap snapshot={snapshot} view={view} api={api}/>}
+      {tab==='map'&&<RouteMap snapshot={snapshot} view={view} api={api} onUpdateLocation={()=>setLocationOpen(true)}/>}
       {tab==='inbox'&&<section className="inbox">{notificationSettings}{visit.inbox.length?[...visit.inbox].reverse().map(n=><article className={`notification ${!n.read?'unread':''}`} key={n.id}><Icon name="bell" size={18}/><div><p>{n.message}</p><div className="notification-meta"><small>{time(n.createdAt)}</small>{!n.read&&<button className="text-button" disabled={disabled} onClick={()=>api.command('MARK_NOTIFICATION_READ',visitId,'patient',{notificationId:n.id})}>Đánh dấu đã đọc</button>}</div></div></article>):<div className="empty-state"><span className="empty-icon"><Icon name="bell" size={28}/></span><h2>Chưa có thông báo mới</h2><p>Lời gọi bác sĩ và kết quả sẽ xuất hiện tại đây.</p></div>}</section>}
       <div className="assistant-slot" hidden={tab!=='assistant'}><PatientAssistant key={snapshot.runId+visitId+visit.journeyVersion} api={api} view={view} snapshot={snapshot} active={tab==='assistant'}/></div>
     </main>
@@ -91,6 +97,7 @@ export function Patient({ snapshot, api, offline, setOffline }: { snapshot: Snap
     <PrintGuide snapshot={snapshot} view={view}/>
 
     {result&&<Result service={result} close={()=>setResult(null)}/>}
+    {locationOpen&&<LocationUpdate snapshot={snapshot} view={view} api={api} close={()=>setLocationOpen(false)}/>}
     {profileOpen&&<Dialog contained label="Thông tin cá nhân" onDismiss={()=>setProfileOpen(false)}><section className="modal patient-profile">
       <button className="icon-button modal-close" aria-label="Đóng thông tin cá nhân" onClick={()=>setProfileOpen(false)}><Icon name="close"/></button>
       <h2>Thông tin cá nhân</h2>

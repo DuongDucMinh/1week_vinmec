@@ -16,6 +16,9 @@ export function acceptSnapshot(current: Snapshot | null, incoming: Snapshot, ret
 export function useSimulation(offline = false) {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [connected, setConnected] = useState(false);
+  const [networkOnline, setNetworkOnline] = useState(() => navigator.onLine);
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+  const [connectionAttempt, setConnectionAttempt] = useState(0);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uncertain, setUncertain] = useState(false);
@@ -26,20 +29,30 @@ export function useSimulation(offline = false) {
     const next = acceptSnapshot(latest.current, incoming, retired.current);
     latest.current = next;
     setSnapshot(next);
+    if (next === incoming) setLastSyncedAt(new Date().toISOString());
+    return next === incoming;
   }, []);
   useEffect(() => {
-    if (offline) { setConnected(false); return; }
+    const online = () => setNetworkOnline(true);
+    const disconnected = () => { setNetworkOnline(false); setConnected(false); };
+    window.addEventListener('online', online);
+    window.addEventListener('offline', disconnected);
+    return () => { window.removeEventListener('online', online); window.removeEventListener('offline', disconnected); };
+  }, []);
+  useEffect(() => {
+    if (offline || !networkOnline) { setConnected(false); return; }
     const events = new EventSource('/api/events');
     const handle = (event: MessageEvent<string>) => {
-      try { apply(JSON.parse(event.data)); setConnected(true); } catch { setError('Không đọc được cập nhật. Hãy tải lại hoặc hỏi nhân viên.'); }
+      try { if (apply(JSON.parse(event.data))) setConnected(true); } catch { setConnected(false); setError('Không đọc được cập nhật. Hãy tải lại hoặc hỏi nhân viên.'); }
     };
     events.addEventListener('snapshot', handle);
     events.onerror = () => setConnected(false);
     return () => { events.close(); setConnected(false); };
-  }, [offline, apply]);
+  }, [offline, networkOnline, connectionAttempt, apply]);
+  const reconnect = () => { setConnected(false); setNetworkOnline(navigator.onLine); setConnectionAttempt(value => value + 1); };
 
   const send = async (path: string, body: unknown) => {
-    if (offline) { setError('Đang mất kết nối. Chưa gửi xác nhận; vui lòng báo nhân viên.'); return false; }
+    if (offline || !networkOnline) { setError('Đang mất kết nối. Chưa gửi xác nhận; vui lòng báo nhân viên.'); return false; }
     setPending(true); setError(null); setUncertain(false);
     retryRequest.current = { path, body };
     try {
@@ -79,13 +92,13 @@ export function useSimulation(offline = false) {
   const retry = () => retryRequest.current ? send(retryRequest.current.path, retryRequest.current.body) : Promise.resolve(false);
   const ask = async (visitId: string, question: string, previousIntent?: string): Promise<AssistantAnswer> => {
     const s = latest.current;
-    if (!s || offline) throw new Error('Trợ lý chưa kết nối. Hướng dẫn ở trang Lượt khám vẫn có sẵn; khi cần hãy hỏi nhân viên.');
+    if (!s || offline || !networkOnline) throw new Error('Trợ lý chưa kết nối. Hướng dẫn ở trang Lượt khám vẫn có sẵn; khi cần hãy hỏi nhân viên.');
     const response = await fetch('/api/assistant', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ runId: s.runId, expectedRevision: s.revision, visitId, question, previousIntent }), signal: AbortSignal.timeout(AI_CLIENT_TIMEOUT_MS) });
     const answer = await response.json();
     if (!response.ok) throw new Error(answer.message || 'Tiến độ đã đổi. Hãy hỏi lại theo dữ liệu mới nhất.');
     if (!latest.current || latest.current.runId !== answer.runId || latest.current.revision !== answer.revision) throw new Error('Tiến độ vừa cập nhật. Hãy hỏi lại để nhận hướng dẫn mới nhất.');
     return answer;
   };
-  return { snapshot, connected, pending, error, uncertain, command, reset, retry, ask, clearError: () => setError(null) };
+  return { snapshot, connected, lastSyncedAt, networkOnline, pending, error, uncertain, command, reset, retry, reconnect, ask, clearError: () => setError(null) };
 }
 export type SimulationApi = ReturnType<typeof useSimulation>;

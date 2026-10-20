@@ -229,3 +229,18 @@
 .typing-indicator i:nth-child(2){animation-delay:.15s}.typing-indicator i:nth-child(3){animation-delay:.3s}
 @keyframes chat-typing{0%,70%,100%{opacity:.35;transform:translateY(0)}35%{opacity:1;transform:translateY(-3px)}}
 @media print{.patient-preview{position:static;width:100%;height:auto;margin:0;overflow:visible;border-radius:0;box-shadow:none}.phone-shell{position:static;width:100%;max-width:none;height:auto!important;display:block;overflow:visible;border-radius:0;transform:none}}
+
+.patient-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;flex:1}
+.patient-header-actions .patient-profile-button{max-width:none;min-width:0}
+.patient-header .sync-status{position:relative;width:40px;min-width:40px;min-height:40px;padding:8px;flex-shrink:0;border-radius:50%;color:#5b796a;background:transparent}
+.patient-header .sync-status:hover{background:#edf5f0}.patient-header .sync-status:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.sync-status>i{position:absolute;right:6px;bottom:6px;width:6px;height:6px;border-radius:50%;background:#278168;box-shadow:0 0 0 2px white}
+.patient-header .sync-status.is-disconnected{color:#9b6b16;background:#fbf2dd}.sync-status.is-disconnected>i{background:#b77714}
+.phone-shell>.connection-banner{margin:0;padding:9px 18px;border:0;border-radius:0;flex-shrink:0;font-size:12px}
+.phone-shell>.connection-banner p{margin-top:3px;line-height:1.45}.phone-shell>.connection-banner .text-button{min-height:32px;font-size:12px}
+.location-update-trigger{align-self:flex-start;gap:6px;min-height:36px;padding:5px 0;color:var(--accent);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.location-update label{display:block;font-size:13px;margin-top:14px!important}.location-update select{margin-top:6px}
+.location-update .location-help{background:#f4f7f5;border-radius:8px;padding:10px;font-size:13px}
+.location-update .modal-close,.connection-details .modal-close{width:44px;left:auto;right:10px;top:10px}
+.location-update h2,.connection-details h2{padding-right:42px}
+.connection-details dl>div{margin-top:16px}.connection-details dt{font-size:12px;color:var(--muted)}.connection-details dd{font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
