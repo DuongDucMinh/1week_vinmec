@@ -1,6 +1,6 @@
 # Nội dung slide hiện hành - trợ lý khám ngoại trú
 
-Cập nhật 20/10/2026. [PDF](../slides.pdf) · [PowerPoint hiện hành](slides/tro-ly-kham-ngoai-tru.pptx). 10 trang; nội dung dưới đây lấy từ chính bộ slide đã xuất.
+Cập nhật 21/10/2026. [PDF](../slides.pdf) · [PowerPoint hiện hành](slides/tro-ly-kham-ngoai-tru.pptx). 10 trang; nội dung dưới đây lấy từ chính bộ slide đã xuất.
 
 ## Slide 1. Trợ lý khám ngoại trú
 
@@ -109,12 +109,12 @@ Cập nhật 20/10/2026. [PDF](../slides.pdf) · [PowerPoint hiện hành](slide
 ## Slide 8. Cải tiến giao diện và đường đi
 
 - Dễ theo dõi, / linh hoạt đường đi
-- Thu gọn chữ, làm rõ bước tiếp theo. / Chỉ dẫn bằng mốc và giọng đọc.
+- Thu gọn chữ; chỉ dẫn từng chặng. / Chạm biểu tượng để xem giờ đồng bộ.
 - Thang máy hoặc thang bộ
 - Mặc định thang máy; chọn thang bộ / khi thang máy đông. Tuyến cập nhật / theo lựa chọn.
-- Tìm lại đường khi cần
-- Nghe lại từng bước; chọn lại mốc / khi đi nhầm. Có hướng dẫn giấy.
-- Giọng đọc dùng trình duyệt; sơ đồ và vị trí là mô phỏng.
+- Đi lạc hoặc vừa quay lại
+- Chọn tòa, tầng và mốc đang đứng. / Giữ tiến độ, tính lại đường tới đích.
+- Giọng Việt từ bản ghi hoặc Azure; vị trí do người dùng xác nhận.
 
 **Nguồn:** [Cải tiến từ phản hồi](../05-prototype/user-feedback-revision.md), [lựa chọn thang](../05-prototype/adaptive-routing.md).
 
@@ -124,7 +124,7 @@ Cập nhật 20/10/2026. [PDF](../slides.pdf) · [PowerPoint hiện hành](slide
 - RỦI RO
 - CÁCH GIẢM THIỂU
 - Sai bước hoặc sai phòng
-- Kiểm tra điều kiện, xác nhận điểm đến với nhân viên.
+- Cập nhật vị trí; chưa rõ mốc thì nhờ nhân viên.
 - AI trả lời sai hoặc vượt phạm vi
 - Dùng facts đã xác nhận, giới hạn hướng dẫn hành chính.
 - Chậm tìm hỗ trợ khẩn cấp
@@ -132,36 +132,28 @@ Cập nhật 20/10/2026. [PDF](../slides.pdf) · [PowerPoint hiện hành](slide
 - Lộ dữ liệu hoặc dùng sai mục đích
 - Ẩn danh, xin đồng ý, dùng dữ liệu giả, giữ khóa ở server.
 - Khó dùng app hoặc mất kết nối
-- Chữ dễ đọc, hướng dẫn giấy và hỗ trợ con người.
+- Báo mất kết nối, hiện lần đồng bộ; dùng giấy/nhân viên.
 - Biện pháp đề xuất. Luồng khẩn cấp còn cần hoàn thiện và kiểm chứng với cơ sở.
 
 **Nguồn:** [Rủi ro](../06-rui-ro-dao-duc/risk-register.md).
 
 ## Slide 10. Kế hoạch coach nhóm K4
 
-- Theo dõi bằng sản phẩm, gỡ kẹt bằng bằng chứng
-- 1
-- Ngày 1
-- Chọn phạm vi
-- 2
-- Ngày 2
-- Nghiên cứu
-- 3
-- Ngày 4
-- Need và / tham khảo
-- 4
-- Ngày 5
-- Prototype
-- 5
-- Ngày 6
-- Thử / người dùng
-- 6
-- Ngày 7
-- Repo / và trình bày
-- Check-in 10 phút mỗi ngày
-- Gỡ kẹt từ sản phẩm và bằng chứng
-- Đọc chéo trước khi hoàn thiện bài
-- Kế hoạch dự kiến cho nhóm 5–10 bạn; check-in 10 phút mỗi ngày.
-- 10
+Em muốn cả nhóm hiểu quy trình và pain point trước khi chia việc
+
+| Thời gian | Công việc |
+| --- | --- |
+| Tuần 0-1 | Soạn câu hỏi và phỏng vấn |
+| Cuối tuần 1 | Tổng hợp, chọn hướng |
+| Tuần 2 | Chia việc theo thế mạnh |
+| Tuần 3-4 | Ghép luồng và thử sớm |
+| Tuần 5 | Sửa theo phản hồi |
+| Tuần 6 | Hoàn thiện và demo |
+
+- Chia việc: rõ người, hạn và đầu ra
+- Gỡ kẹt: hỗ trợ hoặc phân bổ lại việc
+- Chất lượng: đọc chéo và thử người dùng
+
+Nhóm 5-10 bạn. Cập nhật hằng ngày, họp 2 buổi/tuần và review thứ Sáu.
 
 **Nguồn:** [Kế hoạch coach](../07-coach-plan/coach-plan.md).
