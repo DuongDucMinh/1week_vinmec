@@ -1,0 +1,353 @@
+/* Staff workspaces share a viewport. Only bounded lists scroll; actions stay visible. */
+.staff-app {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  grid-template-columns: 184px minmax(0, 1fr);
+  background: #f5f7f7;
+}
+.staff-app [hidden], .staff-settings [hidden] { display: none !important; }
+.staff-app .desktop-sidebar { padding: 26px 12px 18px; background: #fff; border-right: 1px solid var(--border); }
+.staff-app .desktop-sidebar > .brand { margin: 0 8px 42px; font-size: 19px; }
+.staff-app .sidebar-label { margin: 0 10px 12px; font-size: 9px; font-weight: 600; letter-spacing: 1px; }
+.staff-app .desktop-sidebar nav { display: grid; gap: 6px; }
+.staff-app .desktop-sidebar nav a { min-height: 46px; padding: 10px 12px; gap: 11px; font-size: 13px; border-radius: 8px; }
+.staff-app .desktop-sidebar nav a.selected { background: #e8f3ee; color: #12644d; font-weight: 600; }
+.staff-app .staff-navigation a:last-child { margin-top: 20px; }
+.staff-app .staff-navigation a:last-child svg:last-child { margin-left: auto; }
+.staff-app .sidebar-bottom { display: flex; align-items: center; gap: 8px; padding: 16px 12px 0; font-size: 12px; }
+.sidebar-status-dot, .presence-label i { width: 6px; height: 6px; border-radius: 50%; background: #298268; }
+.staff-app .staff-menu { display: none; }
+.staff-app .desktop-content { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.staff-app .desktop-header { height: 44px; min-height: 44px; padding: 0 24px; font-size: 11px; }
+.breadcrumb-divider { margin: 0 10px; color: #a2afa7; }
+.staff-app .connection-pill { font-size: 11px; }
+.staff-app .connection-pill time { margin-left: 8px; padding-left: 12px; border-left: 1px solid #dce4df; font-variant-numeric: tabular-nums; }
+.staff-app .desktop-body { display: flex; flex: 1; flex-direction: column; min-height: 0; max-width: none; margin: 0; padding: 0 24px 20px; background: transparent; border: 0; border-radius: 0; overflow: hidden; }
+.staff-app .page-title { min-height: 88px; flex-shrink: 0; margin: 0; gap: 20px; }
+.staff-app .page-title h1 { font-size: 24px; letter-spacing: -.65px; }
+.staff-app .page-title p { margin-top: 5px; font-size: 12px; }
+.staff-page-tools { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.staff-app .staff-room-select { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.staff-app .staff-room-select select { width: 260px; margin: 0; min-height: 42px; font-size: 13px; font-weight: 500; color: var(--ink); }
+.staff-app .primary { background: #166b54; border-color: #166b54; }
+.staff-app .primary:hover:not(:disabled) { background: #105540; }
+.staff-app button:disabled { color: #829087; background: #f0f3f1; border-color: #e2e8e4; }
+.staff-app .secondary { border-color: #d7e1db; }
+.staff-app .small, .staff-app small { font-size: 12px; }
+.staff-app .badge { font-size: 11px; padding: 4px 8px; border-radius: 5px; }
+.staff-app .count-badge { min-width: 22px; height: 22px; font-size: 11px; background: #f0f3f1; border-radius: 5px; }
+.staff-workspace { flex: 1; min-height: 0; display: grid; gap: 16px; align-items: stretch; }
+.staff-panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: 0; border: 1px solid #e0e7e3; border-radius: 12px; background: #fff; overflow: hidden; }
+.staff-panel-heading { min-height: 60px; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.staff-panel-heading h2 { display: flex; align-items: center; gap: 9px; font-size: 15px; letter-spacing: -.2px; }
+.staff-panel-footnote { margin-top: auto; flex-shrink: 0; padding: 12px 18px; font-size: 11px; color: #738078; border-top: 1px solid var(--border); background: #fafcfb; }
+.staff-scroll { min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #ced9d2 transparent; }
+.staff-panel > .staff-scroll { flex: 1; }
+.staff-scroll:focus-visible { outline: 2px solid #408c76; outline-offset: -3px; }
+.staff-empty { min-height: 150px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; text-align: center; gap: 8px; color: var(--muted); }
+.staff-empty-icon { width: 48px; height: 48px; display: grid; place-items: center; margin-bottom: 6px; border-radius: 14px; background: #f0f5f2; color: #668372; }
+.staff-empty > strong { color: #43574b; font-size: 14px; font-weight: 500; }
+.staff-empty p { max-width: 28ch; font-size: 12px; line-height: 1.7; }
+.staff-view-switch { display: flex; flex-shrink: 0; gap: 4px; padding: 7px; border-bottom: 1px solid var(--border); }
+.staff-view-switch > button { min-width: 0; min-height: 40px; flex: 1; gap: 7px; padding: 8px; border-radius: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.staff-view-switch > button:hover { background: #f6f8f7; }
+.staff-view-switch > button[aria-pressed=true] { background: #eaf3ee; color: #17654e; font-weight: 600; }
+.staff-view-switch > button[aria-pressed=true] .count-badge { color: #17654e; background: #d9ebe0; }
+.staff-app .staff-mobile-switch, .staff-app .orders-mobile-switch { display: none; }
+.staff-app .person-heading { gap: 10px; align-items: center; }
+.staff-app .person-heading > div { min-width: 0; }
+.staff-app .person-heading strong { font-size: 14px; font-weight: 500; line-height: 1.55; overflow-wrap: anywhere; }
+.staff-app .person-heading small { font-size: 11px; margin-top: 3px; }
+.staff-app .person-avatar { width: 36px; min-width: 36px; height: 36px; font-size: 11px; }
+
+/* Doctor: order catalog and selected orders share the encounter panel. */
+.staff-app .clinician-layout { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); }
+.staff-app .active-identity { flex-shrink: 0; align-items: center; gap: 12px; margin: 0; padding: 18px 20px; background: #fbfcfb; border-bottom: 1px solid var(--border); }
+.ticket-label { display: grid; gap: 0; text-align: right; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ticket-label strong { font-size: 20px; font-weight: 500; line-height: 1.3; color: var(--ink); }
+.staff-app .empty-encounter { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: none; padding: 20px; }
+.staff-app .empty-encounter .staff-empty { height: auto; }
+.staff-app .encounter-actions { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.staff-app .encounter-actions .staff-empty { height: auto; min-height: 120px; }
+.staff-app .encounter-actions .primary { margin-top: 12px; }
+.staff-app .order-editor { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0; border: 0; }
+.staff-app .order-editor > .section-heading { flex-shrink: 0; min-height: 50px; padding: 12px 18px; }
+.staff-app .order-editor h3 { font-size: 13px; }
+.order-columns { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); flex: 1; min-height: 0; gap: 0; border-top: 1px solid var(--border); }
+.order-catalog { min-height: 0; min-width: 0; display: flex; flex-direction: column; padding: 12px 12px 0; }
+.staff-app .order-catalog > input { margin: 0 0 10px; min-height: 38px; font-size: 12px; flex-shrink: 0; }
+.staff-app .catalog-results { flex: 1; max-height: none; border: 0; }
+.staff-app .catalog-row { min-height: 64px; gap: 9px; padding: 10px 8px; border-top: 0; border-bottom: 1px solid #edf1ee; border-radius: 5px; }
+.staff-app .catalog-row.is-selected { background: #edf6f0; }
+.staff-app .catalog-row strong { font-size: 12px; line-height: 1.55; }
+.staff-app .catalog-row small { font-size: 10px; margin-top: 3px; line-height: 1.5; }
+.staff-app .catalog-row > span:last-child { margin: 0; }
+.staff-app .catalog-row input { width: 16px; height: 16px; }
+.staff-app .order-preview { display: flex; flex-direction: column; min-height: 0; margin: 0; padding: 14px 12px 0; background: #fafcfb; border-left: 1px solid var(--border); border-radius: 0; }
+.staff-app .order-preview h4 { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 0 4px 10px; }
+.staff-app .order-preview .staff-empty { padding: 12px; min-height: 120px; }
+.staff-app .order-preview .staff-empty-icon { width: 36px; height: 36px; border-radius: 10px; }
+.staff-app .order-preview .staff-empty > strong { font-size: 12px; }
+.staff-app .order-preview .staff-empty p { font-size: 11px; }
+.staff-app .order-preview ol { list-style: none; counter-reset: orders; padding: 0; margin: 0; }
+.staff-app .order-preview li { counter-increment: orders; display: grid; grid-template-columns: 17px minmax(0, 1fr); gap: 5px; border-top: 1px solid var(--border); padding: 10px 3px; font-size: 12px; }
+.staff-app .order-preview li::before { content: counter(orders) '.'; color: #77847c; font-size: 11px; }
+.staff-app .order-preview li > div { grid-column: 2; display: flex; justify-content: flex-end; gap: 3px; float: none; margin: 0; }
+.staff-app .order-preview .icon-button { min-width: 30px; min-height: 28px; }
+.staff-app .order-footer { flex-shrink: 0; flex-wrap: nowrap; gap: 12px; margin: 0; padding: 14px 18px; border-top: 1px solid var(--border); }
+.staff-app .order-footer .text-button { font-size: 11px; text-align: left; }
+.staff-app .order-footer .primary { min-height: 40px; padding: 10px 12px; font-size: 12px; }
+.staff-app .queue-column { border: 0; padding: 0; }
+.staff-app .queue-person { padding: 18px; border-bottom: 1px solid var(--border); }
+.staff-app .queue-detail { gap: 10px; margin-top: 14px; align-items: center; flex-wrap: wrap; }
+.staff-app .queue-detail > span { font-size: 11px; }
+.staff-app .queue-detail button { margin-left: auto; min-height: 34px; padding: 7px 10px; font-size: 12px; }
+.staff-app .background-updates { padding: 0; margin: 0; border: 0; }
+.tracked-patient { padding: 18px; border-bottom: 1px solid var(--border); }
+.result-progress { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 14px; color: var(--accent); font-size: 12px; }
+
+/* Reception: patient roster, selected record, then progress/activity views. */
+.staff-app .control-layout { grid-template-columns: 280px minmax(0, 1fr); }
+.roster-search { padding: 14px; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.staff-app .roster-search input { margin: 0; min-height: 38px; font-size: 12px; }
+.reception-person { width: 100%; display: grid; grid-template-columns: 1fr; justify-items: start; text-align: left; gap: 10px; padding: 18px; border-bottom: 1px solid var(--border); border-left: 3px solid transparent; }
+.reception-person:hover { background: #f6faf7; }
+.reception-person[aria-pressed=true] { background: #edf5f0; border-left-color: #237958; }
+.reception-person > small { color: var(--muted); }
+.reception-person .badge { margin-left: 46px; }
+.reception-person > small { margin-left: 46px; font-size: 11px; margin-top: -5px; }
+.reception-identity { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px; flex-shrink: 0; }
+.reception-intake { padding: 0 22px 18px; display: flex; align-items: flex-end; gap: 14px; flex-shrink: 0; }
+.reception-intake > label { flex: 1; min-width: 0; font-size: 12px; }
+.staff-app .reception-intake select { min-width: 0; margin-top: 6px; min-height: 42px; font-size: 13px; }
+.intake-action { flex-shrink: 0; }
+.intake-action button { min-height: 42px; }
+.intake-facts { display: grid; grid-template-columns: minmax(0, 1.5fr) 1fr 1fr; gap: 20px; margin: 0; width: 100%; padding: 14px 16px; background: #f7f9f8; border: 1px solid #ebefec; border-radius: 8px; }
+.intake-facts dt { font-size: 11px; color: var(--muted); }
+.intake-facts dd { font-size: 14px; font-weight: 500; margin: 5px 0 0; }
+.staff-app .current-fact { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin: 0 22px 16px; background: #edf6f0; border-radius: 8px; flex-shrink: 0; color: #2c6952; }
+.staff-app .current-fact small { display: block; font-size: 10px; color: #5c7d6b; }
+.staff-app .current-fact strong { display: block; font-size: 13px; font-weight: 500; margin-top: 2px; }
+.staff-app .reception-detail > .staff-view-switch { padding: 6px 16px; border-top: 1px solid var(--border); }
+.staff-app .reception-detail > .staff-view-switch button { flex: initial; padding-left: 14px; padding-right: 14px; }
+.staff-app .control-services { display: block; padding: 0 22px; }
+.staff-app .control-service { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 16px; padding: 14px 0; border: 0; border-bottom: 1px solid var(--border); }
+.control-service > div > strong { font-size: 13px; font-weight: 500; }
+.control-service > div > small { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.control-service-actions { grid-column: 1/-1; }
+.control-service-actions:empty { display: none; }
+.control-service-actions button { min-height: 34px; padding: 7px 10px; margin-top: 10px; font-size: 12px; }
+.reception-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 22px; border-top: 1px solid var(--border); flex-shrink: 0; }
+.staff-app .reception-footer .text-button { min-height: 36px; font-size: 11px; }
+.staff-app .reception-footer .reset-journey { color: #77837c; }
+.staff-app .event-log { max-height: none; padding: 0 22px; }
+.staff-app .event-log article { display: flex; gap: 16px; padding: 14px 0; }
+.event-log time { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.event-log article strong { font-size: 12px; font-weight: 500; }
+.staff-app .event-log article p { font-size: 12px; margin: 3px 0 0; color: var(--muted); }
+
+/* Procedure room: performance and result publication remain separate. */
+.procedure-tools { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 0 16px; flex-shrink: 0; }
+.staff-app .procedure-search { display: block; margin: 0; flex: 1; max-width: 420px; }
+.staff-app .procedure-search input { margin: 0; min-height: 42px; font-size: 13px; }
+.staff-app .procedure-arrival-note { display: flex; align-items: center; gap: 9px; padding: 0; border: 0; font-size: 12px; color: var(--muted); }
+.staff-app .procedure-arrival-note .icon-button { min-width: 34px; min-height: 36px; }
+.staff-app .procedure-layout { margin: 0; grid-template-columns: minmax(0, 1.8fr) minmax(290px, 1fr); }
+.presence-label { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #5c7567; white-space: nowrap; }
+.staff-app .procedure-table { padding: 0; }
+.staff-app .assigned-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 20px; border: 0; border-bottom: 1px solid var(--border); }
+.staff-app .assigned-row.in-progress { background: #f4faf6; }
+.staff-app .procedure-presence { display: block; margin: 10px 0 0 46px; color: var(--muted); font-size: 11px; }
+.staff-app .procedure-presence.is-active { color: #176b50; }
+.procedure-row-actions { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: end; gap: 8px; }
+.staff-app .procedure-row-actions button { font-size: 12px; min-height: 36px; padding: 8px 10px; }
+.staff-app .procedure-row-actions > .text-button { grid-column: 1/-1; justify-self: end; min-height: 28px; padding: 0; font-size: 11px; }
+.staff-app .procedure-row-actions > .primary:only-child { grid-column: 1/-1; }
+.staff-app .procedure-results { padding: 0; background: #fff; }
+.staff-app .procedure-results h2 { margin: 0; }
+.staff-app .completed-row { display: flex; max-width: none; flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px; border: 0; border-bottom: 1px solid var(--border); margin: 0; }
+.staff-app .completed-row .person-heading strong { flex-basis: auto; }
+.staff-app .completed-row .badge { margin-left: 46px; }
+.staff-app .completed-row button { width: 100%; min-height: 36px; padding: 8px; font-size: 12px; }
+
+/* Auxiliary settings open above the workspace instead of extending the page. */
+.native-dialog:has(> .staff-settings) { max-width: min(640px, calc(100vw - 32px)); }
+.staff-settings { padding: 26px; }
+.staff-settings > h2 { font-size: 20px; margin-bottom: 20px; }
+.staff-settings .staff-view-switch { padding: 5px; border: 1px solid var(--border); border-radius: 8px; background: #f9fbfa; }
+.staff-settings .room-settings-list { max-height: min(440px, calc(100dvh - 250px)); padding-right: 8px; }
+.staff-settings .room-method-setting { display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: center; gap: 16px; margin: 0 !important; padding: 14px 0; border-top: 1px solid var(--border); font-size: 12px; }
+.staff-settings .room-method-setting select { margin: 0; font-size: 12px; }
+.staff-settings .mode-options label { margin-top: 0 !important; }
+.staff-settings .mode-options strong { font-size: 13px; }
+.staff-settings .mode-options span { font-size: 12px; }
+.staff-settings .technical-panel dl { margin-bottom: 20px; }
+.staff-settings > section > .secondary { width: 100%; }
+.staff-settings.reset-confirmation > h2 { margin-bottom: 12px; }
+
+@media (max-width: 1200px) {
+  .staff-app { grid-template-columns: 160px minmax(0, 1fr); }
+  .staff-app .desktop-sidebar { padding-left: 8px; padding-right: 8px; }
+  .staff-app .desktop-sidebar > .brand { font-size: 17px; margin-left: 6px; }
+  .staff-app .desktop-sidebar nav a { font-size: 12px; gap: 8px; padding: 10px; }
+  .staff-app .sidebar-label { font-size: 8px; letter-spacing: .6px; }
+  .staff-app .desktop-body { padding-right: 18px; padding-left: 18px; }
+  .staff-app .clinician-layout { grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); }
+  .staff-app .control-layout { grid-template-columns: 240px minmax(0, 1fr); }
+  .staff-app .procedure-layout { grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); }
+  .staff-app .assigned-row { gap: 12px; padding: 18px 14px; }
+  .staff-app .assigned-row .person-avatar { display: none; }
+  .staff-app .procedure-presence { margin-left: 0; }
+  .staff-app .order-footer { padding: 12px; gap: 8px; }
+  .staff-app .order-footer .text-button { max-width: 150px; }
+}
+
+@media (max-width: 1000px) {
+  .staff-app { display: flex; flex-direction: column; }
+  .staff-app .desktop-sidebar { display: flex; flex-direction: row; justify-content: space-between; align-items: center; min-height: 60px; height: 60px; padding: 8px 20px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .staff-app .desktop-sidebar > .brand { margin: 0; font-size: 18px; }
+  .staff-app .desktop-sidebar .brand-mark { font-size: 30px; }
+  .staff-app .brand small { display: none; }
+  .staff-app .desktop-sidebar > .staff-navigation, .staff-app .sidebar-label, .staff-app .sidebar-bottom { display: none; }
+  .staff-app .staff-menu { display: block; }
+  .staff-app .staff-menu summary { display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px; font-size: 12px; cursor: pointer; list-style: none; }
+  .staff-app .staff-menu summary::-webkit-details-marker { display: none; }
+  .staff-app .staff-menu[open] nav { top: 56px; left: auto; right: 16px; width: 240px; padding: 10px; box-shadow: 0 10px 30px #25352e1a; }
+  .staff-app .desktop-content { flex: 1; }
+  .staff-app .desktop-header { min-height: 32px; height: 32px; padding: 0 20px; }
+  .staff-app .page-title { min-height: 80px; }
+  .staff-app .page-title h1 { font-size: 22px; }
+  .staff-app .staff-room-select { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 10px; }
+  .staff-app .staff-room-select select { min-height: 38px; width: 240px; font-size: 12px; }
+  .staff-app .clinician-layout { grid-template-columns: minmax(0, 1.7fr) minmax(290px, 1fr); }
+  .staff-app .control-layout { grid-template-columns: 230px minmax(0, 1fr); }
+  .staff-app .procedure-layout { grid-template-columns: minmax(0, 1.6fr) minmax(250px, 1fr); }
+  .staff-panel-heading { padding: 14px 16px; min-height: 54px; }
+  .staff-app .control-services { grid-template-columns: none; }
+  .reception-intake { flex-wrap: wrap; gap: 10px; }
+  .reception-intake > label { flex-basis: 100%; }
+  .intake-action { width: 100%; }
+  .intake-action button { width: 100%; min-height: 38px; }
+  .reception-identity, .reception-intake { padding-left: 18px; padding-right: 18px; }
+  .staff-app .current-fact { margin-left: 18px; margin-right: 18px; }
+}
+
+@media (min-width: 701px) and (max-width: 850px) {
+  .staff-app .clinician-layout { grid-template-columns: minmax(0, 1.4fr) minmax(270px, 1fr); }
+  .staff-app .order-columns { grid-template-columns: 1fr; }
+  .staff-app .order-preview { display: none; }
+  .staff-app .orders-mobile-switch { display: flex; }
+  .staff-app [data-order-view=selected] .order-catalog { display: none; }
+  .staff-app [data-order-view=selected] .order-preview { display: flex; border: 0; }
+  .staff-app .procedure-arrival-note { max-width: 270px; font-size: 11px; }
+  .staff-app .procedure-layout { grid-template-columns: minmax(0, 1.5fr) minmax(250px, 1fr); }
+  .staff-app .assigned-row { grid-template-columns: 1fr; gap: 12px; }
+  .procedure-row-actions { display: flex; flex-wrap: wrap; justify-content: flex-start; }
+  .staff-app .procedure-row-actions > .text-button { margin-right: auto; }
+}
+
+@media (max-width: 700px) {
+  .staff-app .desktop-sidebar { min-height: 54px; height: 54px; padding: 6px 16px; }
+  .staff-app .desktop-header { min-height: 28px; height: 28px; padding: 0 16px; font-size: 10px; }
+  .staff-app .connection-pill { font-size: 10px; }
+  .staff-app .connection-pill time { display: none; }
+  .staff-app .desktop-body { padding: 0 12px 12px; }
+  .staff-app .page-title { min-height: 0; gap: 12px; align-items: flex-start; flex-direction: column; padding: 12px 4px; }
+  .staff-app .page-title h1 { font-size: 21px; }
+  .staff-app .page-title p { font-size: 11px; margin-top: 4px; }
+  .staff-page-tools { width: 100%; }
+  .staff-app .staff-room-select { width: 100%; display: flex; flex-direction: row; align-items: center; font-size: 11px; gap: 12px; }
+  .staff-app .staff-room-select select { flex: 1; width: 0; font-size: 12px; }
+  .staff-page-tools > .secondary { font-size: 11px; min-height: 36px; padding: 8px 12px; }
+  .staff-app .page-title:has(.staff-page-tools > .secondary) { flex-direction: row; align-items: center; }
+  .staff-app .page-title:has(.staff-page-tools > .secondary) .staff-page-tools { width: auto; flex-shrink: 0; }
+  .staff-app .page-title .staff-page-tools > .secondary { font-size: 0; min-width: 38px; min-height: 38px; padding: 8px; gap: 0; }
+  .staff-app .staff-mobile-switch { display: flex; border: 1px solid #dfe7e2; border-radius: 9px; background: #fff; padding: 4px; margin-bottom: 12px; }
+  .staff-app button.staff-mobile-switch { padding: 10px 16px; }
+  .staff-app .staff-workspace { display: flex; gap: 0; }
+  .staff-workspace > [data-pane] { width: 100%; flex: 1; }
+  .staff-workspace[data-mobile-view=encounter] > [data-pane=queues],
+  .staff-workspace[data-mobile-view=queues] > [data-pane=encounter],
+  .staff-workspace[data-mobile-view=patients] > [data-pane=details],
+  .staff-workspace[data-mobile-view=details] > [data-pane=patients],
+  .staff-workspace[data-mobile-view=queue] > [data-pane=results],
+  .staff-workspace[data-mobile-view=results] > [data-pane=queue] { display: none; }
+  .staff-panel-heading { min-height: 50px; padding: 12px 14px; }
+  .staff-panel-heading h2 { font-size: 14px; }
+  .staff-app .active-identity { padding: 14px; flex-direction: row; }
+  .staff-app .order-editor > .section-heading { padding: 10px 14px; min-height: 42px; }
+  .staff-app .order-columns { grid-template-columns: minmax(0, 1fr); }
+  .staff-app .orders-mobile-switch { display: flex; padding: 4px 10px; }
+  .staff-app [data-order-view=catalog] .order-preview { display: none; }
+  .staff-app [data-order-view=selected] .order-catalog { display: none; }
+  .staff-app .order-preview { border: 0; padding: 12px; }
+  .staff-app .order-preview li { grid-template-columns: 17px minmax(0, 1fr) auto; align-items: center; }
+  .staff-app .order-preview li > div { grid-column: 3; }
+  .staff-app .order-preview .icon-button { min-width: 32px; min-height: 36px; }
+  .staff-app .catalog-row { min-height: 64px; padding: 10px; }
+  .staff-app .catalog-row > span:last-child { display: block; }
+  .staff-app .catalog-row strong { font-size: 13px; }
+  .staff-app .catalog-row small { font-size: 11px; }
+  .staff-app .order-footer { flex-direction: row; align-items: center; padding: 10px 12px; }
+  .staff-app .order-footer .text-button { font-size: 10px; max-width: 135px; min-height: 44px; }
+  .staff-app .order-footer .primary { min-height: 44px; font-size: 12px; margin-left: auto; }
+  .staff-app .queue-detail button { min-height: 40px; }
+  .staff-app .reception-person { padding: 18px; }
+  .staff-app .reception-identity { padding: 14px 16px; }
+  .staff-app .reception-identity > .small { font-size: 10px; }
+  .reception-intake { padding: 0 16px 14px; gap: 10px; }
+  .reception-intake > label { font-size: 11px; }
+  .staff-app .reception-intake select { min-height: 40px; }
+  .intake-action button { min-height: 40px; }
+  .intake-facts { gap: 12px; padding: 12px; }
+  .intake-facts dd { font-size: 12px; }
+  .staff-app .current-fact { margin: 0 16px 12px; padding: 10px 12px; }
+  .staff-app .current-fact strong { font-size: 12px; }
+  .staff-app .reception-detail > .staff-view-switch { padding: 5px 8px; }
+  .staff-app .reception-detail > .staff-view-switch button { font-size: 11px; }
+  .staff-app .control-services, .staff-app .event-log { padding: 0 16px; }
+  .staff-app .control-service { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .control-service > div > strong { font-size: 12px; }
+  .staff-app .reception-footer { padding: 6px 14px; }
+  .staff-app .reception-footer .text-button { font-size: 10px; min-height: 40px; }
+  .procedure-tools { flex-direction: column; align-items: stretch; gap: 6px; padding-bottom: 10px; }
+  .staff-app .procedure-search { width: 100%; max-width: none; }
+  .staff-app .procedure-search input { min-height: 40px; }
+  .staff-app .procedure-arrival-note { justify-content: flex-start; font-size: 11px; gap: 7px; }
+  .staff-app .procedure-arrival-note .icon-button { margin-left: auto; min-height: 28px; }
+  .staff-app .assigned-row { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; }
+  .staff-app .assigned-row .person-heading { grid-column: auto; }
+  .staff-app .assigned-row .person-avatar { display: flex; }
+  .staff-app .assigned-row .person-heading > div { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; }
+  .staff-app .procedure-presence { margin-left: 46px; margin-top: 5px; }
+  .procedure-row-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+  .staff-app .procedure-row-actions > .text-button { margin-right: auto; }
+  .staff-app .procedure-row-actions button { min-height: 40px; font-size: 11px; }
+  .staff-app .staff-panel-footnote { padding: 10px 14px; font-size: 10px; }
+  .staff-app .reception-detail .staff-empty { min-height: 100px; padding: 12px; gap: 5px; }
+  .staff-app .reception-detail .staff-empty-icon { height: 36px; min-height: 36px; width: 36px; margin-bottom: 2px; border-radius: 10px; }
+  .staff-app .completed-row { padding: 16px; }
+  .staff-app .completed-row button { min-height: 40px; }
+  .staff-settings { padding: 24px 18px; }
+  .staff-settings .room-method-setting { grid-template-columns: 1fr; gap: 6px; }
+  .staff-settings .room-settings-list { max-height: calc(100dvh - 280px); }
+}
+
+@media (max-height: 700px) and (min-width: 701px) {
+  .staff-app .desktop-header { height: 32px; min-height: 32px; }
+  .staff-app .page-title { min-height: 70px; }
+  .staff-app .active-identity { padding-top: 12px; padding-bottom: 12px; }
+  .staff-panel-heading { min-height: 50px; padding-top: 12px; padding-bottom: 12px; }
+  .reception-identity { padding-top: 12px; padding-bottom: 12px; }
+}
+
+@media (max-height: 700px) and (max-width: 700px) {
+  .staff-app .reception-detail > .staff-panel-heading { min-height: 42px; padding-top: 8px; padding-bottom: 8px; }
+  .staff-app .reception-identity { padding-top: 10px; padding-bottom: 10px; }
+  .staff-app .reception-intake { flex-wrap: nowrap; align-items: flex-end; padding-bottom: 10px; }
+  .staff-app .reception-intake > label { flex-basis: auto; }
+  .staff-app .intake-action { width: auto; max-width: 140px; }
+  .staff-app .intake-action .primary { font-size: 11px; min-height: 40px; padding: 8px 10px; }
+  .staff-app .current-fact { margin-bottom: 8px; padding-top: 8px; padding-bottom: 8px; }
+}

@@ -65,6 +65,8 @@ async function openConfirmation(role: 'control') {
   await act(async () => { root.render(<App />); });
   const snapshot = makeSnapshot(createRun());
   await act(async () => { FakeEventSource.current.snapshot(snapshot); });
+  await click(button(host, 'Cài đặt & kiểm tra'));
+  await click(button(dialog(), 'Trả kết quả'));
   await click(button(host, 'Tạo lượt mới / đặt lại với chế độ đã chọn'));
   return { snapshot, submitText: 'Xác nhận tạo lượt mới' };
 }
@@ -99,7 +101,8 @@ describe.each(['control'] as const)('%s modal command recovery', role => {
     expect(requests[1]).toEqual(requests[0]);
     expect(dialog().querySelector('[role="status"]')?.textContent).toContain('Đang gửi xác nhận');
     await act(async () => { respond({ json: async () => ({ ok: true, snapshot }) }); });
-    expect(host.querySelector('dialog')).toBeNull();
+    expect(dialog().getAttribute('aria-label')).toBe('Cài đặt & kiểm tra');
+    expect(dialog().textContent).not.toContain('Bắt đầu lượt khám mới?');
     expect(host.querySelector('[role="alert"]')).toBeNull();
   });
 });
