@@ -5,11 +5,14 @@ import { commandSchema, resetSchema, assistantSchema } from '../shared/contracts
 import { DomainError, makeSnapshot } from '../domain/engine';
 import { Repository } from './repository';
 import { answerAssistant, ResponsesProvider, type AiProvider } from './ai/assistant';
-export function createApp(repository:Repository,provider:AiProvider=new ResponsesProvider()){
+import { z } from 'zod';
+import { SpeechError, type SpeechProvider } from './speech';
+import { RecordedSpeechProvider } from './recordedSpeech';
+export function createApp(repository:Repository,provider:AiProvider=new ResponsesProvider(),speechProvider:SpeechProvider=new RecordedSpeechProvider()){
  const app=express();app.disable('x-powered-by');app.use(express.json({limit:'16kb'}));const subscribers=new Set<Response>();
  const snapshot=()=>makeSnapshot(repository.read(),repository.events(),{configured:provider.configured,model:provider.model});
  const publish=()=>{const value=snapshot();for(const res of subscribers)res.write(`id: ${value.runId}:${value.revision}\nevent: snapshot\ndata: ${JSON.stringify(value)}\n\n`);};
- app.get('/api/health',(_req,res)=>res.json({ok:true,storage:'sqlite',aiConfigured:provider.configured}));
+ app.get('/api/health',(_req,res)=>res.json({ok:true,storage:'sqlite',aiConfigured:provider.configured,speechConfigured:speechProvider.configured===true,speechSource:speechProvider.source||'custom',speechRecordings:speechProvider.recordings||0}));
  app.get('/api/snapshot',(_req,res)=>res.json(snapshot()));
  app.get('/api/events',(req,res)=>{
   res.set({'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','Connection':'keep-alive','X-Accel-Buffering':'no'});res.flushHeaders();subscribers.add(res);
@@ -20,6 +23,19 @@ export function createApp(repository:Repository,provider:AiProvider=new Response
  const commandHandler=(reset:boolean):express.RequestHandler=>(req,res)=>{const parsed=(reset?resetSchema:commandSchema).safeParse(req.body);if(!parsed.success){res.status(400).json({ok:false,code:'INVALID_COMMAND',message:'Dữ liệu thao tác không hợp lệ.',snapshot:snapshot()});return;}try{const receipt=reset?repository.reset(parsed.data as any):repository.command(parsed.data as any);if(receipt.changed)publish();res.json({ok:true,duplicate:receipt.duplicate,snapshot:snapshot()});}catch(e){if(e instanceof DomainError){res.status(e.code.startsWith('STALE')||e.code==='COMMAND_ID_REUSED'?409:422).json({ok:false,code:e.code,message:e.message,snapshot:snapshot()});}else{console.error('Command failed (details suppressed)');res.status(500).json({ok:false,code:'SERVER_ERROR',message:'Không xác nhận được thao tác. Đồng bộ hoặc thử lại cùng mã thao tác.',snapshot:snapshot()});}}};
  app.post('/api/commands',commandHandler(false));app.post('/api/demo/reset',commandHandler(true));
  app.post('/api/assistant',async(req,res)=>{const parsed=assistantSchema.safeParse(req.body);if(!parsed.success){res.status(400).json({ok:false,code:'INVALID_QUESTION',message:'Câu hỏi không hợp lệ.'});return;}try{res.json(await answerAssistant(parsed.data,()=>repository.read(),provider));}catch(e){res.status(e instanceof DomainError&&e.code==='STALE_CONTEXT'?409:422).json({ok:false,code:e instanceof DomainError?e.code:'AI_ERROR',message:e instanceof DomainError?e.message:'Không thể trả lời lúc này.',snapshot:snapshot()});}});
+ app.post('/api/speech',async(req,res)=>{
+  const parsed=z.object({text:z.string().trim().min(1).max(1000)}).strict().safeParse(req.body);
+  if(!parsed.success){res.status(400).json({ok:false,code:'INVALID_SPEECH_TEXT'});return;}
+  const controller=new AbortController();
+  const cancel=()=>{if(!res.writableEnded)controller.abort();};
+  res.on('close',cancel);
+  try{
+   const audio=await speechProvider.synthesize(parsed.data.text,controller.signal);
+   if(!controller.signal.aborted)res.set({'Content-Type':Buffer.isBuffer(audio)?'audio/mpeg':audio.contentType,'Cache-Control':'no-store'}).send(Buffer.isBuffer(audio)?audio:audio.data);
+  }catch(error){
+   if(!controller.signal.aborted)res.status(503).json({ok:false,code:error instanceof SpeechError?error.code:'SPEECH_UNAVAILABLE'});
+  }finally{res.off('close',cancel);}
+ });
  app.use('/api',(_req,res)=>res.status(404).json({ok:false,code:'NOT_FOUND'}));
  app.use(express.static(join(process.cwd(),'dist')));app.get('/{*path}',(_req,res)=>res.sendFile(join(process.cwd(),'dist','index.html')));
  return {app,snapshot,closeStreams:()=>{for(const r of subscribers)r.end();subscribers.clear();}};
