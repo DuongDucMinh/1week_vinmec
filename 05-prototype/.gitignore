@@ -3,3 +3,14 @@ data/*.sqlite*
 playwright-report/
 test-results/
 .prototype-runtime/
+data/navigation-voice/
+voice/**/out/
+voice/**/downloads/
+voice/**/*.wav
+voice/**/*.zip
+kaggle.json
+
+# Keep transient browser diagnostics out of published evidence.
+outputs/**/browser-artifacts/
+outputs/**/spacing-browser-artifacts/
+outputs/**/.last-run.json
