@@ -12,7 +12,10 @@
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
     "typecheck": "tsc --noEmit",
-    "eval:ai": "tsx src/server/ai/evaluate-cli.ts"
+    "eval:ai": "tsx src/server/ai/evaluate-cli.ts",
+    "voice:prepare": "node tools/voice/prepare.mjs",
+    "voice:studio": "node tools/voice/studio.mjs",
+    "voice:import": "node tools/voice/import.mjs"
   },
   "dependencies": {
     "express": "5.3.0",
