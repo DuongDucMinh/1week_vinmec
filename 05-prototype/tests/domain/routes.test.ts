@@ -8,6 +8,14 @@ const costs=[[0,1,5,5,5],[1,0,4,4,4],[5,4,0,2,6],[5,4,2,0,6],[5,4,6,6,0]];
 const location=(id:string)=>graph.locations.find(l=>l.id===id)!;
 
 describe('campus and floor route consistency',()=>{
+ it.each(['lift','stairs'] as const)('%s routes never visit the unused transport as an intermediate landmark',mode=>{
+  const rooms=graph.locations.filter(point=>point.kind==='room'||point.kind==='reception');
+  for(const from of rooms)for(const to of rooms){
+   const route=deriveRoute({...createRun().visits[0],locationId:from.id,transportMode:mode},to.id);
+   expect(route.nodeIds.length).toBeGreaterThan(0);
+   expect(route.nodeIds.map(id=>location(id).kind)).not.toContain(mode==='stairs'?'lift':'stairs');
+  }
+ });
  it.each([['DEMO-RECEPTION','DEMO-TIMMACH','lên tầng 3'],['DEMO-RECEPTION','DEMO-DIENTIM','lên tầng 6'],['DEMO-DIENTIM','DEMO-RECEPTION','xuống tầng 1']])('combines continuous lift travel from %s to %s', (from,to,direction)=>{
   const route=deriveRoute({...createRun().visits[0],locationId:from},to);
   expect(route.instructions.filter(step=>step.includes('Đi thang máy'))).toEqual([`Đi thang máy ${direction}.`]);

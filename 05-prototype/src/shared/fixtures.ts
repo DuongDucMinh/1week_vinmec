@@ -56,14 +56,40 @@ graph.edges.push({from:'DEMO-CONNECTOR-B',to:'DEMO-B-LIFT-1',weight:.5},{from:'D
 addFloor('B',2,[{id:'DEMO-XQUANG',code:'B201',name:'Chụp X-quang',label:'X-quang'},{id:'DEMO-CT-ROOM',code:'B205',name:'Chụp CT',label:'Chụp CT'}]);
 addFloor('B',3,[{id:'DEMO-THUCQUAN',code:'B301',name:'Nội soi thực quản',label:'Nội soi|thực quản'},{id:'DEMO-DADAY',code:'B305',name:'Nội soi dạ dày',label:'Nội soi|dạ dày'}]);
 
-// Each lift landing has a separate staircase landing, connected on every floor.
+// Both transport choices open onto the corridor independently. Walking to the
+// stairs must not require visiting the lift landing first.
 for(const building of graph.buildings){
  const lifts=graph.locations.filter(l=>l.buildingId===building.id&&l.kind==='lift').sort((a,b)=>a.floor-b.floor);
  for(const [index,lift] of lifts.entries()){
   const id=`DEMO-${building.id}-STAIRS-${lift.floor}`;
   graph.locations.push({...lift,id,name:`Thang bộ tầng ${lift.floor}`,kind:'stairs',x:410,campusX:lift.campusX+25,landmark:`Biển cầu thang bộ · Tòa ${building.id}, tầng ${lift.floor}`});
   graph.edges.push({from:lift.id,to:id,weight:.5});
+  for(const edge of [...graph.edges]){
+   const neighborId=edge.from===lift.id?edge.to:edge.to===lift.id?edge.from:null;
+   const neighbor=graph.locations.find(point=>point.id===neighborId);
+   if(neighbor&&neighbor.floor===lift.floor&&neighbor.buildingId===lift.buildingId&&neighbor.kind!=='lift'&&neighbor.kind!=='stairs'){
+    graph.edges.push({from:id,to:neighbor.id,weight:edge.weight+.5});
+   }
+  }
   if(index)graph.edges.push({from:`DEMO-${building.id}-STAIRS-${lifts[index-1].floor}`,to:id,weight:3});
+ }
+}
+
+// Reference rooms are floor-plan context, separate from routing and service
+// locations. Their doors help people identify which way the corridor continues.
+graph.landmarks=[];
+const referenceRooms: {buildingId:string;floor:number;rooms:[number,number][]}[]=[
+ {buildingId:'A',floor:1,rooms:[[101,80],[103,210],[106,355],[110,535]]},
+ {buildingId:'B',floor:1,rooms:[[101,80],[103,210],[104,370],[106,560]]},
+ ...[2,3,4,5].map(floor=>({buildingId:'A',floor,rooms:[[floor*100+2,245],[floor*100+4,405]] as [number,number][]})),
+ {buildingId:'A',floor:6,rooms:[[603,330],[606,535]]},
+ ...[2,3].map(floor=>({buildingId:'B',floor,rooms:[[floor*100+2,245],[floor*100+4,405]] as [number,number][]}))
+];
+for(const plan of referenceRooms){
+ const building=graph.buildings.find(b=>b.id===plan.buildingId)!;
+ for(const [number,x] of plan.rooms){
+  const roomNumber=`${plan.buildingId}${number}`;
+  graph.landmarks.push({id:`DEMO-REFERENCE-${roomNumber}`,name:`Phòng ${roomNumber}`,roomNumber,building:building.name,buildingId:building.id,floor:plan.floor,kind:'room',x,y:105,campusX:building.x+x/620*building.width,campusY:245,landmark:`Biển phòng ${roomNumber}`});
  }
 }
 

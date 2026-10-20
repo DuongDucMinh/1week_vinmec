@@ -16,7 +16,7 @@ function routeInstructions(path: Location[]): string[] {
   const previous=path[i-1],location=path[i],turn=turnAt(path[i-2],previous,location);
   if(location.floor!==previous.floor){
    let exit=location;
-   while(exit.kind==='lift'&&path[i+1]?.kind==='lift'&&path[i+1].buildingId===exit.buildingId){exit=path[++i];}
+   while(path[i+1]?.kind===location.kind&&path[i+1].buildingId===exit.buildingId&&path[i+1].floor!==exit.floor){exit=path[++i];}
    instructions.push(`Đi ${location.kind==='stairs'?'thang bộ':'thang máy'} ${exit.floor>previous.floor?'lên':'xuống'} tầng ${exit.floor}.`);continue;
   }
   if(location.buildingId!==previous.buildingId){instructions.push(`Qua lối nối sang ${lowerBuilding(location)}.`);continue;}
@@ -40,6 +40,8 @@ export function deriveRoute(v: Visit,destination:string|null):Route {
  const distances=new Map(graph.locations.map(l=>[l.id,Infinity])); const previous=new Map<string,string>(); const unvisited=new Set(distances.keys());distances.set(v.locationId!,0);
  while(unvisited.size){const cur=[...unvisited].sort((a,b)=>distances.get(a)!-distances.get(b)!)[0];unvisited.delete(cur);if(cur===destination)break;for(const edge of graph.edges){
   const a=graph.locations.find(l=>l.id===edge.from)!,b=graph.locations.find(l=>l.id===edge.to)!;
+  const unusedTransport=(v.transportMode??'lift')==='lift'?'stairs':'lift';
+  if([a,b].some(point=>point.kind===unusedTransport&&point.id!==v.locationId&&point.id!==destination))continue;
   if(a.floor!==b.floor && (a.kind!==(v.transportMode??'lift')||b.kind!==(v.transportMode??'lift')))continue;
   const next=edge.from===cur?edge.to:edge.to===cur?edge.from:null;if(next&&unvisited.has(next)&&distances.get(cur)!+edge.weight<distances.get(next)!){distances.set(next,distances.get(cur)!+edge.weight);previous.set(next,cur);}}}
  const path=[destination];while(path[0]!==v.locationId&&previous.has(path[0]))path.unshift(previous.get(path[0])!);
