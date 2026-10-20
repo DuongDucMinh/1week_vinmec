@@ -1,33 +1,46 @@
 # Kiểm thử prototype khám ngoại trú
 
-Cập nhật 20/10/2026, sau khi bổ sung điều phối theo lượng người và lựa chọn thang máy / thang bộ.
+Cập nhật 21/10/2026. Kiểm thử phần mềm với hồ sơ và sơ đồ mô phỏng; phản hồi người dùng lưu riêng tại [user-test-log](user-test-log.md).
 
-| Kiểm tra | Kết quả | Bằng chứng |
-| --- | --- | --- |
-| TypeScript và production build | Đạt | `npm.cmd run build`; 45 modules |
-| Vitest toàn bộ | 155/155 đạt, 15 files | [JSON](outputs/adaptive-routing/vitest-results.json) |
-| Kiểm tra lại sau thu gọn phép tính lặp | 19/19 đạt | Các ca điều phối và toàn bộ khoa; build chạy lại đạt |
-| Playwright trên Chrome | 16/16 đạt, không bỏ qua | [JSON](outputs/adaptive-routing/playwright-results.json) |
-| Slide PowerPoint và PDF | 10 trang | Kiểm tra cấu trúc / bố cục / font, mở lại PPTX, xem từng trang; PDF mở lại và render trang thay đổi |
+## Kết quả hiện hành
 
-## Các hành vi đã kiểm tra
+Hồi quy toàn bộ trước khi commit và push ngày 21/10/2026:
 
-- Chọn phòng ít người trước; cùng số người chọn phòng gần theo đường đi, giữ danh sách bác sĩ.
-- Dự kiến A → B → C chuyển thành A → C → B sau khi hoàn tất A; giữ A trong lúc đang di chuyển, cập nhật tuyến từ phòng vừa làm xong.
-- Đếm người đang thực hiện và người thực sự chờ tại phòng; loại bản thân, người đã xong và chỉ định tương lai ở nơi khác. Nhân viên ghi nhận đến phòng cho người dùng giấy.
-- Thang máy mặc định; chọn thang bộ chỉ dùng cạnh thang bộ khi đổi tầng, lên / xuống nhiều tầng và qua tòa. Đổi lựa chọn đặt lại chặng, được giữ khi tải lại trang; reset trở về mặc định.
-- Giọng chỉ đường theo từng bước và hủy khi rời màn; sơ đồ điện thoại 360 / 390 px, hướng rẽ và tìm lại mốc.
-- Luồng xuyên suốt bốn vai trò, 5 khoa, 9 thủ tục, reset riêng, đồng bộ, kết quả / giấy riêng và phục hồi khi kết nối lại.
-- Hộp hỗ trợ giữ focus bàn phím, Escape đóng và trả focus; giấy hướng dẫn theo thứ tự dự kiến.
+| Kiểm tra | Kết quả |
+| --- | --- |
+| TypeScript và production build | Đạt |
+| Vitest: nghiệp vụ, API, giao diện và trợ lý | 230/230 ca, 23 tệp |
+| Công cụ tạo và nhập bộ giọng | 13/13 ca |
+| Chrome: toàn bộ luồng nhân viên và bệnh nhân | 35/35 kịch bản |
 
-## Ảnh của bản hiện tại
+Biểu tượng ở cùng hàng logo/tên người bệnh, không tạo dòng riêng; kiểm tra cả bốn tab ở 360×640, 390×844 và 1440×900. Hộp chi tiết vẫn tách hai mốc thời gian; mất mạng giữ cảnh báo và khóa xác nhận.
 
-[Thang bộ ở 390 px](outputs/adaptive-routing/stairs-390.png) · [Trước khi hoàn tất A](outputs/adaptive-routing/plan-before-390.png) · [Sau khi tính lại](outputs/adaptive-routing/plan-after-390.png).
+Kiểm thử dùng server/SQLite riêng, không reset dữ liệu demo cổng 3001; AI và âm thanh dùng phản hồi mô phỏng, không gọi dịch vụ tính phí.
 
-Ảnh các luồng hồi quy nằm trong `outputs/adaptive-routing/regression/`.
+## Cập nhật vị trí
 
-## Phạm vi và giới hạn
+- Chọn tòa, tầng và mốc theo biển tên; không có mốc mặc định. Đổi tòa xóa lựa chọn tầng/mốc phụ thuộc.
+- Từ tòa khác, xác nhận vị trí mới tạo tuyến đúng điểm xuất phát, giữ điểm đến và các chỉ định.
+- Sau thủ tục đầu, cập nhật tại cổng giữ trạng thái đã hoàn tất; tải lại có kết nối vẫn giữ vị trí mới.
+- Không xác định được mốc thì có hướng dẫn nhờ nhân viên. Cập nhật thất bại giữ hộp chọn; mất kết nối khóa xác nhận.
 
-Đây là kiểm thử phần mềm với dữ liệu mô phỏng. Bộ giọng đọc dùng stub để xác minh cách gọi API và đổi nội dung; không xác nhận chất lượng giọng Việt trên mọi thiết bị. Tests AI dùng adapter / mock, không chứng minh kết nối mô hình thật. Không dùng các kết quả trên để khẳng định giảm thời gian chờ thực tế hoặc xác nhận quy trình bệnh viện.
+[Chọn vị trí](outputs/navigation-recovery/choose-location.png) · [Tuyến từ tòa B](outputs/navigation-recovery/rerouted-from-building-b.png) · [Quay lại từ cổng](outputs/navigation-recovery/return-from-entrance.png).
 
-Phản hồi người dùng được ghi riêng tại [user-test-log.md](user-test-log.md).
+## Đồng bộ và mất kết nối
+
+- Biểu tượng kết nối nằm trong header trên mọi tab, không chiếm dòng riêng; chạm để xem thời gian đồng bộ.
+- Tách thời điểm nhận snapshot hợp lệ và thời điểm dữ liệu hệ thống thay đổi. Snapshot cũ bị loại không làm mới mốc đồng bộ.
+- Mất mạng thực hoặc ngắt kết nối mô phỏng đều hiện cảnh báo; giữ mốc cuối và khóa xác nhận vị trí/đổi thang.
+- Kết nối lại chỉ được xác nhận khi nhận dữ liệu hợp lệ. Lệnh chưa rõ kết quả dùng cơ chế gửi lại cùng xác nhận.
+
+[Đang kết nối](outputs/navigation-recovery/online-sync.png) · [Chi tiết thời gian](outputs/navigation-recovery/sync-details.png) · [Mất kết nối](outputs/navigation-recovery/offline-warning.png).
+
+## Phạm vi hồi quy
+
+Điều phối theo lượng người; chọn khoa và reset riêng; thang máy/thang bộ; bản đồ có phòng tham chiếu; tiến độ, kết quả và giấy; bốn tab bệnh nhân; hội thoại; bố cục ba màn nhân viên; giọng đọc, nghe lại và đổi tuyến. Kiểm tra bản đồ từ 360×640 tới 1440×900, không tràn nhãn hoặc phát sinh thêm bước hành lang.
+
+## Chưa được xác minh
+
+- Chưa có định vị tự động, QR, quản lý giữ lượt khi tạm rời viện hoặc cache lượt khám ngoại tuyến bền vững. Khả năng phát hiện ngắt kết nối phụ thuộc trình duyệt/mạng.
+- Chưa xác minh kết nối LLM thật. Kiểm thử âm thanh không thay thế nghe phát âm trên thiết bị thật; câu chưa có bản ghi cần bổ sung hoặc dịch vụ giọng dự phòng.
+- Chưa thử lại với T1/T2; chưa đo giảm chờ, giảm đi nhầm hoặc mức phù hợp cho người thị lực kém. Chưa xác nhận sơ đồ và quy trình bệnh viện.

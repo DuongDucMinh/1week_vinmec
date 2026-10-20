@@ -13,6 +13,6 @@ Phản hồi ở mức định tính, tập trung vào khả năng đọc và ch
 
 ## Sau vòng thử
 
-Bản sửa và cách trình diễn: [user-feedback-revision.md](user-feedback-revision.md). Giọng đọc phát bằng chức năng text-to-speech trên trình duyệt. Định vị và việc ghép Google Maps với sơ đồ bệnh viện mới ở mức minh họa. Sơ đồ hiện tại vẫn là dữ liệu dựng, chưa phải bản đồ chính thức của viện.
+Bản sửa và cách trình diễn: [user-feedback-revision.md](user-feedback-revision.md). Bản hiện tại phát bản ghi tiếng Việt khớp câu; có thể dùng Azure Speech dự phòng khi cấu hình. Vị trí do người bệnh/nhân viên xác nhận; chưa tích hợp định vị tự động hoặc Google Maps trong màn chỉ đường. Sơ đồ hiện tại vẫn là dữ liệu dựng, chưa phải bản đồ chính thức của viện.
 
 Chưa thử lại bản sửa với T1/T2, chưa có kết quả trước/sau. Hiệu quả giảm đi nhầm và tăng khả năng sử dụng còn là giả thuyết. Vòng tiếp theo cần thử cùng nhiệm vụ tìm phòng, hỏi người thử xác định hướng rẽ và tự tìm lại đường từ một mốc khác, so sánh bật/tắt giọng đọc.

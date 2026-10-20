@@ -42,7 +42,7 @@ Mỗi phần tử `facts` có `{ id, text, intents }`, được dựng từ lư�
 | `results` | Số kết quả đã có / 2; quy tắc bộ phận xác nhận | RESULTS |
 | `paper` | Chế độ, điều kiện nhận giấy và số bản đã nhận | PAPER |
 | `return` | Điều kiện quay lại và phase: đang chờ gọi, đã được gọi hoặc đã hoàn tất không yêu cầu quay lại/sẵn sàng lần nữa | RETURN, RESULTS |
-| `readiness` | Có mặt/sẵn sàng/được gọi/hoàn tất, không tự vào hàng khi đủ kết quả | READINESS |
+| `readiness` | Phân biệt quay lại phòng, chờ kết quả và được bác sĩ gọi; hoàn tất thủ tục tự vào danh sách quay lại | READINESS |
 | `route` | Các mốc đường đi hiện tại từ graph | ROUTE |
 | `help` | Giấy và nhân viên hỗ trợ khi app lỗi | HELP |
 | `scope` | Giới hạn hành chính và trao đổi với bác sĩ | OUT_OF_SCOPE |

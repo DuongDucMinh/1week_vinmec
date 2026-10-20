@@ -1,6 +1,6 @@
 # Rủi ro an toàn, đạo đức và cách giảm thiểu
 
-Cập nhật 20/10/2026. Phạm vi: prototype hướng dẫn chuyển bước ngoại trú, điều phối theo lượng người, lựa chọn thang, hai chế độ nhận kết quả và các vai trò bệnh nhân, bác sĩ, phòng thủ tục, điều phối. Lượt khám, kết quả, phòng và sơ đồ đều mô phỏng. Đây là đánh giá thiết kế cho bài tập, chưa phải quy trình được Vinmec phê duyệt.
+Cập nhật 21/10/2026. Phạm vi: prototype hướng dẫn chuyển bước ngoại trú, điều phối theo lượng người, lựa chọn thang, hai chế độ nhận kết quả và các vai trò bệnh nhân, bác sĩ, phòng thủ tục, điều phối. Lượt khám, kết quả, phòng và sơ đồ đều mô phỏng. Đây là đánh giá thiết kế cho bài tập, chưa phải quy trình được Vinmec phê duyệt.
 
 ## Nguyên tắc và trách nhiệm
 
@@ -14,21 +14,21 @@ Mức ảnh hưởng là đánh giá định tính nếu xảy ra, chưa phải 
 
 | Mã / ảnh hưởng | Tình huống và hậu quả | Cách giảm thiểu | Bằng chứng và việc còn thiếu |
 | --- | --- | --- | --- |
-| R01 / Cao | Nhầm đã thực hiện với đã có kết quả, quay lại sớm hoặc thiếu giấy. Nguồn P1-35–36, P2-25–27. | Tách thực hiện, kết quả và nhận từng giấy; chặn chuyển bước khi chưa đủ điều kiện. | Có domain/server tests cho hai mode; cần quan sát người thử hiểu các trạng thái và lý do chặn. |
-| R02 / Cao | Sơ đồ giả, điểm đầu cũ hoặc tuyến khó tiếp cận dẫn đi sai. Nguồn P1-19–21/32/36, P2-04–05. | Nhãn mô phỏng, xác nhận điểm đầu, chỉ dẫn chữ theo mốc; chưa rõ thì hỏi nhân viên. | Có 23 tests tuyến và kiểm tra ảnh thành phần. Chưa xác minh mặt bằng/lối tiếp cận thật; không cho người thử đi theo bản đồ ngoài đời. |
+| R01 / Cao | Nhầm đã thực hiện với đã có kết quả, quay lại sớm hoặc thiếu giấy. Nguồn P1-35–36, P2-25–27. | Tách thực hiện, kết quả và nhận giấy. Hoàn tất thủ tục thì hướng quay lại phòng; kết quả có thể còn chờ, chỉ vào khi bác sĩ gọi. | Có kiểm thử cho hai chế độ; cần thử người dùng phân biệt quay lại phòng, chờ kết quả và được gọi. |
+| R02 / Cao | Sơ đồ giả, điểm đầu cũ hoặc tuyến khó tiếp cận dẫn đi sai. Nguồn P1-19–21/32/36, P2-04–05. | Cập nhật vị trí theo tòa/tầng/mốc, giữ tiến độ và tính lại đường; không biết mốc thì nhờ nhân viên. | Có kiểm thử cập nhật vị trí và tuyến mới. Chưa có định vị tự động, QR hoặc mặt bằng được khảo sát; không dùng sơ đồ mô phỏng để dẫn đường ngoài đời. |
 | R03 / Cao | Model hiểu sai, chọn thông tin không phù hợp hoặc làm theo yêu cầu bỏ quy tắc. | Chỉ cho chọn intent/fact ID hợp lệ; server kiểm tra và dựng câu từ facts. Trợ lý không có quyền ghi trạng thái. | Có mock tests schema/facts/lỗi; 24 eval thật hiện NOT_LIVE. Cần thử LIVE câu mơ hồ, ngoài phạm vi và yêu cầu đổi trạng thái. |
 | R04 / Rất cao | Người cần trợ giúp khẩn cấp tiếp tục hỏi AI hoặc nhận hướng dẫn bước khám thường, gây chậm tìm hỗ trợ. | Lối hỗ trợ trực tiếp luôn truy cập được, không chờ AI phân loại. Dừng nhiệm vụ thử khi có nhu cầu hỗ trợ thật. | Chưa có luồng khẩn cấp đã kiểm chứng. Fallback hiện trả việc tiếp theo; chưa thể coi là xử lý khẩn cấp. |
-| R05 / Cao | Nhầm đủ kết quả với được vào phòng; xác nhận có mặt khi vẫn ngoài viện. | Tách đủ điều kiện, có mặt/sẵn sàng và bác sĩ gọi; nút sẵn sàng ghi đúng là tự khai báo; nhân viên có thể kiểm tra và xác nhận thủ công. | Có tests gate/staff fallback; chưa xác thực vị trí hoặc thử cách hiểu của người dùng. |
-| R06 / Cao | Mất mạng, phản hồi cũ hoặc gửi lại lệnh gây sai trạng thái/hàng chờ trùng. | Kiểm tra run/revision/generation, chống lệnh trùng; hiển thị chờ xác nhận/lỗi; giữ giấy và hỗ trợ con người. | Có tests stale/reset/retry/server/UI lỗi. Browser/E2E giao diện mới chưa chạy; cần quan sát lại phục hồi mạng. |
+| R05 / Cao | Nhầm đủ kết quả với được vào phòng; xác nhận có mặt khi vẫn ngoài viện. | Phân biệt danh sách quay lại với lời gọi vào phòng. Người bệnh tự cập nhật vị trí khi quay lại; vị trí chưa được xác thực tự động. | Hoàn tất thủ tục tự vào danh sách quay lại; chưa quản lý giữ lượt khi tạm rời viện hoặc thử cách hiểu với người dùng. |
+| R06 / Cao | Mất mạng, phản hồi cũ hoặc gửi lại lệnh gây sai trạng thái/hàng chờ trùng. | Kiểm tra run/revision/generation, chống lệnh trùng; hiện lần đồng bộ cuối, cảnh báo mất kết nối, khóa xác nhận và cho kết nối lại. Dùng giấy/nhân viên khi cần. | Có kiểm thử phản hồi cũ/gửi lại và trạng thái đồng bộ. Chưa có cache ngoại tuyến bền vững; xem kết quả trình duyệt tại báo cáo kiểm thử. |
 | R07 / Cao | Hiểu quy tắc demo chờ bên ngoài, ETA hoặc trả kết quả là chính sách bệnh viện, gây bỏ lỡ bước. | Công khai mô phỏng; không cam kết thời gian, định vị hoặc gọi thật. Chỉ dùng quy tắc đã được cơ sở xác nhận khi áp dụng thật. | Có đặc tả demo; chưa xác minh quy trình Vinmec, chưa đo thời gian chờ hoặc bỏ lượt. |
 | R08 / Cao | Lộ danh tính, sức khỏe hoặc khóa API qua repo, prompt, log, ảnh, Canva. | Dùng P1/P2/P3, T1/T2/T3 và dữ liệu giả. Chỉ chia sẻ ghi chép dịch vụ đã khái quát. Khóa ở server ngoài Git; không tải ghi chú thô lên Canva. | Có .gitignore và facts không chứa lịch sử lâm sàng; chưa phải rà riêng tư toàn repo/lịch sử Git. Cần rà trước push và chia sẻ. |
 | R09 / Trung bình | Người ít quen điện thoại, thị lực kém không đọc được hoặc hiểu nhầm màu. | Nhãn chữ đi cùng màu, câu ngắn theo chặng, giấy và hỗ trợ trực tiếp. | Có DOM tests/ảnh thành phần; chưa thử nhóm đa dạng hoặc khả năng tiếp cận trên điện thoại thật. |
 | R10 / Cao | Nhầm người/lượt ở màn bác sĩ hoặc cập nhật kết quả làm gián đoạn hồ sơ đang xem. | Gắn sự kiện với lượt, cập nhật nền; bác sĩ chủ động mở lượt. Áp dụng thật cần xác thực, phân quyền và đối chiếu danh tính của cơ sở. | Có mô phỏng encounter/cập nhật nền. Ba vai trò demo chưa phải phân quyền production; không dùng dữ liệu bệnh nhân thật. |
-| R11 / Trung bình | Biến diễn giải thành lời nguyên văn, tính tự thuật là phỏng vấn hoặc công bố tiết kiệm chưa đo. | Truy nguồn từng phát hiện; ghi phương pháp/giới hạn; tách QA, eval AI và thử người dùng. | Có 2 phỏng vấn + 1 tự thuật, chưa thử người dùng. Không dùng ví dụ 9 tờ/30–60 phút hay ước lượng P3 làm KPI. |
+| R11 / Trung bình | Biến diễn giải thành lời nguyên văn, tính tự thuật là phỏng vấn hoặc công bố tiết kiệm chưa đo. | Truy nguồn từng phát hiện; ghi phương pháp/giới hạn; tách QA, eval AI và thử người dùng. | Có 2 phỏng vấn + 1 tự thuật và phản hồi T1/T2; chưa thử lại sau cải tiến. Không dùng ví dụ 9 tờ/30–60 phút hay ước lượng P3 làm KPI. |
 
 ## Đường chuyển sang hỗ trợ con người
 
-Khi app lỗi hoặc thông tin không khớp, thông điệp đề xuất: “Hãy dùng giấy hướng dẫn và nhờ quầy tiếp nhận hoặc nhân viên phòng khám xác nhận bước tiếp theo.” Không tự đoán phòng, điều kiện hoặc giờ chờ. Nhân viên kiểm tra trước khi xác nhận sẵn sàng thủ công.
+Khi app lỗi hoặc thông tin không khớp, thông điệp đề xuất: “Hãy dùng giấy hướng dẫn và nhờ quầy tiếp nhận hoặc nhân viên phòng khám xác nhận bước tiếp theo.” Không tự đoán phòng, điều kiện hoặc giờ chờ. Nhân viên đối chiếu hồ sơ và bước tiếp theo trước khi hướng dẫn.
 
 Trang cơ sở công bố **hotline Vinmec Ocean Park 2: 024 3975 1800**, kiểm tra ngày 19/10/2026: [nguồn chính thức](https://www.vinmec.com/vie/co-so-y-te/benh-vien-da-khoa-vinmec-ocean-park-2). Đây là số liên hệ của cơ sở; chưa xác minh là kênh cấp cứu trực tiếp hoặc có thời gian đáp ứng cụ thể. Không gắn nhãn cấp cứu cho số này.
 
@@ -53,11 +53,11 @@ Kế hoạch lưu giữ đề xuất: xóa bản thô và bảng nối mã trong
 
 | Ca dùng dữ liệu giả | Kết quả chấp nhận | Hiện trạng |
 | --- | --- | --- |
-| Thiếu một kết quả/giấy | Chặn quay lại/sẵn sàng, lý do rõ | Có tests, cần thử người dùng |
+| Đã làm đủ thủ tục, còn chờ kết quả/giấy | Hướng quay lại, phân biệt chờ ngoài phòng với được gọi vào | Có kiểm thử; cần thử người dùng |
 | Câu hỏi y khoa/yêu cầu bỏ quy tắc | Giữ phạm vi, không tự đổi trạng thái | Mock đã kiểm tra, LIVE chưa xác minh |
 | API lỗi và yêu cầu khẩn cấp | Phân biệt fallback hành chính với lối trợ giúp khẩn cấp trực tiếp | Fallback có test, đường khẩn cấp chưa đầy đủ |
-| Mất mạng/phản hồi trễ sau reset | Không nhận dữ liệu cũ/báo thành công giả; có lối hỏi người | Có tests, browser bản mới chưa chạy |
-| Đủ kết quả khi ngoài viện | Chưa tự vào hàng chờ, chỉ xác nhận khi có mặt | Có tests nghiệp vụ, chưa thử người dùng |
+| Mất mạng/phản hồi trễ sau reset | Giữ mốc đồng bộ cuối, khóa xác nhận, không báo thành công giả; có lối hỏi nhân viên | Kết quả hiện hành tại báo cáo kiểm thử |
+| Quay lại viện giữa hai thủ tục | Cập nhật vị trí mới, giữ thủ tục đã hoàn tất; không hứa giữ lượt | Chưa có quản lý tạm rời/giữ lượt hoặc thử người dùng |
 | Rà repo/log/ảnh/nội dung gửi Canva | Không có dữ liệu nhận dạng/sức khỏe thật hoặc khóa | Cần rà trước chia sẻ cuối |
 
 Các kiểm tra kỹ thuật làm giảm một số lỗi mô phỏng; chưa đủ để kết luận an toàn triển khai tại bệnh viện.

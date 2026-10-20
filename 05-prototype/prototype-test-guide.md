@@ -14,7 +14,9 @@ Chuẩn bị bệnh nhân P02 chờ siêu âm, P03 chờ nước tiểu, sau đ�
 | “Bác sĩ vừa chỉ định các thủ tục. Bạn cần tới đâu trước?” | P01 có ba thủ tục; xem có phân biệt điểm đến với các bước dự kiến |
 | “Bạn đã làm xong thủ tục đầu. Bây giờ đi đâu?” | Hoàn tất nước tiểu P03 rồi sinh hóa P01; xem có nhận ra chuyển tới nước tiểu trước siêu âm |
 | “Thang máy đang đông; bạn muốn đi thang bộ.” | Quan sát tìm lựa chọn, hiểu tuyến và các chặng qua từng tầng |
-| “Bạn không nhận ra mốc hoặc vừa rẽ nhầm.” | Quan sát chọn lại vị trí, nghe lại chỉ dẫn hoặc nhờ hỗ trợ |
+| “Bạn nhận ra đang ở tầng/tòa khác với sơ đồ.” | Tự tìm Cập nhật vị trí, đối chiếu biển tên và xác nhận mốc mới; giữ điểm đến, không tự đánh dấu thủ tục hoàn tất |
+| “Bạn vừa quay lại viện sau thủ tục đầu.” | Cập nhật điểm xuất phát tại cổng; kiểm tra giữ thủ tục đã hoàn tất và hướng tới thủ tục còn lại |
+| “Điện thoại vừa mất kết nối.” | Nhận ra cảnh báo dưới tên, hiểu mốc đồng bộ cuối, tìm giấy/nhờ nhân viên và thử kết nối lại; không xác nhận vị trí khi ngắt kết nối |
 | “Bạn có thông báo kết quả khi đang làm việc khác.” | Công bố một kết quả; xem người thử có tiếp tục thủ tục đang làm |
 | “Bạn đã xong tất cả thủ tục.” | Quan sát hiểu bước quay lại khoa đầu, không nhầm thông báo kết quả với lời gọi |
 

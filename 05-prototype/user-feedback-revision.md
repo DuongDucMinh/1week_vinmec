@@ -1,25 +1,23 @@
-# Sửa theo phản hồi T1/T2 ngày 19/10/2026
+# Cải tiến từ phản hồi T1/T2
 
-Cải tiến tiếp theo: [điều phối theo lượng người và lựa chọn thang](adaptive-routing.md).
+Phản hồi được ghi ngày 19/10/2026; mô tả triển khai cập nhật 21/10/2026. [Phản hồi gốc](user-test-log.md).
 
-## Thay đổi trong prototype
+| Phản hồi | Cách xử lý hiện tại |
+| --- | --- |
+| T1: khó nhìn, nhiều chữ thừa | Bỏ thông tin lặp, làm nổi bật việc tiếp theo, địa chỉ và tiến độ. |
+| T2: khó xác định hướng rẽ, lo đi nhầm, đề nghị âm thanh | Hướng dẫn từng chặng, bản đồ có mốc tham chiếu, loa và nghe lại. Cập nhật vị trí cho chọn lại tòa/tầng/mốc để tính lại đường. |
 
-- Màn lượt khám: bỏ dòng cơ sở lặp, chuyển xin quyền thông báo vào hộp hỗ trợ, bỏ đoạn giải thích lặp ở bước khám đầu.
-- Màn đường đi: mỗi lần hiển thị một bước, nêu mốc cần tới. Chấm xanh hiển thị vị trí minh họa, tiến khi bấm “Đã tới mốc tiếp theo”. Hướng trái/phải tính từ chiều vừa đi, bước đầu yêu cầu quay mặt về mốc. Tóm tắt chặng nằm trong phần mở rộng.
-- “Bật giọng chỉ đường”: phát chỉ dẫn đang xem bằng text-to-speech vi-VN, đọc bước mới khi người dùng chuyển bước, có nghe lại và tắt. Khi đóng màn hoặc đổi tuyến, hủy lời đọc cũ. Giọng Việt phụ thuộc giọng sẵn có trên thiết bị. Không dùng mô hình AI để tự tạo hướng đi.
-- “Tôi đi nhầm / không rõ hướng”: nhắc dừng tại mốc có biển tên, chọn lại vị trí, tính lại tuyến sau khi xác nhận. Có hướng dẫn hỏi nhân viên nếu không nhận ra mốc.
-- Phần “Google Maps và sơ đồ trong viện”: liên kết tìm cơ sở trên Google Maps, nút mô phỏng đã tới cổng, sau đó dùng sơ đồ trong viện. Chưa có GPS, la bàn, phát hiện đi sai tự động, hoặc đồng bộ Google Maps với sơ đồ trong nhà.
+Giọng đọc ưu tiên bản ghi tiếng Việt khớp câu, có Azure Speech dự phòng khi cấu hình; không dùng giọng trình duyệt. Mỗi chặng gộp tới thang và đổi tầng; nút Quay lại sửa bước vừa xác nhận.
 
-## Trình diễn trong 1 phút
+## Thử các thay đổi
 
-1. Mở màn người bệnh, chọn “Đường đi”.
-2. Bật giọng chỉ đường, bấm “Đã tới mốc tiếp theo”, nghe bước kế tiếp hoặc chọn “Nghe lại”.
-3. Xác nhận tới tầng / sang tòa để xem bước của chặng tiếp theo.
-4. Bấm “Tôi đi nhầm / không rõ hướng”, chọn mốc khác và xác nhận. Tuyến thay đổi theo mốc mới.
-5. Mở phần Google Maps để minh họa chuyển từ tìm cơ sở sang sơ đồ viện.
+1. Mở Đường đi, theo chỉ dẫn và xác nhận mốc; nghe lại khi cần.
+2. Chọn Cập nhật vị trí, đối chiếu biển tên rồi chọn tòa, tầng và mốc. Kiểm tra tuyến đổi nhưng tiến độ và điểm đến giữ nguyên.
+3. Nếu không nhận ra mốc, chọn Tôi không xác định được vị trí để xem hướng dẫn nhờ nhân viên.
+4. Chạm biểu tượng kết nối cạnh tên người bệnh để xem giờ đồng bộ; khi mất kết nối, có cảnh báo và nút kết nối lại.
 
-## Giới hạn và bằng chứng
+Cập nhật vị trí chủ động và trạng thái đồng bộ được bổ sung từ rà soát tình huống ngày 21/10, không gán thành lời phản hồi mới của T1/T2. Điều phối và lựa chọn thang được mô tả tại [adaptive-routing](adaptive-routing.md).
 
-Phản hồi gốc: [user-test-log.md](user-test-log.md). Chưa thử lại với người dùng sau sửa. Chưa kết luận giảm đi nhầm hoặc phù hợp cho người thị lực kém. Vị trí, phòng và tầng vẫn là dữ liệu demo. Bản đồ chính thức và định vị trong nhà cần cơ sở cung cấp/xác minh khi triển khai.
+## Giới hạn
 
-Tham khảo triển khai: [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/speak), [Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started), kiểm tra 19/10/2026.
+Chưa thử lại các thay đổi với T1/T2; chưa có kết quả trước/sau hoặc bằng chứng phù hợp cho người thị lực kém. Sơ đồ vẫn mô phỏng; chưa có định vị tự động, QR hoặc tích hợp Google Maps. Cập nhật vị trí khi quay lại chưa xử lý giữ lượt khi tạm rời viện. Dữ liệu đang mở khi mất mạng không thay thế bộ nhớ ngoại tuyến bền vững.

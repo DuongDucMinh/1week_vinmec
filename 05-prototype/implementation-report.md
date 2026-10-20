@@ -1,6 +1,6 @@
 # Báo cáo triển khai trợ lý khám ngoại trú
 
-Cập nhật 20/10/2026. [Hướng dẫn chạy](README.md) · [Đặc tả](simulation-spec.md) · [Kiểm thử](test-report.md)
+Cập nhật 21/10/2026. [Hướng dẫn chạy](README.md) · [Đặc tả](simulation-spec.md) · [Kiểm thử](test-report.md)
 
 ## Hành vi sản phẩm
 
@@ -24,9 +24,11 @@ Thuật toán chọn phòng chỉ dùng dữ liệu xác định trên server. A
 
 ## Đồng bộ và dự phòng
 
-Reset một bệnh nhân xóa khoa / chỉ định / tiến độ riêng, đưa loại thang về mặc định và giữ các bệnh nhân khác. SQLite giữ trạng thái qua khởi động lại. Kết quả được công bố riêng với hoàn tất thủ tục, xuất hiện cho người bệnh và bác sĩ. Có thông báo trong app, thông báo trình duyệt khi trang còn kết nối và giấy hướng dẫn có thời điểm cập nhật.
+Reset một bệnh nhân xóa khoa / chỉ định / tiến độ riêng, đưa loại thang về mặc định và giữ các bệnh nhân khác. SQLite giữ trạng thái qua khởi động lại. Kết quả được công bố riêng với hoàn tất thủ tục, xuất hiện cho người bệnh và bác sĩ. Thông báo là banner trong app khi còn kết nối, không phải thông báo của hệ điều hành. Giấy hướng dẫn có thời điểm cập nhật.
 
-Nhân viên vẫn gọi theo giấy hoặc số tại cửa phòng. Danh sách chỉ định không phải thứ tự gọi hoặc lượng người thực tế đang chờ. App mất mạng không ngăn nhân viên cập nhật hoàn tất; kết nối lại nhận snapshot mới.
+Nhân viên vẫn gọi theo giấy hoặc số tại cửa phòng. Danh sách chỉ định không phải thứ tự gọi hoặc lượng người thực tế đang chờ. Mất kết nối trên máy bệnh nhân không ngăn máy nhân viên còn kết nối cập nhật hoàn tất; kết nối lại nhận snapshot mới. Biểu tượng kết nối nằm cùng hàng logo và tên người bệnh; chạm để xem thời điểm nhận dữ liệu thành công và thời điểm dữ liệu hệ thống thay đổi. Khi ngắt kết nối, giữ mốc cũ, hiện cảnh báo và nút kết nối lại; chưa có cache ngoại tuyến bền vững.
+
+Cập nhật vị trí cho chọn tòa/tầng/mốc theo biển tên, không chọn sẵn. Xác nhận giữ tiến độ và điểm đến, tính lại tuyến; không xác định được mốc thì nhờ nhân viên. Chưa có phát hiện đi lạc tự động hoặc quản lý giữ lượt khi tạm rời viện.
 
 ## Phạm vi kiểm chứng
 

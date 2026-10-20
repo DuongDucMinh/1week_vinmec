@@ -26,7 +26,7 @@ Bối cảnh mô phỏng là Vinmec Ocean Park 2, gồm **5 khoa khám và 9 th�
 
 - **Hướng dẫn theo tiến độ:** màn bệnh nhân làm nổi bật việc cần làm, địa chỉ phòng, các bước đã xong và những việc còn lại.
 - **Gợi ý thứ tự để tránh phòng đông:** ưu tiên phòng ít người đang chờ hoặc đang thực hiện; cùng số người thì chọn phòng gần nhất. App tính lại sau mỗi thủ tục và giữ điểm đến ổn định khi đang di chuyển. [Quy tắc và ví dụ chi tiết](05-prototype/adaptive-routing.md).
-- **Chỉ đường linh hoạt:** mặc định đi thang máy, có thể chọn thang bộ; sơ đồ và chỉ dẫn từng chặng đổi theo lựa chọn. Có giọng đọc, nghe lại và chọn lại mốc khi đi nhầm.
+- **Chỉ đường linh hoạt:** mặc định đi thang máy, có thể chọn thang bộ; sơ đồ và chỉ dẫn từng chặng đổi theo lựa chọn. Có giọng đọc, nghe lại, quay lại bước vừa xác nhận và cập nhật vị trí khi đi lạc hoặc quay lại viện.
 - **Phối hợp giữa các vai trò:** lễ tân tiếp nhận, bác sĩ chỉ định, phòng thủ tục xác nhận tiến độ và công bố kết quả; người bệnh và bác sĩ nhận thông tin đồng bộ.
 - **Hỗ trợ cả người dùng giấy:** nhân viên có thể ghi nhận đến phòng mà không cần bệnh nhân mở app; có giấy hướng dẫn in hoặc lưu để dự phòng.
 
@@ -59,7 +59,10 @@ Cấu hình phát triển, kết quả điện tử / bản giấy, thông báo 
 - **Đánh giá hiệu quả:** phản hồi dùng thử hiện ở mức định tính; chưa đo giảm chờ, giảm hỏi đường hoặc thử lại với người dùng sau các cải tiến mới.
 - **Giả định điều phối:** mỗi phòng được mô phỏng có một bác sĩ phục vụ một người tại một thời điểm. Chưa tính thời lượng, phục vụ song song, lịch hẹn hoặc ràng buộc chuyên môn giữa thủ tục; hiệu quả tối ưu tổng thời gian chờ cần được đánh giá thêm.
 - **Mức độ tích hợp:** sơ đồ, phòng, tầng và hồ sơ là dữ liệu mô phỏng, chưa nối hệ thống bệnh viện. Vị trí dựa trên xác nhận; xác thực tài khoản, định vị trong nhà và thông báo khi đóng toàn bộ trang cần được phát triển tiếp.
-- **Trợ lý AI:** có adapter và hướng dẫn dự phòng, chưa có bằng chứng kết nối mô hình thật thành công. Điều phối và bản đồ hoạt động độc lập với AI; giọng đọc phụ thuộc hỗ trợ của trình duyệt.
+- **Vị trí:** đã cho người bệnh cập nhật tòa, tầng và mốc đang đứng để tính lại đường, giữ tiến độ và điểm đến. Chưa có định vị trong nhà, QR hoặc phát hiện đi sai tự động; vị trí vẫn phụ thuộc xác nhận.
+- **Tạm rời viện:** khi quay lại có thể cập nhật vị trí để tiếp tục dẫn đường. Chưa có luồng ghi nhận tạm rời giữa các thủ tục hoặc xử lý giữ lượt/lấy lại lượt; cần cơ sở xác nhận quy tắc tiếp nhận.
+- **Mất kết nối:** biểu tượng kết nối ở đầu màn cho mở thời điểm đồng bộ; khi mất kết nối có cảnh báo và khóa xác nhận. Chưa có bộ nhớ ngoại tuyến bền vững; tải lại khi mất mạng không bảo đảm khôi phục được hướng dẫn. Dùng giấy đã lưu hoặc nhờ nhân viên.
+- **Trợ lý AI:** có adapter và hướng dẫn dự phòng, chưa có bằng chứng kết nối mô hình thật thành công. Điều phối và bản đồ hoạt động độc lập với AI; giọng đọc cần bản ghi khớp câu hoặc dịch vụ tổng hợp giọng dự phòng.
 
 ## Dữ liệu và phần việc có AI hỗ trợ
 
