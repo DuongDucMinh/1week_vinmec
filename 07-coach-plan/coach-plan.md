@@ -1,28 +1,25 @@
 # Mình sẽ coach một nhóm làm bài này thế nào
 
-Tôi muốn mỗi bạn giải thích được mình đang giải quyết vấn đề của ai, bằng chứng ở đâu và phép thử tiếp theo giúp quyết định điều gì. Đây là kế hoạch tôi dự định áp dụng cho nhóm K4, chưa phải báo cáo hoạt động coach đã thực hiện.
+Với nhóm 5-10 bạn K4, em muốn cả nhóm cùng hiểu người dùng trước khi chia việc theo thế mạnh. Mục tiêu là làm ra một sản phẩm hỗ trợ được người dùng trong quy trình thực tế, đồng thời mỗi bạn đều hiểu phần mình làm đang giải quyết vấn đề gì.
 
-## Lịch và phân vai
+## 1. Những ngày đầu: cả nhóm cùng tìm hiểu bài toán
 
-Với nhóm 5–10 bạn, tôi chia cặp, luân phiên phỏng vấn, ghi chép, build và quan sát thử. Một bạn giữ bảng tiến độ; mỗi việc có người phụ trách, hạn và sản phẩm bàn giao. Tôi dự kiến check-in 10 phút mỗi ngày, review cuối chặng bằng file/demo cụ thể.
+Trong Tuần 0 và tuần đầu, em sẽ cùng các bạn lên kế hoạch quan sát, xác định người cần gặp và soạn câu hỏi phỏng vấn. Mỗi bạn đều chuẩn bị câu hỏi, sau đó cả nhóm góp ý và thử hỏi nhau trước. Khi đi phỏng vấn, các bạn chia cặp, đổi vai để ai cũng trực tiếp đặt câu hỏi và ghi chép. Em sẽ hướng dẫn hỏi vào tình huống cụ thể: người dùng đang làm những bước nào, kẹt ở đâu, mất bao lâu và hiện xử lý ra sao.
 
-| Chặng | Nhóm bàn giao | Tôi kiểm tra |
-| --- | --- | --- |
-| Ngày 1 | Khoảnh khắc, nhật ký app, guide | Phạm vi hẹp, câu hỏi mở, đồng ý/ẩn danh |
-| Ngày 2–3 | ≥3 phỏng vấn, insight, journey | Truy nguồn, cảm xúc có căn cứ, phản chứng |
-| Ngày 4 | Need statement, 3 thực hành quốc tế | Problem–population–outcome, nguồn phù hợp |
-| Ngày 5 | Prototype có AI, prompt | Click được, dữ liệu giả, lỗi và hỗ trợ |
-| Ngày 6 | Log thử 2–3 người, bản sửa | Hành vi thật, tiêu chí rõ, sửa theo quan sát |
-| Ngày 7 | Rủi ro, README, ≤10 slide, repo | Chạy/truy cập được, trình bày 10 phút |
+Theo em, việc này giúp tất cả mọi người hiểu quy trình, hiểu bài toán và đặc biệt là pain point của người dùng. Khi bắt tay vào thiết kế hay code, các bạn sẽ có cơ sở để tự đưa ra quyết định. Sau mỗi đợt phỏng vấn, cả nhóm ngồi lại, tổng hợp các vấn đề kèm tình huống thực tế. Em điều phối để chọn hướng dựa trên mức độ ảnh hưởng tới người dùng, khả năng tiếp cận để thử và thời gian của nhóm. Nếu còn điểm chưa rõ thì cần hỏi thêm trước khi chốt.
 
-## Khi nhóm bị kẹt
+## 2. Chia công việc và theo dõi tiến độ
 
-Tôi yêu cầu một tình huống cụ thể: thiếu người tham gia, chưa rõ nhu cầu hay vướng thao tác. Nếu bất đồng giải pháp, mỗi bên nêu bằng chứng và giả thuyết; nhóm chọn phép thử nhỏ để quyết định. Nếu build quá rộng, tôi cùng nhóm giữ một nhiệm vụ cốt lõi. Nếu thiếu người thử, nhóm ưu tiên tuyển và giảm tính năng để giữ yêu cầu bằng chứng.
+Từ tuần 2, khi đã thống nhất vấn đề ưu tiên, em cùng nhóm chọn một luồng sử dụng cốt lõi và chia nhỏ công việc. Các bạn nhận phần theo thế mạnh và mong muốn học: tổng hợp yêu cầu, thiết kế trải nghiệm, xây dựng tính năng, tích hợp AI nếu phù hợp, kiểm thử và tổ chức dùng thử. Mỗi việc có người phụ trách, người phối hợp, thời hạn và tiêu chí hoàn thành; các phần phụ thuộc nhau cần thống nhất đầu vào, đầu ra ngay từ đầu.
 
-## Kiểm tra chất lượng
+Tuần 3-4, nhóm tập trung ghép được luồng sử dụng hoàn chỉnh và đưa từng bản nhỏ cho người dùng thử sớm. Tuần 5-6 dành cho sửa theo phản hồi, kiểm tra các trường hợp còn thiếu và hoàn thiện demo, proposal. Em sẽ điều chỉnh phân công theo tiến độ và phản hồi thực tế. Nhóm cập nhật ngắn hằng ngày về việc đã làm, việc tiếp theo và chỗ đang kẹt; mỗi tuần có hai buổi trao đổi, trong đó buổi thứ Sáu xem trực tiếp sản phẩm và tổng hợp báo cáo. Sau mỗi vòng dùng thử, nhóm ghi lại kết quả và thống nhất việc cần sửa.
 
-Mỗi insight dẫn về ghi chép gốc; diễn giải ghi đúng là diễn giải. Mỗi tính năng gắn với nhu cầu hoặc giả thuyết. Một bạn đọc chéo phân tích và thử chạy prototype của bạn khác. Khi thử, nhóm quan sát trước khi giúp, ghi cả lần cần hỗ trợ. Mỗi sửa đổi nêu vấn đề quan sát được và cách kiểm tra lại. AI hỗ trợ tổng hợp/build; người phụ trách kiểm nguồn, không tạo người tham gia hoặc kết quả.
+## 3. Khi một bạn hoặc cả nhóm bị kẹt
 
-## Bài học từ chính bài này
+Em sẽ trao đổi để xem vướng ở kiến thức, cách làm hay khối lượng công việc. Nếu thiếu kiến thức, em hướng dẫn cách tiếp cận hoặc ghép bạn đó với người có thể hỗ trợ; nếu quá tải thì chia nhỏ hoặc phân bổ lại việc. Khi vướng kỹ thuật, em cùng các bạn thử trên một phần nhỏ trước. Khi có ý kiến khác nhau, em đưa về pain point đã ghi nhận, lợi ích cho người dùng và tính khả thi; nếu vẫn chưa thống nhất thì làm bản thử đơn giản để so sánh. Nếu thiếu thông tin nghiệp vụ hoặc cần quyết định chuyên môn, em tổng hợp câu hỏi để trao đổi với mentor hoặc đầu mối bệnh viện.
 
-Tôi sẽ yêu cầu nhóm theo dõi riêng bằng chứng nghiên cứu, kiểm tra phần mềm và kết quả dùng thử. Mỗi chặng cần có sản phẩm cụ thể và thời gian sửa theo phản hồi trước khi hoàn thiện phần trình bày. Với sprint 6 tuần, tôi giữ nhịp này ở checkpoint thứ Sáu và rà mức sẵn sàng trước từng cổng.
+## 4. Kiểm tra chất lượng từ lúc chia việc đến lúc dùng thử
+
+Trước khi làm một tính năng, em sẽ hỏi bạn phụ trách: ai dùng, ở bước nào và làm thế nào để biết tính năng đó có ích. Mỗi phần cần có bạn khác xem lại và thử trong luồng chung. Em cũng sẽ trao đổi trực tiếp với từng bạn về cách xử lý khi thiếu dữ liệu, thao tác sai hoặc hệ thống lỗi để cùng tìm ra những trường hợp còn bỏ sót.
+
+Khi dùng thử, nhóm để người dùng tự thao tác, ghi lại bước hoàn thành được, chỗ cần trợ giúp và thời gian nếu mục tiêu là tiết kiệm thời gian. Kết quả này được so với mục tiêu ban đầu để quyết định sửa gì tiếp. Với dữ liệu bệnh viện, nhóm dùng dữ liệu giả cho bản demo và trao đổi với đầu mối trước khi tiếp cận dữ liệu thật. Phần có AI cần được kiểm tra cả kết quả sai và cách người dùng nhận biết, xử lý khi gặp lỗi.
