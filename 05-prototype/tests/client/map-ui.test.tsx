@@ -8,11 +8,9 @@ import { Control, Doctor, Procedure } from '../../src/client/Dashboards';
 import type { SimulationApi } from '../../src/client/api';
 import { createRun, createService } from '../../src/shared/fixtures';
 import { applyCommand, makeSnapshot, deriveRoute } from '../../src/domain/engine';
-import type { Route } from '../../src/shared/contracts';
 
 let host: HTMLDivElement;
 let root: Root;
-const toNoi: Route = { from: 'DEMO-RECEPTION', to: 'DEMO-NOI', nodeIds: ['DEMO-RECEPTION', 'DEMO-LIFT-1', 'DEMO-LIFT-2', 'DEMO-HALL-NOI', 'DEMO-NOI'], instructions: ['Đi đến thang máy, lên tầng 2.', 'Đến phòng A201 · Nội.'], requiresStartConfirmation: false };
 const snapshot = () => makeSnapshot(createRun());
 const api = () => ({ connected: true, pending: false, error: null, uncertain: false, command: vi.fn(), ask: vi.fn(), reset: vi.fn(), retry: vi.fn(), clearError: vi.fn() }) as unknown as SimulationApi;
 const click = async (text: string) => {
@@ -20,61 +18,112 @@ const click = async (text: string) => {
   if (!button) throw new Error(`Missing button ${text}`);
   await act(async () => { button.click(); });
 };
-const change = async (select: HTMLSelectElement, value: string) => { await act(async () => { select.value = value; select.dispatchEvent(new Event('change', { bubbles: true })); }); };
-beforeEach(() => { window.history.replaceState(null, '', '/patient'); vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true); Object.defineProperties(HTMLDialogElement.prototype, { showModal: { configurable: true, value: function (this: HTMLDialogElement) { this.open = true; } }, close: { configurable: true, value: function (this: HTMLDialogElement) { this.open = false; } } }); host = document.createElement('div'); document.body.append(host); root = createRoot(host); });
+beforeEach(() => { localStorage.setItem('vinmec.navigationVoice','off'); window.history.replaceState(null, '', '/patient'); vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true); Object.defineProperties(HTMLDialogElement.prototype, { show: { configurable: true, value: function (this: HTMLDialogElement) { this.open = true; } }, showModal: { configurable: true, value: function (this: HTMLDialogElement) { this.open = true; } }, close: { configurable: true, value: function (this: HTMLDialogElement) { this.open = false; } } }); host = document.createElement('div'); document.body.append(host); root = createRoot(host); });
 afterEach(async () => { await act(async () => root.unmount()); host.remove(); vi.unstubAllGlobals(); });
 
 describe('current destination guidance', () => {
-  it.each([['DEMO-RECEPTION','DEMO-TIMMACH',3],['DEMO-RECEPTION','DEMO-DIENTIM',6],['DEMO-DIENTIM','DEMO-RECEPTION',1]] as const)('takes the lift directly from %s to %s', async (from,to,floor) => {
-    const s=snapshot(), v=s.views['DEMO-P01'];
-    const route=deriveRoute({...v.visit,locationId:from},to);
-    await act(async()=>root.render(<RouteMap snapshot={s} view={{...v,route}} api={api()}/>));
-    expect(host.querySelector('.guided-stage-title')?.textContent).toContain('Chặng 1/2');
-    expect(host.querySelector('.leg-instruction')?.textContent).toContain(`tầng ${floor}`);
-    await click(`Đã tới tầng ${floor}`);
-    expect(host.querySelector('.guided-floor')?.getAttribute('aria-label')).toContain(`tầng ${floor}`);
-    expect(host.querySelector('.leg-controls')?.textContent).not.toContain('Đã tới tầng');
-    await click('Quay lại');
-    expect(host.querySelector('.guided-stage-title')?.textContent).toContain('Chặng 1/2');
-  });
-  it('starts on the origin floor and advances along the route without floor selectors', async () => {
-    const s=snapshot(); const a=api(); const view={...s.views['DEMO-P01'],visit:{...s.views['DEMO-P01'].visit,phase:'WAITING_INITIAL' as const,departmentId:'DEMO-INTERNAL' as const},route:toNoi};
-    await act(async()=>root.render(<RouteMap snapshot={s} view={view} api={a}/>));
-    expect(host.querySelector('.guided-floor')?.getAttribute('aria-label')).toContain('Tòa A, tầng 1');
-    expect(host.querySelectorAll('[data-route-segment="guided"]')).toHaveLength(1);
-    expect(host.textContent).not.toMatch(/Tổng quan|Tầng & phòng/);
+  async function mount(from='DEMO-RECEPTION',to='DEMO-NOI',mode:'lift'|'stairs'='lift'){
+    const s=snapshot(),a=api();let visit={...s.views['DEMO-P01'].visit,phase:'WAITING_INITIAL' as const,departmentId:'DEMO-INTERNAL' as const,locationId:from,transportMode:mode};
+    const draw=()=>root.render(<RouteMap snapshot={s} view={{...s.views['DEMO-P01'],visit,route:deriveRoute(visit,to)}} api={a}/>);
+    a.command=vi.fn(async(type,_id,_actor,payload)=>{
+      if(type==='CONFIRM_LOCATION')visit={...visit,locationId:payload!.locationId!};
+      if(type==='SET_TRANSPORT_MODE')visit={...visit,transportMode:payload!.transportMode!};
+      draw();return true;
+    });
+    await act(async()=>draw());
+    return {a,visit:()=>visit,position:async(id:string)=>{visit={...visit,locationId:id};await act(async()=>draw());}};
+  }
+  it('shows nearby rooms without turning the lift landing or corridor into confirmation steps',async()=>{
+    const {a}=await mount('DEMO-RECEPTION','DEMO-NOI','stairs');
+    const map=host.querySelector('.guided-floor')!;
+    for(const code of ['A101','A103','A106','A110'])expect(map.textContent).toContain(code);
+    expect(map.textContent).toContain('Cổng');expect(map.textContent).toContain('Sang Tòa B');
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Đã tới tầng 2');
     await click('Đã tới tầng 2');
-    expect(host.querySelector('.guided-floor')?.getAttribute('aria-label')).toContain('Tòa A, tầng 2');
-    expect(host.querySelector('.guided-floor')?.textContent).toContain('A201');
-    await click('Tôi đã đến ngoài phòng Nội A201');
-    expect(a.command).toHaveBeenCalledWith('CONFIRM_LOCATION','DEMO-P01','patient',{locationId:'DEMO-NOI',outsideHospital:false});
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Tôi đã đến phòng A201');
+    expect(host.querySelector('.current-location')?.textContent).toContain('Thang bộ tầng 2');
+    expect(a.command).toHaveBeenCalledWith('CONFIRM_LOCATION','DEMO-P01','patient',{locationId:'DEMO-A-STAIRS-2',outsideHospital:false});
+    await click('Tôi đã đến phòng A201');
+    expect(host.querySelector('.arrival-note')).not.toBeNull();
+    expect(host.querySelector('.navigation-back')).toBeNull();
+    expect(host.querySelector('.navigation-advance')).toBeNull();
   });
-  it('hides map paths when origin is unknown, and follows new current destination on live updates', async () => {
-    const s=snapshot(), v=s.views['DEMO-P01'];
-    v.route={from:null,to:'DEMO-SIEUAM',nodeIds:[],instructions:[],requiresStartConfirmation:true};
-    await act(async()=>root.render(<RouteMap snapshot={s} view={v} api={api()}/>));
-    expect(host.textContent).toContain('Chọn lại điểm xuất phát');
-    expect(host.querySelector('.guided-floor')).toBeNull();
-    v.route=deriveRoute({...v.visit,locationId:'DEMO-NOI'},'DEMO-SIEUAM');
-    await act(async()=>root.render(<RouteMap snapshot={s} view={v} api={api()}/>));
-    await click('Đã tới tầng 1');await click('Đã sang Tòa B');
-    expect(host.querySelector('.guided-floor')?.textContent).toContain('B105');
-    v.route=deriveRoute({...v.visit,locationId:'DEMO-SIEUAM'},'DEMO-SINHHOA');
-    await act(async()=>root.render(<RouteMap snapshot={s} view={v} api={api()}/>));
+  it.each(['lift','stairs'] as const)('goes directly to floor 4 using %s, supports back and retains position when changing transport',async mode=>{
+    const {visit}=await mount('DEMO-RECEPTION','DEMO-TMH',mode);
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Đã tới tầng 4');
+    expect(host.querySelector<HTMLButtonElement>('.navigation-back')?.disabled).toBe(true);
+    await click('Đã tới tầng 4');
+    const reached=visit().locationId;
+    expect(host.querySelector('.guided-stage-title')?.textContent).toContain('Tầng 4');
+    expect(host.querySelector<HTMLButtonElement>('.navigation-back')?.disabled).toBe(false);
+    await click(mode==='lift'?'Thang bộ':'Thang máy');
+    expect(visit().locationId).toBe(reached);
+    expect(host.querySelector('.guided-stage-title')?.textContent).toContain('Tầng 4');
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Tôi đã đến phòng A401');
+    await act(async()=>host.querySelector<HTMLButtonElement>('.navigation-back')!.click());
+    expect(visit().locationId).toBe('DEMO-RECEPTION');
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Đã tới tầng 4');
+  });
+  it('returns through earlier floor and building checkpoints while navigating',async()=>{
+    const {visit}=await mount('DEMO-NOI','DEMO-DADAY');
+    const reached=['DEMO-NOI'];
+    for(let index=0;index<3;index++){
+      await act(async()=>host.querySelector<HTMLButtonElement>('.navigation-advance')!.click());
+      reached.push(visit().locationId);
+    }
+    expect(reached).toEqual(['DEMO-NOI','DEMO-LIFT-1','DEMO-CONNECTOR-B','DEMO-B-LIFT-3']);
+    for(const expected of reached.slice(0,-1).reverse()){
+      await act(async()=>host.querySelector<HTMLButtonElement>('.navigation-back')!.click());
+      expect(visit().locationId).toBe(expected);
+    }
+    expect(host.querySelector<HTMLButtonElement>('.navigation-back')?.disabled).toBe(true);
+  });
+  it('walks directly to the destination on the same floor',async()=>{
+    const {a}=await mount('DEMO-NOI','DEMO-SINHHOA');
+    expect(host.querySelector('.navigation-advance')?.textContent).toBe('Tôi đã đến phòng A205');
+    await click('Tôi đã đến phòng A205');
+    expect(a.command).toHaveBeenCalledTimes(1);
+  });
+  it('keeps a failed confirmation at the last known position',async()=>{
+    const {a,visit}=await mount();a.command=vi.fn().mockResolvedValue(false);
+    await click('Đã tới tầng 2');
+    expect(visit().locationId).toBe('DEMO-RECEPTION');
+    expect(host.querySelector<HTMLButtonElement>('.navigation-back')?.disabled).toBe(true);
+  });
+  it('shows rooms on both sides of B105 and uses matching compact room tiles',async()=>{
+    await mount('DEMO-SIEUAM','DEMO-XQUANG');
+    const map=host.querySelector('.guided-floor')!;
+    const rect=(id:string)=>map.querySelector(`[data-location-id="${id}"] rect`)!;
+    expect(Number(rect('DEMO-REFERENCE-B104').getAttribute('x'))).toBeLessThan(Number(rect('DEMO-SIEUAM').getAttribute('x')));
+    expect(Number(rect('DEMO-REFERENCE-B106').getAttribute('x'))).toBeGreaterThan(Number(rect('DEMO-SIEUAM').getAttribute('x')));
+    expect(rect('DEMO-REFERENCE-B104').getAttribute('height')).toBe(rect('DEMO-SIEUAM').getAttribute('height'));
+    expect(rect('DEMO-REFERENCE-B104').getAttribute('width')).toBe(rect('DEMO-SIEUAM').getAttribute('width'));
+  });
+  it('automatically reroutes on external position changes and removes obsolete back steps',async()=>{
+    const {position}=await mount();await click('Đã tới tầng 2');
+    await position('DEMO-SIEUAM');
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('Đã cập nhật đường đi');
     expect(host.querySelector('.guided-stage-title')?.textContent).toContain('Tòa B');
-    expect(host.querySelector('.map-address')?.textContent).toContain('A205');
+    expect(host.querySelector<HTMLButtonElement>('.navigation-back')?.disabled).toBe(true);
+  });
+  it('does not show a route until an unknown starting position is confirmed',async()=>{
+    const s=snapshot(),view={...s.views['DEMO-P01'],route:{from:null,to:'DEMO-NOI',nodeIds:[],instructions:[],requiresStartConfirmation:true}};
+    await act(async()=>root.render(<RouteMap snapshot={s} view={view} api={api()}/>));
+    expect(host.querySelector('.start-confirm')).not.toBeNull();expect(host.querySelector('.guided-floor')).toBeNull();
   });
 });
 
 describe('plain product language', () => {
-  it.each([false, true])('keeps normal help simple and exposes connection tools only with the explicit testing URL (tools=%s)', async tools => {
+  it.each([false, true])('keeps the profile personal and exposes connection tools only with the explicit testing URL (tools=%s)', async tools => {
     window.history.replaceState(null, '', tools ? '/patient?tools=1' : '/patient');
     const setOffline = vi.fn();
     await act(async () => root.render(<Patient snapshot={snapshot()} api={api()} offline={false} setOffline={setOffline} />));
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="Thông tin người bệnh"]')!.click());
     const help = host.querySelector('dialog')!;
     expect(help.querySelector('select')?.options).toHaveLength(3);
-    expect(help.textContent).toContain('In / lưu giấy hướng dẫn');
+    expect(help.textContent).toContain('Thông tin cá nhân');
+    expect(help.textContent).not.toContain('In / lưu giấy hướng dẫn');
+    expect(help.querySelector('.notification-settings')).toBeNull();
     if (tools) {
       const controls = help.querySelector<HTMLDetailsElement>('.operator-tools');
       expect(controls).not.toBeNull();
@@ -105,7 +154,7 @@ describe('plain product language', () => {
     const s = snapshot(); const a = api();
     await act(async () => root.render(role === 'patient' ? <Patient snapshot={s} api={a} offline={false} setOffline={vi.fn()} /> : role === 'doctor' ? <Doctor snapshot={s} api={a} /> : <Control snapshot={s} api={a} />));
     expect(host.textContent).not.toMatch(/dữ liệu giả|LIVE|FALLBACK|UNREGISTERED|NOT_STARTED|NOT_AVAILABLE|NOT_COLLECTED/);
-    if (role === 'control') expect(host.querySelector<HTMLDetailsElement>('.operator-controls')?.open).toBe(false);
+    if (role === 'control') expect(host.querySelector('dialog')).toBeNull();
   });
 
   it('explains assistant availability without claiming a live connection', async () => {
@@ -113,7 +162,7 @@ describe('plain product language', () => {
     a.ask = vi.fn().mockResolvedValue({ source: 'FALLBACK', answer: 'Mời đến quầy tiếp nhận.', revision: s.revision, runId: s.runId });
     await act(async () => root.render(<Patient snapshot={s} api={a} offline={false} setOffline={vi.fn()} />));
     await click('Trợ lý');
-    expect(host.querySelector('.assistant-availability')?.textContent).toContain('Trợ lý trò chuyện hiện chưa kết nối');
+    expect(host.querySelector('.assistant-availability')?.textContent).toBe('Hướng dẫn theo lượt khám');
     await click('Giờ tôi làm gì?');
     expect(host.querySelector('.answer-source')?.textContent).toBe('Hướng dẫn theo tiến độ lượt khám');
     expect(host.querySelector('.answer-bubble')?.textContent).not.toMatch(/LIVE|FALLBACK|NOT_LIVE/);
@@ -128,7 +177,7 @@ describe('paper / app parity in procedure UI',()=>{
   await act(async()=>root.render(<Procedure snapshot={makeSnapshot(run)} api={a}/>));
   expect(host.querySelectorAll('.assigned-row')).toHaveLength(2);expect(host.querySelector('.queue-number')).toBeNull();
   const rows=host.querySelectorAll('.assigned-row');expect(rows[1].textContent).toContain('Trần Hoàng Nam');
-  await act(async()=>rows[1].querySelector<HTMLButtonElement>('button.primary')!.click());expect(a.command).toHaveBeenCalledWith('COMPLETE_SERVICE','DEMO-P02','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});
+  await act(async()=>rows[1].querySelector<HTMLButtonElement>('button[aria-label="Đã hoàn thành"]')!.click());expect(a.command).toHaveBeenCalledWith('COMPLETE_SERVICE','DEMO-P02','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});
   const search=host.querySelector<HTMLInputElement>('#patient-search')!;
   await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(search,'TRAN HOANG');search.dispatchEvent(new Event('input',{bubbles:true}));});
   expect(host.querySelectorAll('.assigned-row')).toHaveLength(1);expect(host.querySelector('.assigned-row')?.textContent).toContain('Trần Hoàng Nam');
@@ -141,6 +190,6 @@ describe('paper / app parity in procedure UI',()=>{
  });
  it('doctor shows automatic readiness while patient is still at the last procedure room',async()=>{
   const {run,send}=prepared();send('COMPLETE_SERVICE','procedure',{serviceId:'DEMO-US-ABD'});send('COMPLETE_SERVICE','procedure',{serviceId:'DEMO-BLOOD-BIOCHEM'});
-  await act(async()=>root.render(<Doctor snapshot={makeSnapshot(run)} api={api()}/>));const column=host.querySelectorAll('.queue-column')[1];expect(column.textContent).toContain('Sẵn sàng vào phòng');expect(column.textContent).toContain('Nguyễn Minh Anh');expect(column.textContent).toContain('Đang quay lại');expect(column.querySelector('button')).toBeNull();
+  await act(async()=>root.render(<Doctor snapshot={makeSnapshot(run)} api={api()}/>));const column=host.querySelectorAll('.queue-column')[1];expect(column.getAttribute('aria-label')).toBe('Người bệnh quay lại');expect(column.textContent).toContain('Nguyễn Minh Anh');expect(column.textContent).toContain('Đang quay lại');expect(column.querySelector('button')).toBeNull();
  });
 });

@@ -1,76 +1,136 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Location, MapGraph, Route, ServiceId, Snapshot, VisitView } from '../shared/contracts';
 import type { SimulationApi } from './api';
-import { clinicForVisit, departmentForVisit } from '../shared/journey';
 import { Icon } from './icons';
-import { NavigationGuide, walkingInstruction } from './NavigationGuide';
+import { NavigationGuide } from './NavigationGuide';
+import { navigationSteps, type NavigationStep } from './navigationSteps';
+import { arrangeMapLabels } from './mapLabels';
+import { navigationSpeech } from '../shared/navigationSpeech';
 
-/** A route is presented as consecutive places, never a floor browser. */
-function routeLegs(graph: MapGraph, route: Route) {
-  const legs: { buildingId: string; floor: number; points: Location[] }[]=[];
-  for(const id of route.nodeIds) {
-    const point=graph.locations.find(p=>p.id===id);
-    if(!point)continue;
-    const previous=legs.at(-1);
-    if(previous?.buildingId===point.buildingId&&previous.floor===point.floor)previous.points.push(point);
-    else legs.push({buildingId:point.buildingId,floor:point.floor,points:[point]});
-  }
-  // Passing a floor inside the lift is not a stop in the walking guidance.
-  return legs.filter((leg,index)=>index===0||index===legs.length-1||!leg.points.every(point=>point.kind==='lift'));
-}
-
-function GuidedFloor({graph,route,leg,step}:{graph:MapGraph;route:Route;leg:ReturnType<typeof routeLegs>[number];step:number}) {
+function GuidedFloor({graph,route,leg}:{graph:MapGraph;route:Route;leg:NavigationStep['leg']}) {
   const all=graph.locations.filter(p=>p.buildingId===leg.buildingId&&p.floor===leg.floor);
-  const x=(p:Location)=>24+p.x/620*312;
-  const y=(p:Location)=>p.y<200?76:142;
-  const path=leg.points.map((p,i)=>`${i?'L':'M'}${x(p)},${y(p)}`).join(' ');
-  const length=leg.points.slice(1).reduce((total,p,i)=>total+Math.hypot(x(p)-x(leg.points[i]),y(p)-y(leg.points[i])),0);
+  const referenceRooms=(graph.landmarks||[]).filter(p=>p.buildingId===leg.buildingId&&p.floor===leg.floor);
+  const isReference=(p:Location)=>['entrance','reception'].includes(p.kind)||['DEMO-CONNECTOR-A','DEMO-CONNECTOR-B'].includes(p.id);
+  const visible=[...all.filter(p=>p.kind==='room'||leg.points.includes(p)||isReference(p)),...referenceRooms];
+  const roomPoints=visible.filter(p=>p.kind==='room').sort((a,b)=>a.x-b.x);
+  const referenceIds=new Set(referenceRooms.map(p=>p.id));
+  const roomWidth=(_p:Location)=>54;
+  const minX=Math.min(...visible.map(p=>p.x)),maxX=Math.max(...visible.map(p=>p.x));
+  // Reserve enough space for each room card, preserving its left/right order.
+  // Other points follow the same projection so doors stay over the corridor.
+  const roomSpan=roomPoints.length?roomPoints.reduce((sum,p)=>sum+roomWidth(p),0)-(roomWidth(roomPoints[0])+roomWidth(roomPoints.at(-1)!))/2:0;
+  const roomGap=roomPoints.length>1?Math.max(8,(264-roomSpan)/(roomPoints.length-1)):0;
+  let roomCenter=48;
+  const anchors=roomPoints.map((point,index)=>{
+    if(index)roomCenter+=roomWidth(roomPoints[index-1])/2+roomGap+roomWidth(point)/2;
+    return {world:point.x,screen:roomCenter};
+  });
+  const x=(p:Location)=>{
+    if(anchors.length<2)return maxX===minX?180:48+(p.x-minX)/(maxX-minX)*264;
+    const nextAnchor=anchors.findIndex(anchor=>anchor.world>=p.x);
+    const after=Math.max(1,nextAnchor<0?anchors.length-1:nextAnchor);
+    const a=anchors[after-1],b=anchors[after];
+    return Math.max(40,Math.min(320,a.screen+(p.x-a.world)/(b.world-a.world)*(b.screen-a.screen)));
+  };
+  const hasRooms=roomPoints.length>0;
+  const roomTop=122,roomHeight=36,corridorY=178;
+  const y=(p:Location)=>p.kind==='room'?166:corridorY;
+  const floorPath=(points:Location[])=>points.map((p,i)=>{
+    if(!i)return `M${x(p)},${y(p)}`;
+    const before=points[i-1];
+    const corner=x(before)!==x(p)&&y(before)!==y(p)?before.kind==='room'?`L${x(before)},${y(p)} `:`L${x(p)},${y(before)} `:'';
+    return `${corner}L${x(p)},${y(p)}`;
+  }).join(' ');
+  const path=floorPath(leg.points);
+  const length=leg.points.slice(1).reduce((total,p,i)=>total+Math.abs(x(p)-x(leg.points[i]))+Math.abs(y(p)-y(leg.points[i])),0);
   const arrowCount=Math.max(1,Math.round(length/10));
   const duration=length/22;
-  return <svg className="guided-floor" viewBox="0 0 360 190" role="img" aria-label={`Đường đi tại Tòa ${leg.buildingId}, tầng ${leg.floor}`}>
-    <rect x="4" y="7" width="352" height="176" rx="8" fill="#f7f9f8"/>
-    {graph.edges.map((e,i)=>{const a=all.find(p=>p.id===e.from),b=all.find(p=>p.id===e.to);return a&&b?<line key={i} x1={x(a)} y1={y(a)} x2={x(b)} y2={y(b)} stroke="#e4eae7" strokeWidth="16" strokeLinecap="round"/>:null;})}
-    {all.filter(p=>p.kind==='room').map(p=>{const labels=(p.mapLabel||p.name.split(' · ').at(-1)!).split('|');return <g key={p.id}><rect x={x(p)-37} y={p.y<200?22:88} width="74" height="61" rx="4" fill={p.id===route.to?'#e1eee9':'white'} stroke="#d8dfdc"/><text x={x(p)} y={p.y<200?43:109} textAnchor="middle" fill="#263c34" fontSize="16" fontWeight="600">{p.roomNumber}</text><text x={x(p)} y={(p.y<200?62:128)-(labels.length>1?8:0)} textAnchor="middle" fill="#56685f" fontSize={labels.length>1?10.5:12}>{labels.map((label,i)=><tspan x={x(p)} dy={i?11:0} key={i}>{label}</tspan>)}</text></g>;})}
+  const current=leg.points[0],next=leg.points.at(-1);
+  const facilities=visible.filter(p=>p.kind!=='room'&&!p.id.includes('HALL'));
+  const labels=arrangeMapLabels([
+    ...facilities.filter(p=>p.id!==current?.id).map(p=>({id:p.id,text:p.kind==='lift'?'Thang máy':p.kind==='stairs'?'Thang bộ':p.kind==='reception'?'Tiếp nhận':p.kind==='entrance'?'Cổng':`Sang Tòa ${p.buildingId==='A'?'B':'A'}`,x:x(p),pointY:y(p),fontSize:13,color:p.id===next?.id?'#146b5a':'#687b6e',bold:p.id===next?.id,priority:p.id===next?.id?90:10})),
+    ...(current?[{id:'current-position',text:'Bạn ở đây',x:x(current),pointY:y(current),fontSize:14,color:'#174b91',bold:true,priority:100}]:[])
+  ]);
+  const bottom=Math.max(230,...labels.map(label=>label.y+15));
+  return <svg className="guided-floor" viewBox={`0 ${hasRooms?108:148} 360 ${bottom-(hasRooms?108:148)}`} role="img" aria-label={`Đường đi và các phòng xung quanh tại Tòa ${leg.buildingId}, tầng ${leg.floor}`}>
+    {graph.edges.map((e,i)=>{const a=all.find(p=>p.id===e.from),b=all.find(p=>p.id===e.to);return a&&b?<path key={i} d={floorPath([a,b])} fill="none" stroke="#e4eae7" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round"/>:null;})}
+    {roomPoints.map(p=>{
+      const reference=referenceIds.has(p.id),context=!leg.points.includes(p);
+      return <g key={p.id} data-map-context={context?'room':undefined} data-location-id={p.id} aria-label={`Phòng ${p.roomNumber}${context?' · Mốc tham chiếu':''}`}>
+        <title>{p.name}</title>
+        <line data-room-door="true" x1={x(p)} y1={roomTop+roomHeight} x2={x(p)} y2={corridorY} stroke="#dce4df" strokeWidth="3"/>
+        <rect x={x(p)-roomWidth(p)/2} y={roomTop} width={roomWidth(p)} height={roomHeight} rx="5" fill={p.id===route.to?'#e1eee9':p.id===route.from?'#edf3fc':'white'} stroke={p.id===route.to?'#146b5a':'#cdd9d1'}/>
+        <text x={x(p)} y={roomTop+24} textAnchor="middle" fill={reference?'#52685b':'#263c34'} fontSize="17" fontWeight={reference?500:600}>{p.roomNumber}</text>
+      </g>;
+    })}
     {length>0&&<g data-route-segment="guided" aria-hidden="true">
+      <path d={path} fill="none" stroke="#146b5a" strokeWidth="5" strokeOpacity=".2" strokeLinecap="round" strokeLinejoin="round"/>
       {Array.from({length:arrowCount},(_,i)=><g key={`${path}-${i}`} className="guided-route-arrow" style={{offsetPath:`path('${path}')`,offsetDistance:`${i/arrowCount*100}%`,animationDuration:`${duration}s`,animationDelay:`${-duration*i/arrowCount}s`}}><path d="M-3 -3 0 0 -3 3" fill="none" stroke="#146b5a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></g>)}
     </g>}
-    {all.filter(p=>p.kind==='stairs'||p.kind==='lift'||leg.points.includes(p)&&p.kind!=='room'&&!p.id.includes('HALL')).map(p=><g key={p.id}><rect x={x(p)-9} y={y(p)-9} width="18" height="18" rx="3" fill="white" stroke="#61776b"/><text x={x(p)} y={y(p)-(p.kind==='reception'?42:p.kind==='stairs'?42:22)} textAnchor="middle" fill="#44594e" fontSize="12">{p.kind==='lift'?'Thang máy':p.kind==='stairs'?'Thang bộ':p.kind==='reception'?'Tiếp nhận':p.kind==='entrance'?'Cổng':'Lối nối'}</text></g>)}
-    {leg.points[step]&&<g aria-label="Vị trí hiện tại mô phỏng"><circle cx={x(leg.points[step])} cy={y(leg.points[step])} r="14" fill="#246bce" stroke="white" strokeWidth="3"/><text x={x(leg.points[step])} y={y(leg.points[step])+40} textAnchor="middle" fill="#174b91" fontSize="13" fontWeight="700">Bạn ở đây</text></g>}
-    {leg.points.filter(p=>(p.id===route.from||p.id===route.to)&&p.id!==leg.points[step]?.id).map(p=><g key={p.id}><circle cx={x(p)} cy={y(p)} r="8" fill={p.id===route.from?'white':'#146b5a'} stroke="#146b5a" strokeWidth="3"/><text x={p.y<200?x(p)+(p.x>350?-14:14):x(p)} y={p.y<200?100:y(p)+28} textAnchor={p.y<200?(p.x>350?'end':'start'):'middle'} fill="#263c34" fontSize="12" fontWeight="600">{p.id===route.to?'Điểm đến':'Xuất phát'}</text></g>)}
+    {facilities.map(p=>{const context=!leg.points.includes(p),isNext=p.id===next?.id&&p.id!==current?.id;return <g key={p.id} data-map-context={context?'landmark':undefined} data-location-id={p.id}><rect x={x(p)-(context?6:9)} y={y(p)-(context?6:9)} width={context?12:18} height={context?12:18} rx="3" fill={isNext?'#e1eee9':'white'} stroke={isNext?'#146b5a':'#87998d'} strokeWidth={isNext?2:1}/></g>;})}
+    {current&&<g aria-label="Vị trí hiện tại"><circle cx={x(current)} cy={y(current)} r="14" fill="#246bce" stroke="white" strokeWidth="3"/></g>}
+    {leg.points.filter(p=>p.id===route.to&&p.id!==current?.id).map(p=><circle key={p.id} cx={x(p)} cy={y(p)} r="8" fill="#146b5a" stroke="#146b5a" strokeWidth="3" aria-label="Điểm đến"/>)}
+    {labels.map(label=><g key={label.id} data-map-label={label.id}><line x1={label.id==='current-position'?x(current):x(visible.find(p=>p.id===label.id)!)} y1={label.pointY+13} x2={label.x} y2={label.y-17} stroke="#aebeb4" strokeWidth="1"/><rect x={label.x-label.width/2} y={label.y-16} width={label.width} height="21" rx="4" fill="#f7f9f8"/><text x={label.x} y={label.y} textAnchor="middle" fill={label.color} fontSize={label.fontSize} fontWeight={label.bold?700:400}>{label.text}</text></g>)}
   </svg>;
 }
 
-export function RouteMap({ snapshot, view, api }: { snapshot: Snapshot; view: VisitView; api: SimulationApi; serviceId?: ServiceId | null }) {
-  const {graph}=snapshot;
-  const {visit,route}=view;
-  const destination=graph.locations.find(p=>p.id===route.to);
-  const origin=graph.locations.find(p=>p.id===route.from);
-  const [start,setStart]=useState('DEMO-ENTRANCE');
-  const [legIndex,setLegIndex]=useState(0);
-  const [step,setStep]=useState(0);
-  const [lost,setLost]=useState(false);
-  const legs=routeLegs(graph,route);
-  const index=Math.min(legIndex,Math.max(0,legs.length-1));
-  const leg=legs[index], next=legs[index+1];
+export function RouteMap({snapshot,view,api}:{snapshot:Snapshot;view:VisitView;api:SimulationApi;serviceId?:ServiceId|null}) {
+  const {graph}=snapshot,{visit,route}=view;
+  const destination=graph.locations.find(point=>point.id===route.to);
+  const steps=navigationSteps(graph,route),step=steps[0];
+  const [start,setStart]=useState('');
+  const [history,setHistory]=useState<string[]>([]);
+  const [moving,setMoving]=useState(false),[rerouted,setRerouted]=useState(false);
+  const identity=JSON.stringify([snapshot.runId,visit.visitId,visit.journeyVersion,route.to]);
+  const movement=useRef<{from:string;target:string;identity:string}|null>(null);
+  const expectedPosition=useRef<{target:string;identity:string}|null>(null);
+  const previousRoute=useRef({identity,from:route.from,path:route.nodeIds,mode:visit.transportMode});
+  useEffect(()=>{
+    const previous=previousRoute.current,expected=expectedPosition.current?.identity===identity&&expectedPosition.current?.target===route.from;
+    const changed=previous.from!==route.from;
+    if(previous.identity!==identity){
+      setHistory([]);movement.current=null;expectedPosition.current=null;setMoving(false);setRerouted(false);
+    }else if(changed&&!expected){
+      setHistory([]);movement.current=null;expectedPosition.current=null;setMoving(false);
+      setRerouted(!!route.from&&previous.path.indexOf(route.from)<0);
+    }else if(changed||previous.mode!==visit.transportMode)setRerouted(false);
+    if(changed&&expected)expectedPosition.current=null;
+    if(changed||previous.identity!==identity)setStart('');
+    previousRoute.current={identity,from:route.from,path:route.nodeIds,mode:visit.transportMode};
+  },[identity,route.from,visit.transportMode]);
+  useEffect(()=>{
+    if(!rerouted)return;
+    const timer=window.setTimeout(()=>setRerouted(false),6500);
+    return()=>window.clearTimeout(timer);
+  },[rerouted]);
+  const disabled=api.pending||!api.connected||moving;
   const arrived=route.from===route.to;
-  useEffect(()=>{setLegIndex(0);setStep(0);setLost(false);setStart(route.from||'DEMO-ENTRANCE');},[route.from,route.to,visit.transportMode,snapshot.runId,visit.journeyVersion]);
-  useEffect(()=>setStep(0),[legIndex]);
-  const currentStep=Math.min(step,Math.max(0,(leg?.points.length||1)-1));
-  const instruction=lost?'Dừng lại tại mốc có biển tên. Chọn mốc gần bạn bên dưới để tìm lại đường. Nếu chưa rõ vị trí, hãy nhờ nhân viên gần nhất.':arrived?`Bạn đã đến ${destination?.name}. ${view.nextAction.description}`:leg?walkingInstruction(leg.points,currentStep):'Chọn mốc hiện tại để bắt đầu.';
-  const disabled=api.pending||!api.connected;
   const confirm=(locationId:string)=>api.command('CONFIRM_LOCATION',visit.visitId,'patient',{locationId,outsideHospital:false});
-  const transition=next ? next.buildingId!==leg.buildingId ? `Qua lối nối sang Tòa ${next.buildingId}` : `Đi ${leg.points.at(-1)?.kind==='stairs'?'thang bộ':'thang máy'} ${next.floor>leg.floor?'lên':'xuống'} tầng ${next.floor}` : '';
+  async function move(target:string,back=false){
+    if(disabled||!route.from||movement.current)return;
+    const request={from:route.from,target,identity};
+    movement.current=request;expectedPosition.current=request;setMoving(true);
+    let ok=false;
+    try{
+      ok=await confirm(target);
+      if(movement.current===request&&ok)setHistory(previous=>back?previous.slice(0,-1):[...previous,request.from]);
+    }catch{
+      // The API owns connection feedback; keep the last confirmed step.
+    }finally{
+      if(!ok&&expectedPosition.current===request)expectedPosition.current=null;
+      if(movement.current===request){movement.current=null;setMoving(false);}
+    }
+  }
+  const backButton=<button className="secondary navigation-back" aria-label="Quay lại bước trước" disabled={disabled||history.length===0} onClick={()=>void move(history.at(-1)!,true)}><Icon name="arrow" size={17}/>Quay lại</button>;
+  const speech=navigationSpeech(graph,route);
   if(!destination)return <section className="map-card"><h2>{view.nextAction.kind==='COMPLETE'?'Bạn đã hoàn tất lượt khám':'Hiện chưa cần di chuyển'}</h2><p className="muted">{view.nextAction.description}</p><Icon name="map" size={32}/></section>;
-  return <section className="map-card" aria-label="Chỉ đường tới bước tiếp theo">
-    <div className="route-endpoints"><div><span className="origin-dot"/><div><small>Đi từ</small><strong>{origin?.name||'Chưa xác nhận vị trí'}</strong></div></div><div><Icon name="pin" size={18}/><div><small>Điểm đến tiếp theo</small><h2>{destination.name}</h2><p className="map-address">{destination.building} · Tầng {destination.floor}{destination.roomNumber&&` · Phòng ${destination.roomNumber}`}</p></div></div></div>
-    <fieldset className="transport-options"><legend>Di chuyển giữa các tầng</legend><div>{(['lift','stairs'] as const).map(mode=><button key={mode} className="secondary" aria-pressed={(visit.transportMode??'lift')===mode} disabled={disabled} onClick={()=>api.command('SET_TRANSPORT_MODE',visit.visitId,'patient',{transportMode:mode})}>{mode==='lift'?'Thang máy':'Thang bộ'}</button>)}</div><p>{(visit.transportMode??'lift')==='lift'?'Đang dùng thang máy. Nếu thang máy đông, bạn có thể chọn thang bộ.':'Đang chỉ đường qua thang bộ. Bạn có thể đổi lại thang máy bất cứ lúc nào.'}</p></fieldset>
-    <p className="navigation-demo-label">Định vị minh họa · Chưa theo dõi vị trí thật</p>
-    <NavigationGuide text={leg&&currentStep===leg.points.length-1&&next&&!lost?`${instruction} ${transition}.`:instruction} resetKey={`${snapshot.runId}-${visit.visitId}-${visit.journeyVersion}-${route.from}-${route.to}-${visit.transportMode??'lift'}`}/>
-    {route.requiresStartConfirmation?<div className="start-confirm"><h3>Chọn lại điểm xuất phát</h3><p>Khi trở lại viện, chọn mốc gần bạn để bắt đầu chỉ đường.</p><label>Điểm xuất phát<select value={start} onChange={e=>setStart(e.target.value)}>{graph.locations.filter(p=>['entrance','reception','lift','stairs'].includes(p.kind)).map(p=><option key={p.id} value={p.id}>{p.name} · {p.building}, tầng {p.floor}</option>)}</select></label><button className="primary" disabled={disabled} onClick={()=>confirm(start)}>Tôi đang tại mốc này</button></div>:arrived?<div className="arrival-note"><Icon name="check" size={24}/><h3>Bạn đã ở điểm đến</h3><p>{view.nextAction.kind==='WAIT_INITIAL'?`Mời ngồi chờ ngoài phòng ${destination.roomNumber}. Bác sĩ sẽ gọi bạn.`:view.nextAction.description}</p></div>:leg?<><div className="guided-stage"><div className="guided-stage-title"><strong>{`Tòa ${leg.buildingId} · Tầng ${leg.floor}`}</strong><span>Chặng {index+1}/{legs.length}</span></div><GuidedFloor graph={graph} route={route} leg={leg} step={currentStep}/><div className="map-legend"><span><i/> Tuyến cần đi</span><span>Sơ đồ hướng dẫn</span></div></div><div className="walking-instruction" aria-live="polite"><small>Bước {currentStep+1}/{leg.points.length}</small><h3>{instruction}</h3>{currentStep>0&&<p>Hướng rẽ tính theo chiều bạn vừa đi từ {leg.points[currentStep-1].name}.</p>}{currentStep<leg.points.length-1&&<button className="primary" onClick={()=>setStep(currentStep+1)}>Đã tới mốc tiếp theo</button>}</div><details className="leg-instruction"><summary>Tóm tắt chặng</summary><strong>{index===0?`Bắt đầu từ ${leg.points[0].name}`:`Tiếp tục tại Tòa ${leg.buildingId}, tầng ${leg.floor}`}</strong><p>{next?`Đi đến ${leg.points.at(-1)?.kind==='lift'?'sảnh thang máy':leg.points.at(-1)?.kind==='stairs'?'cầu thang bộ':'lối nối'}. ${transition}.`:`Theo đường màu xanh đến ${destination.name}.`}</p></details><div className="leg-controls"><button className="secondary" disabled={index===0} onClick={()=>setLegIndex(i=>Math.max(0,i-1))}>Quay lại</button>{next?<button className="primary" onClick={()=>setLegIndex(index+1)}>{next.buildingId!==leg.buildingId?`Đã sang Tòa ${next.buildingId}`:`Đã tới tầng ${next.floor}`}<Icon name="arrow" size={16}/></button>:<button className="primary map-arrived" disabled={disabled} onClick={()=>confirm(destination.id)}>{destination.id===clinicForVisit(visit)?.id?`Tôi đã đến ngoài phòng ${departmentForVisit(visit)?.shortName} ${destination.roomNumber}`:`Tôi đã đến ${destination.roomNumber||destination.name}`}</button>}</div><details className="all-directions"><summary>Xem toàn bộ chỉ dẫn</summary><ol className="route-steps">{route.instructions.map((text,i)=><li key={i}>{text}</li>)}</ol></details></>:<p>Chưa tìm thấy tuyến đường. Hãy hỏi nhân viên tiếp nhận.</p>}
-    {view.nextAction.kind==='GO_SERVICE'&&!arrived&&<div className="map-arrival-instruction"><strong>Khi đến cửa phòng</strong><p>{view.nextAction.description}</p></div>}
-    <button className="secondary lost-button" aria-expanded={lost} onClick={()=>setLost(v=>!v)}>{lost?'Đóng hỗ trợ tìm đường':'Tôi đi nhầm / không rõ hướng'}</button>
-    {lost&&<p className="lost-message" role="status">Dừng tại mốc có biển tên, chọn lại vị trí bên dưới. Tuyến sẽ tính lại sau khi bạn xác nhận. Nếu chưa nhận ra mốc, hãy hỏi nhân viên gần nhất.</p>}
-    <details className="location-update" open={lost||undefined}><summary>Tôi đang ở vị trí khác</summary><label>Vị trí hiện tại<select value={start} onChange={e=>setStart(e.target.value)}>{graph.locations.filter(p=>p.kind!=='connector').map(p=><option key={p.id} value={p.id}>{p.name} · {p.building}, tầng {p.floor}</option>)}</select></label><button className="secondary" disabled={disabled} onClick={()=>confirm(start)}>Xác nhận vị trí của tôi</button></details>
-    <details className="campus-demo"><summary>Google Maps và sơ đồ trong viện</summary><p>Minh họa hành trình: Google Maps tới cơ sở, sau đó chuyển sang sơ đồ trong viện. Vị trí và tầng hiện tại do bạn xác nhận theo mốc.</p><a className="secondary" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Vinmec%20Ocean%20Park%202">Mở Google Maps tìm cơ sở</a><p className="small">Sơ đồ phòng, tầng là dữ liệu demo, chưa phải bản đồ chính thức của bệnh viện.</p><button className="text-button" disabled={disabled} onClick={()=>confirm('DEMO-ENTRANCE')}>Mô phỏng: tôi đã tới cổng viện</button></details>
+  return <section className="map-card navigation-map" aria-label="Chỉ đường tới bước tiếp theo">
+    <div className="navigation-topline"><div className="route-endpoints"><small>{arrived?'Vị trí hiện tại':'Điểm cần đến'}</small><div className="destination-heading"><span className="destination-marker" aria-hidden="true"><Icon name="pin" size={24}/></span><div><h2>{destination.roomNumber&&<>Phòng <span className="destination-room">{destination.roomNumber}</span> · </>}{destination.name.split(' · ').at(-1)}</h2><p className="map-address">{destination.building} · Tầng {destination.floor}</p></div></div></div><NavigationGuide text={speech} resetKey={identity}/></div>
+    {!arrived&&!route.requiresStartConfirmation&&<fieldset className="transport-options"><legend className="sr-only">Di chuyển giữa các tầng</legend><div>{(['lift','stairs'] as const).map(mode=><button key={mode} className="secondary" aria-pressed={(visit.transportMode??'lift')===mode} disabled={disabled} onClick={()=>void api.command('SET_TRANSPORT_MODE',visit.visitId,'patient',{transportMode:mode})}><Icon name={mode} size={19}/>{mode==='lift'?'Thang máy':'Thang bộ'}</button>)}</div></fieldset>}
+    {route.requiresStartConfirmation?<div className="start-confirm"><h3>Chọn lại điểm xuất phát</h3><p>Chọn mốc gần bạn để bắt đầu chỉ đường.</p><label>Điểm xuất phát<select value={start} onChange={event=>setStart(event.target.value)}><option value="">Chọn mốc theo biển tên</option>{graph.locations.filter(point=>['entrance','reception','lift','stairs'].includes(point.kind)).map(point=><option key={point.id} value={point.id}>{point.name} · {point.building}, tầng {point.floor}</option>)}</select></label><button className="primary" disabled={disabled||!start} onClick={()=>void confirm(start)}>Tôi đang tại mốc này</button></div>:arrived?<div className="arrival-note"><Icon name="check" size={32}/><h3>Bạn đã đến {destination.roomNumber?`phòng ${destination.roomNumber} · ${destination.name.split(' · ').at(-1)}`:destination.name.toLocaleLowerCase('vi-VN')}</h3><p>{view.nextAction.kind==='WAIT_INITIAL'?`Mời ngồi chờ ngoài phòng ${destination.roomNumber}. Bác sĩ sẽ gọi bạn.`:view.nextAction.description}</p></div>:step?<>
+      <div className="walking-instruction" aria-live="polite"><small>{rerouted?<span role="status">Đã cập nhật đường đi từ vị trí của bạn</span>:'Bước tiếp theo'}</small><h3>{step.instruction}</h3>{step.detail&&<p>{step.detail}</p>}</div>
+      <div className="guided-stage"><div className="guided-stage-title"><strong>{`Tòa ${step.leg.buildingId} · Tầng ${step.leg.floor}`}</strong><span>Bước {history.length+1}/{history.length+steps.length}</span></div><GuidedFloor graph={graph} route={route} leg={step.leg}/><div className="map-legend"><span><i/> Đường đi</span><span className="current-location">{step.from.name}</span></div></div>
+      <div className="navigation-actions">{backButton}<button className="primary navigation-advance" disabled={disabled} onClick={()=>void move(step.to.id)}>{step.action}<Icon name={step.kind==='destination'?'check':'arrow'} size={20}/></button></div>
+    </>:<p>Chưa tìm thấy tuyến đường. Hãy hỏi nhân viên tiếp nhận.</p>}
   </section>;
 }
