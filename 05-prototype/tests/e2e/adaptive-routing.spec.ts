@@ -1,3 +1,4 @@
+import { expectReadableMap } from './navigation';
 import { test, expect, type APIRequestContext } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import type { Command, Snapshot, ServiceId } from '../../src/shared/contracts';
@@ -13,25 +14,40 @@ async function assign(request:APIRequestContext,visitId:string,serviceIds:Servic
 }
 test.beforeEach(async({request})=>{const s=await snapshot(request);expect((await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:s.runId,expectedRevision:s.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'adaptive-routing'}})).ok()).toBe(true);await mkdir('outputs/adaptive-routing',{recursive:true});});
 
-test('patient switches lift/stairs, sees intermediate floors and retains choice after reload',async({page,request})=>{
+test('floor changes are one step and switching transport preserves the confirmed position',async({page,request})=>{
  await send(request,'REGISTER','control','DEMO-P01',{departmentId:'DEMO-ENT'});
  await page.setViewportSize({width:390,height:844});await page.goto('/patient');await page.getByRole('button',{name:'Xem đường đi',exact:true}).click();
  await expect(page.getByRole('button',{name:'Thang máy',exact:true})).toHaveAttribute('aria-pressed','true');
- await expect(page.locator('.leg-instruction')).toContainText('Đi thang máy lên tầng 4');
+ await expect(page.locator('.navigation-advance')).toHaveText('Đã tới tầng 4');
+ await expect(page.getByRole('button',{name:'Quay lại bước trước',exact:true})).toBeDisabled();
+ await expect(page.getByRole('button',{name:/Đã tới thang|Đã tới tầng [23]/})).toHaveCount(0);
+ await page.getByRole('button',{name:'Thang bộ',exact:true}).click();
+ await expect(page.locator('.walking-instruction')).toContainText('Đi thang bộ lên tầng 4');
+ await expect(page.locator('.guided-stage-title')).toContainText('Bước 1/2');
+ await expectReadableMap(page);
+ await mkdir('outputs/navigation-feedback',{recursive:true});
+ await page.screenshot({path:'outputs/navigation-feedback/one-step-to-floor-4.png',fullPage:true});
+ await page.getByRole('button',{name:'Đã tới tầng 4',exact:true}).click();
+ await expect(page.locator('.guided-stage-title')).toContainText('Tầng 4');
+ expect((await snapshot(request)).visits[0].locationId).toBe('DEMO-A-STAIRS-4');
+ await page.getByRole('button',{name:'Thang máy',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Thang máy',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('.current-location')).toContainText('Thang bộ tầng 4');
+ await expect(page.locator('.navigation-advance')).toHaveText('Tôi đã đến phòng A401');
+ await page.screenshot({path:'outputs/navigation-feedback/back-and-transport.png',fullPage:true});
+ await page.getByRole('button',{name:'Quay lại bước trước',exact:true}).click();
+ await expect(page.locator('.current-location')).toContainText('Quầy tiếp nhận');
+ await expect(page.locator('.navigation-advance')).toHaveText('Đã tới tầng 4');
+ await page.locator('.navigation-advance').click();
+ await expect(page.locator('.current-location')).toContainText('Thang máy tầng 4');
  await page.getByRole('button',{name:'Thang bộ',exact:true}).click();
  await expect(page.getByRole('button',{name:'Thang bộ',exact:true})).toHaveAttribute('aria-pressed','true');
- await expect(page.locator('.guided-floor')).toContainText('Thang bộ');
- await expect(page.locator('.guided-stage-title')).toContainText('Chặng 1/4');
- await expect(page.locator('.leg-instruction')).toContainText('Đi thang bộ lên tầng 2');
- await page.getByRole('button',{name:'Đã tới tầng 2',exact:true}).click();
- await expect(page.locator('.guided-stage-title')).toContainText('Tầng 2');
- await page.getByRole('button',{name:'Thang máy',exact:true}).click();
- await expect(page.locator('.guided-stage-title')).toContainText('Chặng 1/2');
- await expect(page.locator('.leg-instruction')).toContainText('Đi thang máy lên tầng 4');
- await page.getByRole('button',{name:'Thang bộ',exact:true}).click();await expect(page.getByRole('button',{name:'Thang bộ',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.reload();await page.getByRole('button',{name:'Đường đi',exact:true}).click();
  await expect(page.getByRole('button',{name:'Thang bộ',exact:true})).toHaveAttribute('aria-pressed','true');
- await page.screenshot({path:'outputs/adaptive-routing/stairs-390.png',fullPage:true});
+ await expect(page.locator('.current-location')).toContainText('Thang máy tầng 4');
+ await expect(page.locator('.navigation-advance')).toHaveText('Tôi đã đến phòng A401');
+ await mkdir('outputs/navigation-feedback',{recursive:true});
+ await page.screenshot({path:'outputs/navigation-feedback/transport-keeps-position.png',fullPage:true});
  await page.setViewportSize({width:360,height:800});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
@@ -50,7 +66,7 @@ test('physical attendance drives A → B → C preview, then completion recalcul
  await expect(page.locator('#next-title')).toHaveText('Đến Xét nghiệm nước tiểu');
  expect(await page.locator('.service-name').allTextContents()).toEqual(['Xét nghiệm sinh hóa máu','Xét nghiệm nước tiểu','Siêu âm ổ bụng']);
  await page.screenshot({path:'outputs/adaptive-routing/plan-after-390.png',fullPage:true});
- await page.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(page.locator('.route-endpoints')).toContainText('A205 · Sinh hóa');await expect(page.locator('.map-address')).toContainText('A501');
+ await page.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(page.locator('.current-location')).toContainText('A205 · Sinh hóa');await expect(page.locator('.route-endpoints')).toContainText('A501');
  const s=await snapshot(request);expect(s.visits[0].services.map(s=>s.id)).toEqual([us,urine,blood]);
  await page.emulateMedia({media:'print'});await expect(page.locator('.print-guide')).toContainText('Thứ tự thủ tục dự kiến');
 });
