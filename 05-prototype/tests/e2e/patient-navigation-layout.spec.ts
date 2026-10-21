@@ -1,6 +1,6 @@
+import { uiArtifact } from './ui-artifacts';
 import { advanceDirection, expectReadableMap } from './navigation';
 import { test, expect } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
 import type { Command } from '../../src/shared/contracts';
 
 test('nearby rooms on both sides of B105 orient the walk to the lift',async({page,request})=>{
@@ -40,8 +40,8 @@ test('nearby rooms on both sides of B105 orient the walk to the lift',async({pag
   }
   await expectReadableMap(page);
   await expect(page.locator('.navigation-map button.primary')).toHaveCount(1);
-  await mkdir('outputs/patient-navigation',{recursive:true});
-  await page.screenshot({path:'outputs/patient-navigation/context-room-b105.png',fullPage:true});
+
+  await page.screenshot({path:uiArtifact('patient-navigation/context-room-b105.png'),fullPage:true});
 });
 
 test('all guidance fits one screen with one action through lift and stair routes',async({page,request})=>{
@@ -51,7 +51,7 @@ test('all guidance fits one screen with one action through lift and stair routes
   s=await (await request.get('/api/snapshot')).json();
   const registered=await request.post('/api/commands',{data:{commandId:crypto.randomUUID(),runId:s.runId,expectedRevision:s.revision,type:'REGISTER',actor:'control',visitId:'DEMO-P01',payload:{departmentId:'DEMO-DENTISTRY'}}});
   expect((await registered.json()).ok).toBe(true);
-  await mkdir('outputs/patient-navigation',{recursive:true});
+
   for(const [width,height] of [[360,640],[375,667],[390,844],[768,1024],[1440,900]]){
     await page.setViewportSize({width,height});
     await page.goto('/patient');
@@ -76,7 +76,7 @@ test('all guidance fits one screen with one action through lift and stair routes
         expect(geometry.mapHeight).toBeGreaterThanOrEqual(140);
         expect(geometry.buttonBottom).toBeLessThanOrEqual(geometry.navTop);
         await expect(page.locator('.guided-floor')).not.toContainText(mode==='Thang bộ'?'Thang máy':'Thang bộ');
-        if(step===0)await page.screenshot({path:`outputs/patient-navigation/${width}x${height}-${mode==='Thang bộ'?'stairs':'lift'}.png`,fullPage:true});
+        if(step===0)await page.screenshot({path:uiArtifact(`patient-navigation/${width}x${height}-${mode==='Thang bộ'?'stairs':'lift'}.png`),fullPage:true});
         const action=page.locator('.navigation-advance');
         if((await action.textContent())?.startsWith('Tôi đã đến'))break;
         await advanceDirection(page);

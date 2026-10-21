@@ -24,7 +24,7 @@ Kiểm thử dùng server/SQLite riêng, không reset dữ liệu demo cổng 30
 - Sau thủ tục đầu, cập nhật tại cổng giữ trạng thái đã hoàn tất; tải lại có kết nối vẫn giữ vị trí mới.
 - Không xác định được mốc thì có hướng dẫn nhờ nhân viên. Cập nhật thất bại giữ hộp chọn; mất kết nối khóa xác nhận.
 
-[Chọn vị trí](outputs/navigation-recovery/choose-location.png) · [Tuyến từ tòa B](outputs/navigation-recovery/rerouted-from-building-b.png) · [Quay lại từ cổng](outputs/navigation-recovery/return-from-entrance.png).
+[Chọn vị trí](../00-luong-he-thong-qua-anh/bo-sung/vi-tri-ket-noi/choose-location.png) · [Tuyến từ tòa B](../00-luong-he-thong-qua-anh/bo-sung/vi-tri-ket-noi/rerouted-from-building-b.png) · [Quay lại từ cổng](../00-luong-he-thong-qua-anh/bo-sung/vi-tri-ket-noi/return-from-entrance.png).
 
 ## Đồng bộ và mất kết nối
 
@@ -33,7 +33,7 @@ Kiểm thử dùng server/SQLite riêng, không reset dữ liệu demo cổng 30
 - Mất mạng thực hoặc ngắt kết nối mô phỏng đều hiện cảnh báo; giữ mốc cuối và khóa xác nhận vị trí/đổi thang.
 - Kết nối lại chỉ được xác nhận khi nhận dữ liệu hợp lệ. Lệnh chưa rõ kết quả dùng cơ chế gửi lại cùng xác nhận.
 
-[Đang kết nối](outputs/navigation-recovery/online-sync.png) · [Chi tiết thời gian](outputs/navigation-recovery/sync-details.png) · [Mất kết nối](outputs/navigation-recovery/offline-warning.png).
+[Đang kết nối](../00-luong-he-thong-qua-anh/anh/04-dan-duong.png) · [Chi tiết thời gian](../00-luong-he-thong-qua-anh/bo-sung/vi-tri-ket-noi/sync-details.png) · [Mất kết nối](../00-luong-he-thong-qua-anh/bo-sung/vi-tri-ket-noi/offline-warning.png).
 
 ## Phạm vi hồi quy
 

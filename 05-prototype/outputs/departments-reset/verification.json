@@ -34,11 +34,11 @@
     "findings": []
   },
   "screenshotsViewed": [
-    "cardiology-orders.png",
-    "dentistry-patient-390.png",
-    "endoscopy-map-390.png",
-    "control-final-desktop.jpg",
-    "control-final-mobile.jpg"
+    "../../../00-luong-he-thong-qua-anh/luu-tru/departments-reset/cardiology-orders.png",
+    "../../../00-luong-he-thong-qua-anh/luu-tru/departments-reset/dentistry-patient-390.png",
+    "../../../00-luong-he-thong-qua-anh/luu-tru/departments-reset/endoscopy-map-390.png",
+    "../../../00-luong-he-thong-qua-anh/luu-tru/departments-reset/control-final-desktop.jpg",
+    "../../../00-luong-he-thong-qua-anh/luu-tru/departments-reset/control-final-mobile.jpg"
   ],
   "limitations": "Synthetic prototype rooms and floor plans; no physical ticket-machine integration or new real-user testing.",
   "sourceSha256": {

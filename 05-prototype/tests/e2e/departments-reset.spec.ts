@@ -1,11 +1,11 @@
+import { uiArtifact } from './ui-artifacts';
 import { finishDirections as arrive, advanceDirection, expectReadableMap } from './navigation';
 import {expect,test,type APIRequestContext,type Page} from '@playwright/test';
-import {mkdir} from 'node:fs/promises';
 import type {Actor,Command,CommandType,Snapshot} from '../../src/shared/contracts';
 async function snapshot(request:APIRequestContext):Promise<Snapshot>{return (await request.get('/api/snapshot')).json();}
 async function send(request:APIRequestContext,type:CommandType,actor:Actor='control',payload:Command['payload']={},visitId='DEMO-P01'){const s=await snapshot(request);const r=await request.post('/api/commands',{data:{commandId:crypto.randomUUID(),runId:s.runId,expectedRevision:s.revision,expectedJourneyVersion:s.visits.find(v=>v.visitId===visitId)!.journeyVersion??0,type,actor,payload,visitId}});const body=await r.json();expect(body.ok,`${type}: ${body.message}`).toBe(true);return body.snapshot as Snapshot;}
 
-test.beforeEach(async({request})=>{const old=await snapshot(request);expect((await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:old.runId,expectedRevision:old.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'departments-reset'}})).ok()).toBe(true);await mkdir('outputs/adaptive-routing/regression/departments-reset',{recursive:true});});
+test.beforeEach(async({request})=>{const old=await snapshot(request);expect((await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:old.runId,expectedRevision:old.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'departments-reset'}})).ok()).toBe(true);});
 
 test('reception chooses cardiology, expanded orders route back there, and patient reset starts a new dermatology journey',async({browser,request})=>{
  test.setTimeout(120000);
@@ -20,10 +20,10 @@ test('reception chooses cardiology, expanded orders route back there, and patien
  await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(patient.locator('.route-endpoints')).toContainText('A301');await arrive(patient);
  await doctor.getByRole('button',{name:'Gọi vào khám ban đầu',exact:true}).click();await doctor.getByRole('button',{name:'Bắt đầu trao đổi',exact:true}).click();
  for(const keyword of ['điện tim','CT','nước tiểu']){await doctor.getByRole('searchbox',{name:'Tìm thủ tục'}).fill(keyword);await doctor.getByRole('checkbox').check();}
- await doctor.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/cardiology-orders.png',fullPage:true});await doctor.getByRole('button',{name:'Chốt 3 chỉ định'}).click();
+ await doctor.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/cardiology-orders.png'),fullPage:true});await doctor.getByRole('button',{name:'Chốt 3 chỉ định'}).click();
  const assigned=await snapshot(request);expect(assigned.visits[0].services.map(s=>s.id)).toEqual(['DEMO-ECG','DEMO-CT','DEMO-URINE']);for(const serviceId of ['DEMO-ECG','DEMO-CT','DEMO-URINE'] as const){expect(assigned.procedureQueues[serviceId]).toContain('DEMO-P01');await send(request,'COMPLETE_SERVICE','procedure',{serviceId});}
  await expect(doctor.locator('.queue-column').nth(1)).toContainText('Nguyễn Minh Anh');await expect(patient.locator('.route-endpoints')).toContainText('A301');await expect(patient.locator('.current-location')).toContainText('A501');
- await arrive(patient);await expect(patient.locator('.arrival-note')).toContainText('Chỉ vào phòng khi bác sĩ gọi');await patient.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/cardiology-return.png',fullPage:true});
+ await arrive(patient);await expect(patient.locator('.arrival-note')).toContainText('Chỉ vào phòng khi bác sĩ gọi');await patient.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/cardiology-return.png'),fullPage:true});
  // Keep another patient's live encounter while resetting P01 from the app.
  await send(request,'REGISTER','control',{departmentId:'DEMO-ENT'},'DEMO-P02');await send(request,'CALL_INITIAL','doctor',{},'DEMO-P02');const other=(await snapshot(request)).visits[1];
  await patient.getByRole('button',{name:'Thông tin người bệnh',exact:true}).click();
@@ -32,7 +32,7 @@ test('reception chooses cardiology, expanded orders route back there, and patien
  await expect(patient.getByRole('heading',{name:'Đến quầy tiếp nhận',exact:true})).toBeVisible();await expect(patient.locator('.timeline')).not.toContainText('Tim mạch');await expect(patient.locator('.timeline')).not.toContainText('điện tâm');await expect(doctor.locator('.queue-column').nth(1)).not.toContainText('Nguyễn Minh Anh');
  const reset=await snapshot(request);expect(reset.visits[0].journeyVersion).toBe(1);expect(reset.visits[1]).toEqual(other);expect(reset.activeEncounters['DEMO-ENT']?.visitId).toBe('DEMO-P02');
  await control.getByRole('combobox',{name:'Khoa khám ban đầu',exact:true}).selectOption('DEMO-DERMATOLOGY');await control.getByRole('button',{name:'Xác nhận tiếp nhận',exact:true}).click();
- await expect(patient.getByRole('heading',{name:'Đến phòng khám Da liễu',exact:true})).toBeVisible();await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(patient.locator('.route-endpoints')).toContainText('A405');await patient.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/dermatology-route.png',fullPage:true});
+ await expect(patient.getByRole('heading',{name:'Đến phòng khám Da liễu',exact:true})).toBeVisible();await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(patient.locator('.route-endpoints')).toContainText('A405');await patient.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/dermatology-route.png'),fullPage:true});
  await control.getByRole('button',{name:'Reset hành trình của Nguyễn Minh Anh',exact:true}).click();await expect(patient.getByRole('heading',{name:'Đến quầy tiếp nhận',exact:true})).toBeVisible();expect((await snapshot(request)).visits[0].journeyVersion).toBe(2);
  await context.close();
 });
@@ -52,7 +52,7 @@ test('dentistry and ENT doctors work independently; reset removes one active vis
 test('long specialty names and new endoscopy map legs remain readable at phone and tablet widths',async({page,request})=>{
  test.setTimeout(90000);await send(request,'REGISTER','control',{departmentId:'DEMO-DENTISTRY'});
  await page.setViewportSize({width:390,height:844});await page.goto('/patient');await expect(page.locator('.timeline')).toContainText('Khám Răng - Hàm - Mặt');
- await page.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/dentistry-patient-390.png',fullPage:true});
+ await page.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/dentistry-patient-390.png'),fullPage:true});
  await send(request,'CALL_INITIAL','doctor');await send(request,'BEGIN_ENCOUNTER','doctor');await send(request,'ASSIGN_SERVICES','doctor',{serviceIds:['DEMO-ENDO-STOMACH']});
  await page.getByRole('button',{name:'Xem đường đi',exact:true}).click();await expect(page.locator('.route-endpoints')).toContainText('B305');
  for(let i=0;i<24;i++){
@@ -60,8 +60,8 @@ test('long specialty names and new endoscopy map legs remain readable at phone a
   if((await page.locator('.navigation-advance').textContent())?.startsWith('Tôi đã đến'))break;
   await advanceDirection(page);
  }
- await expect(page.locator('.guided-stage-title')).toContainText('Tòa B · Tầng 3');await expect(page.locator('.guided-floor')).toContainText('dạ dày');await page.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/endoscopy-map-390.png',fullPage:true});
+ await expect(page.locator('.guided-stage-title')).toContainText('Tòa B · Tầng 3');await expect(page.locator('.guided-floor')).toContainText('dạ dày');await page.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/endoscopy-map-390.png'),fullPage:true});
  for(const width of [360,390,768]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.goto('/control');await expect(page.locator('.reception-person')).toHaveCount(3);await page.getByText('Cài đặt & kiểm tra',{exact:true}).click();await expect(page.locator('.room-method-setting')).toHaveCount(9);await page.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/control-768.png',fullPage:true});
- await page.goto('/doctor?department=DEMO-DENTISTRY');await page.screenshot({path:'outputs/adaptive-routing/regression/departments-reset/doctor-dentistry-768.png',fullPage:true});
+ await page.goto('/control');await expect(page.locator('.reception-person')).toHaveCount(3);await page.getByText('Cài đặt & kiểm tra',{exact:true}).click();await expect(page.locator('.room-method-setting')).toHaveCount(9);await page.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/control-768.png'),fullPage:true});
+ await page.goto('/doctor?department=DEMO-DENTISTRY');await page.screenshot({path:uiArtifact('adaptive-routing/regression/departments-reset/doctor-dentistry-768.png'),fullPage:true});
 });

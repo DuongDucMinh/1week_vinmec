@@ -1,5 +1,5 @@
+import { uiArtifact } from './ui-artifacts';
 import {test,expect,type APIRequestContext} from '@playwright/test';
-import {mkdir} from 'node:fs/promises';
 import type {Command,Snapshot} from '../../src/shared/contracts';
 const read=async(request:APIRequestContext):Promise<Snapshot>=>(await request.get('/api/snapshot')).json();
 async function send(request:APIRequestContext,type:Command['type'],actor:Command['actor'],payload:Command['payload']={}){
@@ -7,7 +7,7 @@ async function send(request:APIRequestContext,type:Command['type'],actor:Command
  const response=await request.post('/api/commands',{data:{commandId:crypto.randomUUID(),runId:s.runId,expectedRevision:s.revision,type,actor,visitId:'DEMO-P01',payload}});
  const data=await response.json();expect(data.ok,data.message).toBe(true);return data.snapshot as Snapshot;
 }
-test.beforeEach(async({request})=>{const s=await read(request);const reset=await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:s.runId,expectedRevision:s.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'patient-tabs-chat'}});expect((await reset.json()).ok).toBe(true);await mkdir('outputs/patient-tabs',{recursive:true});});
+test.beforeEach(async({request})=>{const s=await read(request);const reset=await request.post('/api/demo/reset',{data:{commandId:crypto.randomUUID(),expectedRunId:s.runId,expectedRevision:s.revision,actor:'control',mode:'RETURN_TO_DOCTOR',seed:'patient-tabs-chat'}});expect((await reset.json()).ok).toBe(true);});
 
 test('shared patient profile switches the current person and notification settings live in the inbox',async({page,context})=>{
  await page.setViewportSize({width:393,height:852});await page.goto('/patient');
@@ -18,7 +18,7 @@ test('shared patient profile switches the current person and notification settin
   await expect(page.locator('.visit-heading p')).toHaveCount(0);
   if(name==='Thông báo'){
    await expect(page.getByRole('heading',{name:'Nhận thông báo kết quả',exact:true})).toBeVisible();
-   await page.screenshot({path:'outputs/patient-tabs/notification-settings-393.png',fullPage:true});
+   await page.screenshot({path:uiArtifact('patient-tabs/notification-settings-393.png'),fullPage:true});
    await page.getByRole('button',{name:'Bật thông báo kết quả',exact:true}).click();
    await expect(page.locator('.notification-settings')).toHaveCount(0);
    await page.getByRole('button',{name:'Tắt thông báo kết quả',exact:true}).click();
@@ -26,8 +26,8 @@ test('shared patient profile switches the current person and notification settin
    await expect(page.locator('.notification-toggle')).toHaveAttribute('aria-pressed','false');
    await page.getByRole('button',{name:'Bật thông báo kết quả',exact:true}).click();
    await expect(page.locator('.notification-toggle')).toHaveAttribute('aria-pressed','true');
-   await mkdir('outputs/navigation-feedback',{recursive:true});
-   await page.screenshot({path:'outputs/navigation-feedback/notification-bell.png',fullPage:true});
+
+   await page.screenshot({path:uiArtifact('navigation-feedback/notification-bell.png'),fullPage:true});
   }else await expect(page.locator('.notification-settings')).toHaveCount(0);
  }
  await page.reload();
@@ -42,7 +42,7 @@ test('shared patient profile switches the current person and notification settin
  await expect(profile.getByRole('button',{name:'Reset hành trình của Nguyễn Minh Anh',exact:true})).toBeVisible();
  const phone=await page.locator('.phone-shell').boundingBox(),popup=await profile.boundingBox();
  expect(popup!.x).toBeGreaterThanOrEqual(phone!.x);expect(popup!.y).toBeGreaterThanOrEqual(phone!.y);expect(popup!.x+popup!.width).toBeLessThanOrEqual(phone!.x+phone!.width);expect(popup!.y+popup!.height).toBeLessThanOrEqual(phone!.y+phone!.height);
- await page.screenshot({path:'outputs/patient-tabs/patient-profile-393.png',fullPage:true});
+ await page.screenshot({path:uiArtifact('patient-tabs/patient-profile-393.png'),fullPage:true});
  await profile.getByRole('combobox',{name:'Đổi người khám',exact:true}).selectOption('DEMO-P02');
  await expect(profile).toHaveCount(0);await expect(profileButton).toContainText('Trần Hoàng Nam');
  await profileButton.click();
@@ -73,8 +73,8 @@ test('all results notify the patient to wait for the doctor and stay close to pr
  await expect(page.locator('.notification').first()).toContainText('sẵn sàng vào nghe chẩn đoán khi bác sĩ gọi');
  await page.reload();
  await expect(page.locator('#next-title')).toHaveText('Sẵn sàng nghe chẩn đoán');
- await mkdir('outputs/results-readiness',{recursive:true});
- await page.screenshot({path:'outputs/results-readiness/ready-393.png',fullPage:true});
+
+ await page.screenshot({path:uiArtifact('results-readiness/ready-393.png'),fullPage:true});
  for(const width of [360,393,768]){
   await page.setViewportSize({width,height:852});
   for(const service of await page.locator('.service-card').all()){
@@ -95,7 +95,7 @@ test('all results notify the patient to wait for the doctor and stay close to pr
  }
  await page.setViewportSize({width:393,height:852});
  await page.locator('.service-card').first().scrollIntoViewIfNeeded();
- await page.screenshot({path:'outputs/results-readiness/procedure-spacing-393.png',fullPage:true});
+ await page.screenshot({path:uiArtifact('results-readiness/procedure-spacing-393.png'),fullPage:true});
  await page.getByRole('button',{name:'Xem kết quả ›',exact:true}).first().click();
  await expect(page.getByRole('dialog')).toBeVisible();
 });
@@ -161,7 +161,7 @@ test('result banners, personal reset and arrival guidance stay inside the simula
  await expect(page.getByRole('button',{name:'Cập nhật vị trí',exact:true})).toBeVisible();
  const gap=await page.evaluate(()=>document.querySelector('.arrival-note')!.getBoundingClientRect().top-document.querySelector('.location-update-trigger')!.getBoundingClientRect().bottom);
  expect(gap).toBeGreaterThan(8);expect(gap).toBeLessThan(32);
- await page.screenshot({path:'outputs/patient-tabs/arrival-at-reception.png',fullPage:true});
+ await page.screenshot({path:uiArtifact('patient-tabs/arrival-at-reception.png'),fullPage:true});
  await page.getByRole('button',{name:'Trợ lý',exact:true}).click();
  await expect(page.locator('.chat-heading .assistant-avatar-art')).toBeVisible();
 });
@@ -185,7 +185,7 @@ test('patient tabs share the same frame and retain their header and navigation w
    if(!frameHeight){frameHeight=before.frame;headerHeight=before.header;navHeight=before.nav;}
    expect(before.frame).toBe(frameHeight);expect(before.header).toBe(headerHeight);expect(before.nav).toBe(navHeight);
    expect(before.bodyHeight).toBeLessThanOrEqual(height);expect(before.bodyWidth).toBeLessThanOrEqual(width);
-   if(width===390)await page.screenshot({path:`outputs/patient-tabs/${tab}-390.png`,fullPage:true});
+   if(width===390)await page.screenshot({path:uiArtifact(`patient-tabs/${tab}-390.png`),fullPage:true});
    if(tab==='journey'||tab==='inbox'){
     const scrolled=await page.locator('.patient-main').evaluate(main=>{main.scrollTop=main.scrollHeight;return main.scrollTop;});
     expect(scrolled).toBeGreaterThan(0);
@@ -226,5 +226,5 @@ test('chat displays pending questions, keeps history between tabs, and anchors t
  });
  expect(geometry.bottom).toBeLessThanOrEqual(geometry.navTop);expect(geometry.scrollTop).toBeGreaterThan(0);
  expect(geometry.scrollHeight).toBeGreaterThan(geometry.clientHeight);expect(geometry.bodyHeight).toBeLessThanOrEqual(844);
- await page.screenshot({path:'outputs/patient-tabs/chat-conversation-390.png',fullPage:true});
+ await page.screenshot({path:uiArtifact('patient-tabs/chat-conversation-390.png'),fullPage:true});
 });

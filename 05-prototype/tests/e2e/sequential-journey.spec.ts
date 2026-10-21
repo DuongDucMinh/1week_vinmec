@@ -1,7 +1,6 @@
+import { uiArtifact } from './ui-artifacts';
 import { finishDirections as arrive } from './navigation';
 import { expect, test, type Page } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
-
 async function paperDefaults(request:any){for(const serviceId of ['DEMO-US-ABD','DEMO-BLOOD-BIOCHEM']){const s=await(await request.get('/api/snapshot')).json();expect((await request.post('/api/commands',{data:{commandId:crypto.randomUUID(),runId:s.runId,expectedRevision:s.revision,type:'SET_PROCEDURE_QUEUE_METHOD',actor:'control',visitId:'DEMO-P01',payload:{serviceId,queueMethod:'PAPER_TRAY'}}})).ok()).toBe(true);}}
 
 
@@ -39,8 +38,8 @@ test('reception → first doctor → searched orders → nearest blood → ultra
  await doctor.getByRole('checkbox').check();
  await expect(doctor.locator('.order-preview')).toContainText('Siêu âm ổ bụng');
  await expect(patient.locator('.timeline')).not.toContainText('Siêu âm');
- await mkdir('outputs/adaptive-routing/regression/paper-workflow',{recursive:true});
- await doctor.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/doctor-orders.png',fullPage:true});
+
+ await doctor.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/doctor-orders.png'),fullPage:true});
  await doctor.getByRole('button',{name:'Chốt 2 chỉ định'}).click();
  await expect(patient.getByRole('heading',{name:'Đến Xét nghiệm sinh hóa máu',exact:true})).toBeVisible();
  await expect(us.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
@@ -49,10 +48,10 @@ test('reception → first doctor → searched orders → nearest blood → ultra
  await patient.getByRole('button',{name:'Xem đường đi',exact:true}).click();
  await expect(patient.locator('.current-location')).toContainText('A201 · Nội');
  await expect(patient.locator('.route-endpoints')).toContainText('A205');
- await patient.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/patient-guidance.png',fullPage:true});
+ await patient.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/patient-guidance.png'),fullPage:true});
  await arrive(patient);
  await expect(patient.locator('.arrival-note')).toContainText('đặt giấy chỉ định lên trên cùng');
- await blood.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/procedure-queue.png',fullPage:true});
+ await blood.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/procedure-queue.png'),fullPage:true});
  await blood.getByRole('button',{name:'Đã hoàn thành',exact:true}).click();
  await expect(blood.locator('.procedure-queue')).not.toContainText('Nguyễn Minh Anh');
  await expect(us.locator('.procedure-queue')).toContainText('Nguyễn Minh Anh');
@@ -65,7 +64,7 @@ test('reception → first doctor → searched orders → nearest blood → ultra
  await expect(doctor.locator('.queue-column').nth(1)).toContainText('Nguyễn Minh Anh');
  await expect(doctor.locator('.queue-column').nth(1)).toContainText('Đang quay lại');
  expect((await(await request.get('/api/snapshot')).json()).visits[0].services.every((s:any)=>s.resultStatus==='WAITING')).toBe(true);
- await doctor.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/doctor-ready.png',fullPage:true});
+ await doctor.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/doctor-ready.png'),fullPage:true});
  await expect(patient.locator('.route-endpoints')).toContainText('A201');
  await expect(patient.locator('.current-location')).toContainText('B105 · Siêu âm');
  await arrive(patient);
@@ -74,7 +73,7 @@ test('reception → first doctor → searched orders → nearest blood → ultra
  await expect(patient.getByRole('heading',{name:'Đã quay lại phòng Nội A201',exact:true})).toBeVisible();
  await expect(patient.getByRole('button',{name:'Sẵn sàng gặp bác sĩ chẩn đoán'})).toHaveCount(0);
  await expect(doctor.getByRole('button',{name:'Gọi vào xem kết quả'})).toHaveCount(0);
- await patient.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/patient-returned.png',fullPage:true});
+ await patient.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/patient-returned.png'),fullPage:true});
  for(const width of [360,390,768]){
   await patient.setViewportSize({width,height:844});
   expect(await patient.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

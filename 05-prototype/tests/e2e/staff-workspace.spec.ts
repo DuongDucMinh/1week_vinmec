@@ -1,5 +1,5 @@
+import { uiArtifact } from './ui-artifacts';
 import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
 import type { Actor, Command, CommandType, Snapshot } from '../../src/shared/contracts';
 
 const viewports = [{ width: 1280, height: 720 }, { width: 1024, height: 768 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 360, height: 640 }, { width: 360, height: 800 }];
@@ -30,7 +30,7 @@ test.beforeEach(async ({ request }) => {
   const current = await snapshot(request);
   const response = await request.post('/api/demo/reset', { data: { commandId: crypto.randomUUID(), expectedRunId: current.runId, expectedRevision: current.revision, actor: 'control', mode: 'COLLECT_PAPER', seed: 'staff-workspace' } });
   expect(response.ok()).toBe(true);
-  await mkdir('outputs/staff-layout', { recursive: true });
+
 });
 
 test('reception keeps intake and long progress lists in one screen, with settings in a dismissible dialog', async ({ page, request }) => {
@@ -48,7 +48,7 @@ test('reception keeps intake and long progress lists in one screen, with setting
   await send(request, 'BEGIN_ENCOUNTER', 'doctor');
   await send(request, 'ASSIGN_SERVICES', 'doctor', { serviceIds: (await snapshot(request)).serviceCatalog.map(s => s.id) });
   await expect(page.locator('.control-service')).toHaveCount(9);
-  await page.screenshot({ path: 'outputs/staff-layout/reception-desktop.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/reception-desktop.png') });
   for (const size of viewports) {
     await page.setViewportSize(size); await fitsScreen(page);
     await visibleAction(page, 'Reset hành trình của Nguyễn Minh Anh');
@@ -57,7 +57,7 @@ test('reception keeps intake and long progress lists in one screen, with setting
   await page.locator('.reception-person').filter({ hasText: 'Trần Hoàng Nam' }).click();
   await expect(page.locator('.reception-identity')).toContainText('Trần Hoàng Nam');
   await visibleAction(page, 'Xác nhận tiếp nhận');
-  await page.screenshot({ path: 'outputs/staff-layout/reception-mobile.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/reception-mobile.png') });
   await page.getByRole('button', { name: 'Cài đặt & kiểm tra', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByRole('button', { name: 'Trả kết quả', exact: true }).click();
@@ -83,14 +83,14 @@ test('doctor can choose, reorder and confirm all nine orders without moving the 
   await expect(page.getByRole('checkbox')).toHaveCount(1);
   await expect(page.getByRole('checkbox')).toBeChecked();
   await page.getByRole('searchbox', { name: 'Tìm thủ tục' }).fill('');
-  await page.screenshot({ path: 'outputs/staff-layout/doctor-desktop.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/doctor-desktop.png') });
   for (const size of viewports) {
     await page.setViewportSize(size); await fitsScreen(page); await visibleAction(page, 'Chốt 9 chỉ định');
   }
   await page.getByRole('group', { name: 'Danh sách thủ tục' }).getByRole('button', { name: 'Đã chọn 9', exact: true }).click();
   const first = (await snapshot(request)).serviceCatalog[0];
   await page.getByRole('button', { name: `Đưa ${first.name} xuống sau` }).click();
-  await page.screenshot({ path: 'outputs/staff-layout/doctor-mobile.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/doctor-mobile.png') });
   await page.getByRole('button', { name: 'Chốt 9 chỉ định' }).click();
   await expect(page.locator('.encounter-card')).toContainText('Sẵn sàng khám');
   const ordered = (await snapshot(request)).visits[0].services;
@@ -118,7 +118,7 @@ test('procedure separates performance, publication and paper handoff while fitti
   await expect(page.locator('.assigned-row').filter({ hasText: 'Trần Hoàng Nam' }).getByRole('button', { name: 'Bắt đầu thực hiện' })).toBeDisabled();
   await row.getByRole('button', { name: 'Đã hoàn thành', exact: true }).click();
   await expect(page.locator('.completed-row')).toContainText('Nguyễn Minh Anh');
-  await page.screenshot({ path: 'outputs/staff-layout/procedure-desktop.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/procedure-desktop.png') });
   for (const size of viewports) {
     await page.setViewportSize(size); await fitsScreen(page);
     await expect(page.locator('.assigned-row').first().getByRole('button', { name: 'Đã hoàn thành', exact: true })).toBeInViewport({ ratio: 1 });
@@ -127,7 +127,7 @@ test('procedure separates performance, publication and paper handoff while fitti
   await page.getByRole('button', { name: 'Công bố kết quả', exact: true }).click();
   await page.getByRole('button', { name: 'Xác nhận giao bản giấy', exact: true }).click();
   await expect(page.locator('.completed-row')).toContainText('Đã giao bản giấy');
-  await page.screenshot({ path: 'outputs/staff-layout/procedure-mobile.png' });
+  await page.screenshot({ path: uiArtifact('staff-layout/procedure-mobile.png') });
   await page.getByRole('button', { name: 'Hướng dẫn tại phòng' }).click();
   await expect(page.getByRole('dialog')).toContainText('không phải thứ tự gọi');
   await page.keyboard.press('Escape'); await fitsScreen(page);

@@ -50,4 +50,4 @@ Mỗi tầng ở tòa A và B có cả hai mốc. Cạnh đổi tầng chỉ đi
 
 Chưa tính thời gian phục vụ, nhiều bác sĩ song song, lịch hẹn, mức ưu tiên hoặc phụ thuộc chuyên môn giữa thủ tục. Quy tắc ít người trước nhằm hỗ trợ tránh phòng đông; chưa chứng minh tối ưu tổng thời gian chờ. Muốn áp dụng thực tế cần dữ liệu đến / rời phòng đáng tin và các ràng buộc do cơ sở xác nhận.
 
-Kiểm thử và ảnh thực tế của bản này nằm trong [test-report.md](test-report.md) và `outputs/adaptive-routing/`.
+Kiểm thử được ghi trong [test-report.md](test-report.md). Ảnh giao diện được gom tại [luồng hệ thống qua ảnh](../00-luong-he-thong-qua-anh/README.md); xem thêm [các ảnh điều phối](../00-luong-he-thong-qua-anh/bo-sung/README.md#dieu-phoi).

@@ -2,6 +2,8 @@
 
 Ứng dụng web mô phỏng một lượt khám qua nhiều phòng: tiếp nhận → khám chuyên khoa → các thủ tục được chỉ định → quay lại khoa ban đầu. Gồm 5 khoa, 9 thủ tục, 3 hồ sơ tự tạo và bốn giao diện đồng bộ: người bệnh, bác sĩ, phòng thủ tục, điều phối.
 
+**[Xem luồng hệ thống qua ảnh — không cần cài đặt hoặc chạy ứng dụng →](../00-luong-he-thong-qua-anh/README.md)** Toàn bộ ảnh được gom trong thư mục `00-luong-he-thong-qua-anh/` ở root, gồm 7 bước chính, ảnh bổ sung và bộ ảnh lưu trữ.
+
 ## Tính năng chính
 
 - Gợi ý phòng có ít người đang chờ / thực hiện nhất; cùng số người thì chọn phòng gần nhất. Tính lại sau mỗi thủ tục, giữ điểm đến đang di chuyển.

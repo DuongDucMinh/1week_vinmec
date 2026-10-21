@@ -1,6 +1,6 @@
+import { uiArtifact } from './ui-artifacts';
 import { finishDirections as finishDirections } from './navigation';
 import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
 import type { Actor, Command, CommandType, Mode, ServiceId, Snapshot } from '../../src/shared/contracts';
 
 const id = 'DEMO-P01';
@@ -67,7 +67,7 @@ test('room entrance settings update app, map, procedure page and printed guide',
   await finishDirections(patient);await expect(patient.locator('.arrival-note')).toContainText('lấy số tại máy');
   await expect(patient.locator('.arrival-note')).toContainText('không dùng số khám chuyên khoa ban đầu');
   await patient.emulateMedia({media:'print'});await expect(patient.locator('.print-guide')).toContainText('lấy số tại máy');
-  await patient.pdf({path:'outputs/adaptive-routing/regression/paper-workflow/printed-guide.pdf',format:'A4',printBackground:true});
+  await patient.pdf({path:uiArtifact('adaptive-routing/regression/paper-workflow/printed-guide.pdf'),format:'A4',printBackground:true});
   await page.goto('/procedure?service=DEMO-US-ABD');await expect(page.locator('.procedure-arrival-note')).toContainText('Gọi theo số lấy tại cửa phòng');
 });
 
@@ -173,18 +173,18 @@ test('mobile routes are per service, assistant fallback truthful, print and 360/
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/patient');
   await expect(page.getByRole('heading', { name: 'Đang thực hiện Xét nghiệm sinh hóa máu', exact: true })).toBeVisible();
-  await mkdir('outputs/adaptive-routing/regression/paper-workflow', { recursive: true });
-  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-390.png', fullPage: true });
-  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-phone-390.png', fullPage: false });
+
+  await page.screenshot({ path: uiArtifact('adaptive-routing/regression/paper-workflow/patient-390.png'), fullPage: true });
+  await page.screenshot({ path: uiArtifact('adaptive-routing/regression/paper-workflow/patient-phone-390.png'), fullPage: false });
   await page.setViewportSize({ width: 360, height: 800 });
   await noOverflow(page);
-  await page.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/patient-360.png', fullPage: true });
+  await page.screenshot({ path: uiArtifact('adaptive-routing/regression/paper-workflow/patient-360.png'), fullPage: true });
   await page.getByRole('button',{name:'Đường đi',exact:true}).click();
   await expect(page.locator('.destination-room')).toHaveText('A205');
   await expect(page.locator('.map-card h2')).toHaveText('Phòng A205 · Sinh hóa');
   await expect(page.locator('.arrival-note')).toBeVisible();
   await expect(page.getByRole('button',{name:'Tổng quan',exact:true})).toHaveCount(0);
-  await page.screenshot({path:'outputs/adaptive-routing/regression/paper-workflow/map-360.png',fullPage:true});
+  await page.screenshot({path:uiArtifact('adaptive-routing/regression/paper-workflow/map-360.png'),fullPage:true});
   await noOverflow(page);
   await page.getByRole('button', { name: 'Trợ lý', exact: true }).click();
   await page.getByRole('button', { name: 'Giờ tôi làm gì?', exact: true }).click();
@@ -201,8 +201,8 @@ test('mobile routes are per service, assistant fallback truthful, print and 360/
   await doctor.setViewportSize({ width: 1440, height: 1000 });
   await doctor.goto('/doctor');
   await expect(doctor.locator('.queue-column').nth(1)).toContainText('Nguyễn Minh Anh');
-  await doctor.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/doctor-desktop.png', fullPage: true });
+  await doctor.screenshot({ path: uiArtifact('adaptive-routing/regression/paper-workflow/doctor-desktop.png'), fullPage: true });
   await doctor.goto('/control');
   await expect(doctor.getByRole('heading', { name: 'Tiếp nhận & điều phối', exact: true })).toBeVisible();
-  await doctor.screenshot({ path: 'outputs/adaptive-routing/regression/paper-workflow/control-desktop.png', fullPage: true });
+  await doctor.screenshot({ path: uiArtifact('adaptive-routing/regression/paper-workflow/control-desktop.png'), fullPage: true });
 });

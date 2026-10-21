@@ -8,6 +8,14 @@ Dự án tập trung vào **khoảnh khắc chuyển bước sau khi rời một
 
 Repo là hồ sơ bài làm theo [mục 6 của đề Exploration Sprint](https://docs.google.com/document/d/1f2XCxK1NnLgVlRF2VGL0dtoxBSOKcls6/view). Các phần nghiên cứu, thiết kế, dùng thử và trình bày được sắp theo flow dưới đây.
 
+## Xem hệ thống qua ảnh — không cần chạy dự án
+
+**[Mở thư mục 00-luong-he-thong-qua-anh →](00-luong-he-thong-qua-anh/)**
+
+Tiếp nhận → bác sĩ chỉ định → người bệnh xem việc tiếp theo và đường đi → phòng thủ tục cập nhật tiến độ → quay lại khoa → nhận thông báo khi đủ kết quả.
+
+Thư mục ở ngay root, có README hiển thị luồng 7 bước và ảnh đánh số tương ứng trong `anh/`. Các ảnh giao diện khác được gom vào `bo-sung/` theo chức năng; bộ ảnh cũ nằm trong `luu-tru/` để đối chiếu. Có thêm ảnh cập nhật vị trí, cảnh báo mất kết nối và giấy hướng dẫn dự phòng.
+
 ## Quy trình thực hiện và hồ sơ bài làm
 
 | Bước theo đề bài | Nội dung trong dự án | Tài liệu |

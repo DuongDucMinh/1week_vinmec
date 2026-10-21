@@ -1,9 +1,8 @@
+import { uiArtifact } from './ui-artifacts';
 import { test, expect, type APIRequestContext, type Page } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
 import type { Actor, Command, CommandType, Snapshot } from '../../src/shared/contracts';
 
 const id = 'DEMO-P01';
-const output = 'outputs/navigation-recovery';
 async function read(request: APIRequestContext): Promise<Snapshot> { return (await request.get('/api/snapshot')).json(); }
 async function command(request: APIRequestContext, type: CommandType, actor: Actor, payload: Command['payload'] = {}) {
   const s = await read(request);
@@ -31,7 +30,7 @@ async function choose(page: Page, building: string, floor: string, location: str
   return dialog;
 }
 test.beforeEach(async ({ request, page }) => {
-  await prepare(request); await mkdir(output, { recursive: true });
+  await prepare(request);
   await page.setViewportSize({ width: 480, height: 940 });
   await page.addInitScript(() => localStorage.setItem('vinmec.navigationVoice', 'off'));
 });
@@ -47,13 +46,13 @@ test('user can recover from another building without replacing the destination o
   await dialog.getByLabel('Tòa nhà', { exact: true }).selectOption('B');
   await dialog.getByLabel('Tầng', { exact: true }).selectOption('1');
   await dialog.getByLabel('Mốc đang đứng', { exact: true }).selectOption('DEMO-SIEUAM');
-  await page.locator('.phone-shell').screenshot({ path: `${output}/choose-location.png` });
+  await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/choose-location.png') });
   await dialog.getByRole('button', { name: 'Tôi đang tại mốc này' }).click();
   await expect(dialog).toHaveCount(0); await expect(page.locator('.current-location')).toContainText('Siêu âm');
   const after = (await read(request)).views[id];
   expect(after.route.from).toBe('DEMO-SIEUAM'); expect(after.route.to).toBe(before.route.to);
   expect(after.visit.services).toEqual(before.visit.services); expect(after.visit.recommendedServiceId).toBe(before.visit.recommendedServiceId);
-  await page.locator('.phone-shell').screenshot({ path: `${output}/rerouted-from-building-b.png` });
+  await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/rerouted-from-building-b.png') });
 });
 
 test('returning through the entrance retains the completed first procedure and survives reload', async ({ page, request }) => {
@@ -69,22 +68,22 @@ test('returning through the entrance retains the completed first procedure and s
   expect(after.visit.services.find(item => item.id === 'DEMO-BLOOD-BIOCHEM')!.executionStatus).toBe('COMPLETED');
   await page.reload(); await page.getByRole('button', { name: 'Đường đi', exact: true }).click();
   await expect(page.locator('.current-location')).toContainText('Cổng');
-  await page.locator('.phone-shell').screenshot({ path: `${output}/return-from-entrance.png` });
+  await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/return-from-entrance.png') });
 });
 
 test('real network loss keeps sync time, blocks updates and recovers with fresh server data', async ({ page, context, request }) => {
   await openMap(page); const timestamp = await page.locator('.sync-status time').getAttribute('datetime');
-  await page.locator('.phone-shell').screenshot({ path: `${output}/online-sync.png` });
+  await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/online-sync.png') });
   await page.getByRole('button', { name: 'Chi tiết kết nối' }).click();
   await expect(page.getByRole('dialog')).toContainText('Đồng bộ thành công lần cuối');
-  await page.locator('.phone-shell').screenshot({ path: `${output}/sync-details.png` });
+  await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/sync-details.png') });
   await page.getByRole('button', { name: 'Đóng chi tiết kết nối' }).click();
   await context.setOffline(true);
   try {
     await expect(page.locator('.sync-status')).toContainText('Mất kết nối');
     await expect(page.locator('.connection-banner')).toBeVisible();
     await expect(page.locator('.navigation-advance')).toBeDisabled();
-    await page.locator('.phone-shell').screenshot({ path: `${output}/offline-warning.png` });
+    await page.locator('.phone-shell').screenshot({ path: uiArtifact('navigation-recovery/offline-warning.png') });
     await page.getByRole('button', { name: 'Cập nhật vị trí', exact: true }).click();
     const dialog = page.locator('dialog[open]').filter({ has: page.locator('.location-update') });
     await expect(dialog.getByLabel('Tòa nhà', { exact: true })).toBeDisabled();
