@@ -47,16 +47,14 @@ Mở bốn tab trên cùng máy: [tiếp nhận và điều phối](http://127.0
 
 1. Lễ tân chọn khoa và xác nhận tiếp nhận.
 2. Bác sĩ tại khoa đó gọi vào khám, bắt đầu trao đổi và chốt các thủ tục cần làm.
-3. Người bệnh mở **Đường đi**; thử lựa chọn loại thang, giọng đọc và xác nhận mốc.
-4. Tại phòng thủ tục, nhân viên bấm **Đã đến phòng**, **Bắt đầu thực hiện**, rồi **Đã hoàn thành** để xem hướng dẫn bệnh nhân cập nhật.
-5. Khi hoàn tất toàn bộ thủ tục, người bệnh được hướng về khoa ban đầu và xuất hiện trong danh sách sẵn sàng của bác sĩ. Luồng demo kết thúc khi quay lại phòng.
+3. Người bệnh mở **Đường đi**; thử lựa chọn loại thang (thang bộ/thang máy), có giọng đọc hướng dẫn đường đi và xác nhận mốc.
+4. Tại phòng thủ tục, nhân viên bấm **Bắt đầu thực hiện**, rồi **Đã hoàn thành** để xem hướng dẫn bệnh nhân cập nhật.
+5. Khi hoàn tất toàn bộ thủ tục, người bệnh được hướng về khoa ban đầu và xuất hiện trong danh sách sẵn sàng của bác sĩ. Luồng demo kết thúc khi bệnh nhân đã quay lại phòng.
 
 Cấu hình phát triển, kết quả điện tử / bản giấy, thông báo và cách chạy kiểm thử được mô tả trong README của prototype ở bước 4.
 
 ## Điểm còn hạn chế và hướng hoàn thiện
 
-- **Bằng chứng nghiên cứu:** cần bổ sung phỏng vấn để đáp ứng mức tối thiểu ba cuộc theo đề. Repo chưa có nhật ký tự dùng MyVinmec; tài liệu tham khảo công khai ở bước 1 cung cấp bối cảnh ứng dụng.
-- **Đánh giá hiệu quả:** phản hồi dùng thử hiện ở mức định tính; chưa đo giảm chờ, giảm hỏi đường hoặc thử lại với người dùng sau các cải tiến mới.
 - **Giả định điều phối:** mỗi phòng được mô phỏng có một bác sĩ phục vụ một người tại một thời điểm. Chưa tính thời lượng, phục vụ song song, lịch hẹn hoặc ràng buộc chuyên môn giữa thủ tục; hiệu quả tối ưu tổng thời gian chờ cần được đánh giá thêm.
 - **Mức độ tích hợp:** sơ đồ, phòng, tầng và hồ sơ là dữ liệu mô phỏng, chưa nối hệ thống bệnh viện. Vị trí dựa trên xác nhận; xác thực tài khoản, định vị trong nhà và thông báo khi đóng toàn bộ trang cần được phát triển tiếp.
 - **Vị trí:** đã cho người bệnh cập nhật tòa, tầng và mốc đang đứng để tính lại đường, giữ tiến độ và điểm đến. Chưa có định vị trong nhà, QR hoặc phát hiện đi sai tự động; vị trí vẫn phụ thuộc xác nhận.
