@@ -1,6 +1,6 @@
 # Trợ lý điều phối và dẫn đường khám ngoại trú
 
-**Giúp người bệnh biết việc cần làm tiếp theo, phòng cần đến và cách di chuyển trong một lượt khám.**
+**Giúp người bệnh biết việc cần làm tiếp theo, phòng cần đến và cách di chuyển trong một lượt khám. Đồng thời thông báo cho người bệnh khi có kết quả sau khi làm các thủ tục lâm sàng**
 
 Dương Đức Minh · K3 · Exploration Sprint Vinmec
 
