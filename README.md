@@ -1,6 +1,6 @@
 # Trợ lý điều phối và dẫn đường khám ngoại trú
 
-**Giúp người bệnh biết việc cần làm tiếp theo, phòng cần đến và cách di chuyển trong một lượt khám. Đồng thời thông báo cho người bệnh khi có kết quả sau khi làm các thủ tục lâm sàng**
+**Giúp người bệnh biết việc cần làm tiếp theo, phòng cần đến và cách di chuyển trong một lượt khám. Đồng thời thông báo ngay cho người bệnh khi có kết quả sau khi làm các thủ tục lâm sàng**
 
 Dương Đức Minh · K3 · Exploration Sprint Vinmec
 
@@ -56,8 +56,6 @@ Cấu hình phát triển, kết quả điện tử / bản giấy, thông báo 
 ## Điểm còn hạn chế và hướng hoàn thiện
 
 - **Giả định điều phối:** mỗi phòng được mô phỏng có một bác sĩ phục vụ một người tại một thời điểm. Chưa tính thời lượng, phục vụ song song, lịch hẹn hoặc ràng buộc chuyên môn giữa thủ tục; hiệu quả tối ưu tổng thời gian chờ cần được đánh giá thêm.
-- **Mức độ tích hợp:** sơ đồ, phòng, tầng và hồ sơ là dữ liệu mô phỏng, chưa nối hệ thống bệnh viện. Vị trí dựa trên xác nhận; xác thực tài khoản, định vị trong nhà và thông báo khi đóng toàn bộ trang cần được phát triển tiếp.
-- **Vị trí:** đã cho người bệnh cập nhật tòa, tầng và mốc đang đứng để tính lại đường, giữ tiến độ và điểm đến. Chưa có định vị trong nhà, QR hoặc phát hiện đi sai tự động; vị trí vẫn phụ thuộc xác nhận.
-- **Tạm rời viện:** khi quay lại có thể cập nhật vị trí để tiếp tục dẫn đường. Chưa có luồng ghi nhận tạm rời giữa các thủ tục hoặc xử lý giữ lượt/lấy lại lượt; cần cơ sở xác nhận quy tắc tiếp nhận.
-- **Mất kết nối:** biểu tượng kết nối ở đầu màn cho mở thời điểm đồng bộ; khi mất kết nối có cảnh báo và khóa xác nhận. Chưa có bộ nhớ ngoại tuyến bền vững; tải lại khi mất mạng không bảo đảm khôi phục được hướng dẫn. Dùng giấy đã lưu hoặc nhờ nhân viên.
-- **Trợ lý AI:** có adapter và hướng dẫn dự phòng, chưa có bằng chứng kết nối mô hình thật thành công. Điều phối và bản đồ hoạt động độc lập với AI; giọng đọc cần bản ghi khớp câu hoặc dịch vụ tổng hợp giọng dự phòng.
+- **Mức độ tích hợp:** sơ đồ, phòng, tầng và hồ sơ là dữ liệu mô phỏng, chưa nối hệ thống bệnh viện. Vị trí dựa trên xác nhận; xác thực tài khoản, định vị trong nhà và thông báo khi đóng toàn bộ trang sẽ được phát triển tiếp.
+- **Vị trí:** đã cho người bệnh cập nhật tòa, tầng và mốc đang đứng để tính lại đường, giữ tiến độ và điểm đến. Nhưng chưa có định vị trong nhà, phát hiện đi sai tự động; vị trí vẫn phụ thuộc việc người dùng xác nhận.
+- **Trợ lý AI:** Điều phối và bản đồ hoạt động độc lập với chatbot AI; tương lai sẽ tích hợp với AI chatbot hỏi đáp để khi người dùng không rõ có thể hỏi chatbot để chỉ đường
