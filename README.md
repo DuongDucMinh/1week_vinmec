@@ -63,9 +63,3 @@ Cấu hình phát triển, kết quả điện tử / bản giấy, thông báo 
 - **Tạm rời viện:** khi quay lại có thể cập nhật vị trí để tiếp tục dẫn đường. Chưa có luồng ghi nhận tạm rời giữa các thủ tục hoặc xử lý giữ lượt/lấy lại lượt; cần cơ sở xác nhận quy tắc tiếp nhận.
 - **Mất kết nối:** biểu tượng kết nối ở đầu màn cho mở thời điểm đồng bộ; khi mất kết nối có cảnh báo và khóa xác nhận. Chưa có bộ nhớ ngoại tuyến bền vững; tải lại khi mất mạng không bảo đảm khôi phục được hướng dẫn. Dùng giấy đã lưu hoặc nhờ nhân viên.
 - **Trợ lý AI:** có adapter và hướng dẫn dự phòng, chưa có bằng chứng kết nối mô hình thật thành công. Điều phối và bản đồ hoạt động độc lập với AI; giọng đọc cần bản ghi khớp câu hoặc dịch vụ tổng hợp giọng dự phòng.
-
-## Dữ liệu và phần việc có AI hỗ trợ
-
-Phỏng vấn, trải nghiệm tự thuật, dùng thử và quyết định phạm vi do người thực hiện dự án cung cấp. Codex hỗ trợ tổng hợp ghi chép, lập trình, kiểm thử và biên soạn tài liệu / slide; các hình minh họa slide được tạo bằng ImageGen. Phạm vi hỗ trợ và nguồn được ghi tại [AI-USAGE.md](AI-USAGE.md).
-
-Nghiên cứu dùng mã ẩn danh; demo dùng hồ sơ tự tạo. Bản ghi phỏng vấn thô, khóa API, file môi trường và cơ sở dữ liệu chạy trên máy được giữ ngoài Git.
